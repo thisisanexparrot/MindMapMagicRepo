@@ -8,6 +8,7 @@ public class MoveCamera : MonoBehaviour {
 	public float scrollMultiplier;
 
 	void Update () {
+		transform.LookAt (CameraCenter.transform.position);
 		CheckZoom ();
 	}
 
