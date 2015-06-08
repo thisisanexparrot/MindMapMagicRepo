@@ -65,8 +65,9 @@ public class DragNode : MonoBehaviour
 
 	/* Scroll events */
 	void CheckMoveZSpace () {
-		if ((Input.GetKey (KeyCode.LeftAlt) || (Input.GetKey (KeyCode.RightAlt)))
-		 && (Input.GetAxis ("Mouse ScrollWheel") != 0)) {
+		//if ((Input.GetKey (KeyCode.LeftAlt) || (Input.GetKey (KeyCode.RightAlt)))
+		// && (Input.GetAxis ("Mouse ScrollWheel") != 0)) {
+		if(Input.GetAxis("Mouse ScrollWheel") != 0) {
 			ResetOffset();
 			Vector3 curPosition = new Vector3(screenPoint.x, 
 			        	                      screenPoint.y, 
