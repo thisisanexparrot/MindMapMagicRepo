@@ -15,8 +15,10 @@ public class NodeCreator : MonoBehaviour {
 
 	void LoadNodesFromSerialized () {
 		foreach (NodeSerialized nextNode in saveNodesList.nodeList) {
+			print ("loading!");
 			Vector3 nextPosition = nextNode.location;
 			Node newNode = Instantiate (blankNodeTemplate, nextPosition, Quaternion.identity) as Node;
+			newNode.GetComponent<DragNode> ().InitializeNode (nextNode, this, false);
 		}
 	}
 
@@ -27,7 +29,7 @@ public class NodeCreator : MonoBehaviour {
 		Node newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as Node;
 		NodeSerialized newSerialized = CreateNewSerializeNode ();
 		
-		newNode.GetComponent<DragNode> ().InitializeNode (newSerialized, this);
+		newNode.GetComponent<DragNode> ().InitializeNode (newSerialized, this, true);
 		saveNodesList.nodeCounter++;
 	}
 

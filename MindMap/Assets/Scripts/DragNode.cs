@@ -15,10 +15,15 @@ public class DragNode : MonoBehaviour
 	private bool isBeingMoved;
 
 	/* Initialization based on whether the button was clicked or dragged */
-	public void InitializeNode (NodeSerialized newSerialize, NodeCreator creator) {
+	public void InitializeNode (NodeSerialized newSerialize, NodeCreator creator, bool isNew) {
 		theCreator = creator;
 		mySerialization = newSerialize;
-		isBeingMoved = true;
+		if (isNew) {
+			StartMoving();
+		} 
+		else {
+			StopMoving();
+		}
 		ResetOffset ();
 	}
 
