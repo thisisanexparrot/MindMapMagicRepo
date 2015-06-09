@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AdjustScript : MonoBehaviour {
+public class NodeEditor : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
