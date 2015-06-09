@@ -29,17 +29,12 @@ public class DragNode : MonoBehaviour
 			CheckMoveZSpace ();
 		}
 		if (Input.GetMouseButtonUp (0)) {
-			isBeingMoved = false;
+			StopMoving();
 		}
 	}
 
 	public void RemoveNode(){
-		print ("Clicked white space");
-		print ("remove time: " + theCreator.saveNodesList.nodeList.Count);
-		//theCreator.saveNodesList.nodeList.RemoveAt(theCreator.saveNodesList.nodeList.Count-1);
 		theCreator.RemoveNode (gameObject.GetComponent<DragNode> ());
-
-		print ("remove COMPLETE: " + theCreator.saveNodesList.nodeList.Count);
 	}
 	
 	void ResetOffset () {
@@ -60,19 +55,32 @@ public class DragNode : MonoBehaviour
 	/* Mouse change states */
 	void OnMouseDown () {
 		ResetOffset ();
-		isBeingMoved = true;
+		StartMoving ();
 	}
 
 	void OnMouseUp () {
-		isBeingMoved = false;
+		StopMoving ();
 	}
 
 	void OnMouseDrag () {
-		isBeingMoved = true;
+		StartMoving ();
 	}
 
 	void OnClick () {
+		StopMoving ();
+	}
+
+	/* Moving Methods*/
+
+	void StopMoving () {
 		isBeingMoved = false;
+		mySerialization.location = transform.position;
+		mySerialization.isSelected = false;
+	}
+
+	void StartMoving() {
+		isBeingMoved = true;
+		mySerialization.isSelected = true;
 	}
 
 	/* Scroll events */
