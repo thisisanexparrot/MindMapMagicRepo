@@ -3,9 +3,11 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-public class DragNode : MonoBehaviour
+public class DragNode : MonoBehaviour 
 {
 	public float scrollMultiplier;
+	public NodeSerialized mySerialization;
+	public NodeCreator theCreator;
 
 	private bool initIsClick;
 	private Vector3 screenPoint;
@@ -13,8 +15,9 @@ public class DragNode : MonoBehaviour
 	private bool isBeingMoved;
 
 	/* Initialization based on whether the button was clicked or dragged */
-	public void Initialize (bool initClick) {
-		initIsClick = initClick;
+	public void InitializeNode (NodeSerialized newSerialize, NodeCreator creator) {
+		theCreator = creator;
+		mySerialization = newSerialize;
 		isBeingMoved = true;
 		ResetOffset ();
 	}
@@ -30,6 +33,15 @@ public class DragNode : MonoBehaviour
 		}
 	}
 
+	public void RemoveNode(){
+		print ("Clicked white space");
+		print ("remove time: " + theCreator.saveNodesList.nodeList.Count);
+		//theCreator.saveNodesList.nodeList.RemoveAt(theCreator.saveNodesList.nodeList.Count-1);
+		theCreator.RemoveNode (gameObject.GetComponent<DragNode> ());
+
+		print ("remove COMPLETE: " + theCreator.saveNodesList.nodeList.Count);
+	}
+	
 	void ResetOffset () {
 		screenPoint = Camera.main.WorldToScreenPoint (gameObject.transform.position);
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 

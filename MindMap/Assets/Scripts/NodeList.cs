@@ -4,4 +4,5 @@ using System.Collections.Generic;
 
 public class NodeList : ScriptableObject {
 	public List<NodeSerialized> nodeList;
+	public int nodeCounter;
 }

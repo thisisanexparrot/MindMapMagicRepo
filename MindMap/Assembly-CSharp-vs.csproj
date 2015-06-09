@@ -47,8 +47,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Camera Movement\MouseOrbitImproved.cs" />
-     <Compile Include="Assets\Scripts\Camera Movement\MoveCamera.cs" />
-     <Compile Include="Assets\Scripts\Camera Movement\RotateCamera.cs" />
+     <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\MoveCamera.cs" />
+     <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\RotateCamera.cs" />
      <Compile Include="Assets\Scripts\CreateScriptableNodeList.cs" />
      <Compile Include="Assets\Scripts\DragNode.cs" />
      <Compile Include="Assets\Scripts\Global Controllers\SaveStateControl.cs" />
@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\NodeEditor.cs" />
      <Compile Include="Assets\Scripts\NodeList.cs" />
      <Compile Include="Assets\Scripts\NodeSerialized.cs" />
+     <Compile Include="Assets\Scripts\TimTest.cs" />
      <Compile Include="Assets\Scripts\UseSerializedNode.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity5.0.2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

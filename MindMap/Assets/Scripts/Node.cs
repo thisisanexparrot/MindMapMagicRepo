@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Node : MonoBehaviour {
-
+	public int idNumber;
 	// Use this for initialization
 	void Start () {
 	
