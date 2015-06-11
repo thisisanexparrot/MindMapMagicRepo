@@ -55,11 +55,8 @@
      <Compile Include="Assets\Scripts\Global Controllers\TestURL.cs" />
      <Compile Include="Assets\Scripts\Node.cs" />
      <Compile Include="Assets\Scripts\NodeCreator.cs" />
-     <Compile Include="Assets\Scripts\NodeEditor.cs" />
-     <Compile Include="Assets\Scripts\NodeList.cs" />
+     <Compile Include="Assets\Scripts\NodeListAndSavedData.cs" />
      <Compile Include="Assets\Scripts\NodeSerialized.cs" />
-     <Compile Include="Assets\Scripts\TimTest.cs" />
-     <Compile Include="Assets\Scripts\UseSerializedNode.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity5.0.2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

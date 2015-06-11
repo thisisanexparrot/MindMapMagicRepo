@@ -79,7 +79,8 @@ public class DragNode : MonoBehaviour
 
 	void StopMoving () {
 		isBeingMoved = false;
-		mySerialization.location = transform.position;
+		//mySerialization.location = transform.position;
+		theCreator.Vector3ToFloats (mySerialization, transform.position);
 		mySerialization.isSelected = false;
 	}
 

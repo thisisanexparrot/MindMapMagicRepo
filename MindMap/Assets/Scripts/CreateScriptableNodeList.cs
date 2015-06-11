@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
+#endif
 using System.Collections;
-using UnityEditor;
-
+//using UnityEditor;
+/*
 public class CreateScriptableNodeList {
 	[MenuItem("Assets/Create/Node List")]
 	public static NodeList Create() {
@@ -12,3 +14,4 @@ public class CreateScriptableNodeList {
 		return asset;
 	}
 }
+*/
