@@ -79,9 +79,9 @@ public class DragNode : MonoBehaviour
 
 	void StopMoving () {
 		isBeingMoved = false;
-		//mySerialization.location = transform.position;
 		theCreator.Vector3ToFloats (mySerialization, transform.position);
 		mySerialization.isSelected = false;
+		theCreator.Save ();
 	}
 
 	void StartMoving() {
@@ -91,7 +91,6 @@ public class DragNode : MonoBehaviour
 
 	/* Scroll events */
 	void CheckMoveZSpace () {
-		//((Input.GetKey (KeyCode.LeftAlt) || (Input.GetKey (KeyCode.RightAlt)))
 		if(Input.GetAxis("Mouse ScrollWheel") != 0) {
 			ResetOffset();
 			Vector3 curPosition = new Vector3(screenPoint.x, 

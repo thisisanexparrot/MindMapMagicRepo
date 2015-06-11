@@ -12,7 +12,7 @@ public class NodeCreator : MonoBehaviour {
 
 	public static NodeCreator creator;
 
-	public Node blankNodeTemplate;
+	public DragNode blankNodeTemplate;
 	public NodeListAndSavedData saveNodesList;
 
 	public int localNodeCounter;
@@ -32,8 +32,6 @@ public class NodeCreator : MonoBehaviour {
 	}
 
 	void OnEnable () {
-//		DO NOT WANT THIS saveNodesList = AssetDatabase.LoadAssetAtPath ("Assets/NodeList.asset", typeof(NodeList)) as NodeList;
-		//LoadNodesFromSerialized ();
 		Load ();
 	}
 
@@ -42,11 +40,10 @@ public class NodeCreator : MonoBehaviour {
 	/* Create & Remove individual nodes for storage */
 	public void SpawnNewNode () {
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
-		Node newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as Node;
+		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
 		NodeSerialized newSerialized = CreateNewSerializeNode ();
 		
 		newNode.GetComponent<DragNode> ().InitializeNode (newSerialized, this, true);
-		//saveNodesList.nodeCounter++;
 		localNodeCounter++;
 
 		Save ();
@@ -58,15 +55,11 @@ public class NodeCreator : MonoBehaviour {
 		newNode.isSelected = false;
 		newNode.idNumber = saveNodesList.nodeCounter;
 		localNodeList.Add (newNode);
-		//saveNodesList.nodeList.Add (newNode);
-
-		//AssetDatabase.SaveAssets ();
 		
 		return newNode;
 	}
 	public void RemoveNode (DragNode destroyThis) {
 		NodeSerialized destroyID = destroyThis.mySerialization;
-		//saveNodesList.nodeList.Remove(destroyID);
 		localNodeList.Remove (destroyID);
 		Destroy (destroyThis.gameObject);
 		Save ();
@@ -74,7 +67,6 @@ public class NodeCreator : MonoBehaviour {
 
 	/* Save and Load Methods */
 	public void Save () {
-		print ("Saving...");
 		BinaryFormatter bf = new BinaryFormatter ();
 		FileStream file = File.Create (Application.persistentDataPath + "/playerInfo.dat");
 
@@ -84,11 +76,9 @@ public class NodeCreator : MonoBehaviour {
 
 		bf.Serialize (file, data);
 		file.Close ();
-		print ("Saved.");
 	}
 
 	public void Load () {
-		print ("Loading...");
 		if (File.Exists (Application.persistentDataPath + "/playerInfo.dat"))
 		{
 			BinaryFormatter bf = new BinaryFormatter ();
@@ -100,7 +90,6 @@ public class NodeCreator : MonoBehaviour {
 			localNodeCounter = data.nodeCounter;
 
 			LoadNodesFromSerialized ();
-			print ("Loaded.");
 		}
 		else
 		{
@@ -110,11 +99,8 @@ public class NodeCreator : MonoBehaviour {
 	
 	void LoadNodesFromSerialized () {
 		foreach (NodeSerialized nextNode in localNodeList) {
-			//foreach (NodeSerialized nextNode in saveNodesList.nodeList) {
-			print ("Loading previous nodes!");
-			//Vector3 nextPosition = nextNode.location;
 			Vector3 nextPosition = FloatsToVector3(nextNode);
-			Node newNode = Instantiate (blankNodeTemplate, nextPosition, Quaternion.identity) as Node;
+			DragNode newNode = Instantiate (blankNodeTemplate, nextPosition, Quaternion.identity) as DragNode;
 			newNode.GetComponent<DragNode> ().InitializeNode (nextNode, this, false);
 		}
 	}
