@@ -8,20 +8,24 @@ public class TitleHandler : MonoBehaviour {
 
 
 	void OnEnable () {
+		NodeCreator.LoadCompleted += LoadTitleFromSave;
 		if (parentNode == null) {
-			print ("No parent Node yet");
 			Transform nextParent = transform.parent;
 			while (!nextParent.CompareTag("Node")) {
 				nextParent = nextParent.transform.parent;
 			}
 			SetParentNode (nextParent.GetComponent<DragNode> ());
 		}
-		LoadTitleFromSave ();
+	}
+
+	void OnDisable () {
+		NodeCreator.LoadCompleted -= LoadTitleFromSave;
 	}
 
 	public void LoadTitleFromSave () {
 		if (parentNode) {
 			string savedText = parentNode.mySerialization.titleName;
+			print (savedText);
 			gameObject.GetComponent<InputField>().text = savedText;
 		}
 	}

@@ -11,6 +11,8 @@ using System.IO;
 public class NodeCreator : MonoBehaviour {
 
 	public static NodeCreator creator;
+	public delegate void InitLoad ();
+	public static event InitLoad LoadCompleted;
 
 	public DragNode blankNodeTemplate;
 	public NodeListAndSavedData saveNodesList;
@@ -18,6 +20,7 @@ public class NodeCreator : MonoBehaviour {
 	public int localNodeCounter;
 	public List<NodeSerialized> localNodeList;
 
+	/********* INIT  **********/
 	/* Wake-up load functions */
 	void Awake () {
 		if (creator == null)
@@ -31,12 +34,16 @@ public class NodeCreator : MonoBehaviour {
 		}
 	}
 
+	/* Broadcasts event of initial load */
 	void OnEnable () {
 		Load ();
+		if (LoadCompleted != null) {
+			LoadCompleted ();
+		}
 	}
 
 
-
+	/********* CREATE **********/
 	/* Create & Remove individual nodes for storage */
 	public void SpawnNewNode () {
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
@@ -58,6 +65,7 @@ public class NodeCreator : MonoBehaviour {
 		
 		return newNode;
 	}
+
 	public void RemoveNode (DragNode destroyThis) {
 		NodeSerialized destroyID = destroyThis.mySerialization;
 		localNodeList.Remove (destroyID);
@@ -65,6 +73,7 @@ public class NodeCreator : MonoBehaviour {
 		Save ();
 	}
 
+	/********* SAVE **********/
 	/* Save and Load Methods */
 	public void Save () {
 		BinaryFormatter bf = new BinaryFormatter ();
@@ -96,6 +105,7 @@ public class NodeCreator : MonoBehaviour {
 		{
 			print ("File with name not found.");
 		}
+		print ("Master load");
 	}
 	
 	void LoadNodesFromSerialized () {
@@ -106,6 +116,7 @@ public class NodeCreator : MonoBehaviour {
 		}
 	}
 
+	/********* UTILS **********/
 	/* Converters for Vector3 Serialization in NodeSerialized */
 	public void Vector3ToFloats (NodeSerialized n, Vector3 input) {
 		n.locationX = input.x;
