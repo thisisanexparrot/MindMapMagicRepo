@@ -1,10 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Nodes\TitleHandler.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Nodes\NodeSerialized.cs">
     <Files>
-      <File FileName="Assets\Scripts\Nodes\TitleHandler.cs" Line="21" Column="1" />
-      <File FileName="Assets\Scripts\Nodes\DragNode.cs" Line="13" Column="30" />
-      <File FileName="Assets\Scripts\Nodes\NodeCreator.cs" Line="79" Column="20" />
+      <File FileName="Assets\Scripts\Nodes\TitleHandler.cs" Line="30" Column="1" />
+      <File FileName="Assets\Scripts\Nodes\DragNode.cs" Line="82" Column="1" />
+      <File FileName="Assets\Scripts\Nodes\NodeCreator.cs" Line="15" Column="34" />
+      <File FileName="Assets\Scripts\Nodes\NodeSerialized.cs" Line="13" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
