@@ -7,10 +7,6 @@ public class TitleHandler : MonoBehaviour {
 	public DragNode parentNode;
 
 
-	void Start () {
-		//UpdateTitle ("TESTING");
-	}
-
 	void OnEnable () {
 		if (parentNode == null) {
 			print ("No parent Node yet");
@@ -20,6 +16,18 @@ public class TitleHandler : MonoBehaviour {
 			}
 			SetParentNode (nextParent.GetComponent<DragNode> ());
 		}
+		LoadTitleFromSave ();
+	}
+
+	public void LoadTitleFromSave () {
+		if (parentNode) {
+			string savedText = parentNode.mySerialization.titleName;
+			gameObject.GetComponent<InputField>().text = savedText;
+		}
+	}
+
+	public void DoneEditing () {
+		UpdateTitle (gameObject.GetComponent<InputField> ().textComponent.text);
 	}
 
 	public void SetParentNode(DragNode pNode) {
@@ -31,7 +39,6 @@ public class TitleHandler : MonoBehaviour {
 
 	public void UpdateTitle(string newTitle) {
 		title = newTitle;
-		gameObject.GetComponent<Text> ().text = title;
 		parentNode.mySerialization.titleName = title;
 		parentNode.theCreator.Save ();
 	}
