@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Nodes\NodeCreator.cs" />
      <Compile Include="Assets\Scripts\Nodes\NodeListAndSavedData.cs" />
      <Compile Include="Assets\Scripts\Nodes\NodeSerialized.cs" />
+     <Compile Include="Assets\Scripts\Nodes\RingController.cs" />
      <Compile Include="Assets\Scripts\Nodes\TitleHandler.cs" />
      <Compile Include="Assets\Scripts\Tests\RenderLineTest.cs" />
  <Reference Include="UnityEngine.UI">

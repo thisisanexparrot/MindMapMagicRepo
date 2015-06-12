@@ -5,6 +5,9 @@ using System.Collections;
 
 public class DragNode : MonoBehaviour 
 {
+	public delegate void NodeSelected (bool isOn);
+	public static event NodeSelected NodeSelectionUpdate;
+
 	public float scrollMultiplier;
 	public NodeSerialized mySerialization;
 	public NodeCreator theCreator;
@@ -82,11 +85,13 @@ public class DragNode : MonoBehaviour
 		theCreator.Vector3ToFloats (mySerialization, transform.position);
 		mySerialization.isSelected = false;
 		theCreator.Save ();
+		NodeSelectionUpdate (false);
 	}
 
 	void StartMoving() {
 		isBeingMoved = true;
 		mySerialization.isSelected = true;
+		NodeSelectionUpdate (true);
 	}
 
 	/* Scroll events */
