@@ -76,6 +76,7 @@ public class NodeCreator : MonoBehaviour {
 
 		bf.Serialize (file, data);
 		file.Close ();
+		print ("Saved!");
 	}
 
 	public void Load () {

@@ -38,6 +38,7 @@ public class DragNode : MonoBehaviour
 		}
 	}
 
+	/* Movement functions */
 	public void RemoveNode(){
 		theCreator.RemoveNode (gameObject.GetComponent<DragNode> ());
 	}
@@ -75,8 +76,7 @@ public class DragNode : MonoBehaviour
 		StopMoving ();
 	}
 
-	/* Moving Methods*/
-
+	/* Reset movement information*/
 	void StopMoving () {
 		isBeingMoved = false;
 		theCreator.Vector3ToFloats (mySerialization, transform.position);

@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Nodes\NodeCreator.cs" />
      <Compile Include="Assets\Scripts\Nodes\NodeListAndSavedData.cs" />
      <Compile Include="Assets\Scripts\Nodes\NodeSerialized.cs" />
+     <Compile Include="Assets\Scripts\Nodes\TitleHandler.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity5.0.2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
