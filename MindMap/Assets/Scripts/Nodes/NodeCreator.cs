@@ -85,7 +85,8 @@ public class NodeCreator : MonoBehaviour {
 
 		bf.Serialize (file, data);
 		file.Close ();
-		print ("Saved!");
+		//print ("Saved!");
+		/* Reminder: This probably happens a lot more than it needs to; come fix it later. */
 	}
 
 	public void Load () {

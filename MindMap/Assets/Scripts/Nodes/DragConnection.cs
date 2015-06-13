@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RenderLineTest : MonoBehaviour {
+public class DragConnection : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
