@@ -32,14 +32,12 @@ public class RingController : MonoBehaviour {
 
 	void ResetOffset () {
 		screenPoint = Camera.main.WorldToScreenPoint (gameObject.transform.position);
-		print (gameObject.transform.position);
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 
 		                                                                                    Input.mousePosition.y,
 		                                                                                    screenPoint.z));
 	}
 
 	void OnMouseDown () {
-		print ("Down.");
 		myLine = gameObject.AddComponent <LineRenderer>();
 		ResetOffset ();
 		Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x,  
@@ -50,25 +48,20 @@ public class RingController : MonoBehaviour {
 
 		myLine.SetPosition(0, startPosition);
 		myLine.SetPosition(1, startPosition);
-		myLine.SetWidth (0.05f, 0.05f);
+		myLine.SetWidth (0.08f, 0.08f);
 		myLine.material = lineColor;
-		GameObject g = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-		g.transform.position = startPosition;
 	}
 
 	void OnMouseDrag() {
-		print ("Dragging...");
 		Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x,  
 		                                      Input.mousePosition.y,
 		                                      screenPoint.z);
-		Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint);// + offset;
-		//transform.position = curPosition;
+		Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint);
 
 		myLine.SetPosition(1, curPosition);
 	}
 
 	void OnMouseUp () {
-		print ("Released.");
 		if (gameObject.GetComponent<LineRenderer> ()) {
 			Destroy(gameObject.GetComponent<LineRenderer>());
 		}
@@ -76,9 +69,10 @@ public class RingController : MonoBehaviour {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit, 100)) {
-			print ("Hit!");
 			if(hit.collider.gameObject.CompareTag("Ring")) {
-				print ("Hit ring!");
+				DragNode myParent = Utilities.GetParentNode(gameObject);
+				DragNode newConnection = Utilities.GetParentNode(hit.collider.gameObject);
+				ConnectionHub.AddNewConnection(myParent, newConnection);
 			}
 			Debug.DrawLine (ray.origin, hit.point);
 		}

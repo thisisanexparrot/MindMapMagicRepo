@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\MoveCamera.cs" />
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\RotateCamera.cs" />
      <Compile Include="Assets\Scripts\Global Controllers\TestURL.cs" />
+     <Compile Include="Assets\Scripts\Nodes\ConnectionHub.cs" />
      <Compile Include="Assets\Scripts\Nodes\ConnectionSerialized.cs" />
      <Compile Include="Assets\Scripts\Nodes\DragConnection.cs" />
      <Compile Include="Assets\Scripts\Nodes\DragNode.cs" />
@@ -58,6 +59,7 @@
      <Compile Include="Assets\Scripts\Nodes\NodeSerialized.cs" />
      <Compile Include="Assets\Scripts\Nodes\RingController.cs" />
      <Compile Include="Assets\Scripts\Nodes\TitleHandler.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Utilities.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -10,11 +10,7 @@ public class TitleHandler : MonoBehaviour {
 	void OnEnable () {
 		NodeCreator.LoadCompleted += LoadTitleFromSave;
 		if (parentNode == null) {
-			Transform nextParent = transform.parent;
-			while (!nextParent.CompareTag("Node")) {
-				nextParent = nextParent.transform.parent;
-			}
-			SetParentNode (nextParent.GetComponent<DragNode> ());
+			SetParentNode(Utilities.GetParentNode(gameObject));
 		}
 	}
 
