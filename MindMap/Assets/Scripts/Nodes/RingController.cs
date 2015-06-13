@@ -22,11 +22,13 @@ public class RingController : MonoBehaviour {
 		DragNode.NodeSelectionUpdate -= UpdateMaterial;
 	}
 
-	void UpdateMaterial (bool isSelected) {
-		if (isSelected) {
-			GetComponent<Renderer>().material = selectedStateMaterial;
-		} else {
-			GetComponent<Renderer>().material = normalStateMaterial;
+	void UpdateMaterial (bool isSelected, DragNode node) {
+		if (node.GetInstanceID() == Utilities.GetParentNode (gameObject).GetInstanceID()) {
+			if (isSelected) {
+				GetComponent<Renderer> ().material = selectedStateMaterial;
+			} else {
+				GetComponent<Renderer> ().material = normalStateMaterial;
+			}
 		}
 	}
 
