@@ -24,6 +24,5 @@ public class ConnectionHub : MonoBehaviour {
 		newConnection.InitializeConnection (origin, endpoint);
 
 		allConnections.Add (newConnection);
-		print ("Added the connection: " + allConnections.Count);
 	}
 }

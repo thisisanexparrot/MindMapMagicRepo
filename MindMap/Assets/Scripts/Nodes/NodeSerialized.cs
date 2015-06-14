@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum NodeState{Active, Inactive, Completed};
 
@@ -17,4 +18,5 @@ public class NodeSerialized {
 	public float locationX;
 	public float locationY;
 	public float locationZ;
+
 }

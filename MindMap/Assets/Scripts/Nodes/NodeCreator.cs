@@ -68,6 +68,7 @@ public class NodeCreator : MonoBehaviour {
 
 	public void RemoveNode (DragNode destroyThis) {
 		NodeSerialized destroyID = destroyThis.mySerialization;
+		destroyThis.DestroyThisNode ();
 		localNodeList.Remove (destroyID);
 		Destroy (destroyThis.gameObject);
 		Save ();
@@ -85,7 +86,7 @@ public class NodeCreator : MonoBehaviour {
 
 		bf.Serialize (file, data);
 		file.Close ();
-		//print ("Saved!");
+		print ("Saved!");
 		/* Reminder: This probably happens a lot more than it needs to; come fix it later. */
 	}
 

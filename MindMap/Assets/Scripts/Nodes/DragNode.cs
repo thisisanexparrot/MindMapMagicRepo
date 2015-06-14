@@ -8,6 +8,9 @@ public class DragNode : MonoBehaviour
 	public delegate void NodeSelected (bool isOn, DragNode node);
 	public static event NodeSelected NodeSelectionUpdate;
 
+	public delegate void NodeDestroyed (DragNode node);
+	public static event NodeDestroyed NodeDestroyedUpdate;
+
 	public float scrollMultiplier;
 	public NodeSerialized mySerialization;
 	public NodeCreator theCreator;
@@ -39,6 +42,10 @@ public class DragNode : MonoBehaviour
 		if (Input.GetMouseButtonUp (0)) {
 			StopMoving();
 		}
+	}
+
+	public void DestroyThisNode () {
+		NodeDestroyedUpdate (this);
 	}
 
 	/* Movement functions */

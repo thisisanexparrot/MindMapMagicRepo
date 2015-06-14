@@ -6,5 +6,6 @@ using System.Collections.Generic;
 [System.Serializable]
 public class NodeListAndSavedData {
 	public List<NodeSerialized> nodeList;
+	public List<ConnectionSerialized> connectionList;
 	public int nodeCounter;
 }
