@@ -45,7 +45,11 @@ public class DragNode : MonoBehaviour
 	}
 
 	public void DestroyThisNode () {
-		NodeDestroyedUpdate (this);
+		print ("Got to the broadcaster...");
+		DragNode n = this;
+		if (NodeDestroyedUpdate != null) {
+			NodeDestroyedUpdate (n);
+		}
 	}
 
 	/* Movement functions */

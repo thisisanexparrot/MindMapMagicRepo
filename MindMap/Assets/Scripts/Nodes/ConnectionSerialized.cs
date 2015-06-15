@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class ConnectionSerialized {
 	public string label;
-	public int thickness;
+	public float thickness;
 	public bool isBold;
 	public bool isVisible;
 

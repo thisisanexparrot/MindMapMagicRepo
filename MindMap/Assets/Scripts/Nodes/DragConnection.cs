@@ -20,6 +20,21 @@ public class DragConnection : MonoBehaviour {
 		myLine.SetWidth (0.05f, 0.05f);
 	}
 
+	public void SetMySerialization (ConnectionSerialized cs) {
+		mySerialization = cs;
+	}
+
+	public void CreateMySerialization (DragNode origin, DragNode endpoint) {
+		mySerialization = new ConnectionSerialized ();
+		mySerialization.nodes = new List<NodeSerialized> ();
+		mySerialization.nodes.Add (origin.mySerialization);
+		mySerialization.nodes.Add (endpoint.mySerialization);
+		mySerialization.thickness = 0.05f;
+		mySerialization.isVisible = true;
+		mySerialization.isBold = false;
+		mySerialization.label = "New Connection";
+	}
+
 	void OnEnable () {
 		DragNode.NodeSelectionUpdate += UpdatePosition;
 		DragNode.NodeDestroyedUpdate += DestroyConnection;
@@ -31,8 +46,6 @@ public class DragConnection : MonoBehaviour {
 	}
 
 	public void UpdatePosition (bool isSelected, DragNode n) {
-		DragNode followNode = null;
-
 		if ((n.GetInstanceID () == node1.GetInstanceID ())) {
 			myLine.SetPosition (0, n.gameObject.transform.position);
 		} else if ((n.GetInstanceID () == node2.GetInstanceID ())) {
@@ -41,16 +54,10 @@ public class DragConnection : MonoBehaviour {
 	}
 
 	public void DestroyConnection (DragNode n) {
+		print ("Time to destroy the connection!");
 		if ((n.GetInstanceID () == node1.GetInstanceID ()) || (n.GetInstanceID () == node2.GetInstanceID ())) {
 			Destroy(this.gameObject);
 		}
 	}
 
-	/* NEED MORE FOR THIS */
-	public void CreateConnectionSerialization () {
-		ConnectionSerialized c = new ConnectionSerialized ();
-
-
-		mySerialization = c;
-	}
 }

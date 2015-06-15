@@ -11,14 +11,17 @@ using System.IO;
 public class NodeCreator : MonoBehaviour {
 
 	public static NodeCreator creator;
+	public static ConnectionHub connectionCentralHub;
+
 	public delegate void InitLoad ();
 	public static event InitLoad LoadCompleted;
 
 	public DragNode blankNodeTemplate;
 	public NodeListAndSavedData saveNodesList;
 
-	public int localNodeCounter;
+	//public int localNodeCounter;
 	public List<NodeSerialized> localNodeList;
+	public List<DragNode> allNodes;
 
 	/********* INIT  **********/
 	/* Wake-up load functions */
@@ -31,6 +34,10 @@ public class NodeCreator : MonoBehaviour {
 		else if (creator != this)
 		{
 			Destroy(gameObject);
+		}
+		if (connectionCentralHub == null) {
+			connectionCentralHub = GetComponent<ConnectionHub>();
+			DontDestroyOnLoad(connectionCentralHub);
 		}
 	}
 
@@ -51,7 +58,8 @@ public class NodeCreator : MonoBehaviour {
 		NodeSerialized newSerialized = CreateNewSerializeNode ();
 		
 		newNode.GetComponent<DragNode> ().InitializeNode (newSerialized, this, true);
-		localNodeCounter++;
+		//localNodeCounter += 1;
+		saveNodesList.nodeCounter += 1;
 
 		Save ();
 	}
@@ -62,6 +70,8 @@ public class NodeCreator : MonoBehaviour {
 		newNode.isSelected = false;
 		newNode.idNumber = saveNodesList.nodeCounter;
 		localNodeList.Add (newNode);
+
+		print ("NEW NODE! Number: " + newNode.idNumber);
 		
 		return newNode;
 	}
@@ -78,30 +88,34 @@ public class NodeCreator : MonoBehaviour {
 	/* Save and Load Methods */
 	public void Save () {
 		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.persistentDataPath + "/playerInfo.dat");
+		FileStream file = File.Create (Application.persistentDataPath + "/playerInfo5.dat");
 
 		NodeListAndSavedData data = new NodeListAndSavedData ();
 		data.nodeList = localNodeList;
-		data.nodeCounter = localNodeCounter;
+		data.connectionList = connectionCentralHub.CreateSaveList();
+		//data.nodeCounter = localNodeCounter;
+
 
 		bf.Serialize (file, data);
 		file.Close ();
-		print ("Saved!");
+		//print ("Saved!");
 		/* Reminder: This probably happens a lot more than it needs to; come fix it later. */
 	}
 
 	public void Load () {
-		if (File.Exists (Application.persistentDataPath + "/playerInfo.dat"))
+		print ("Loading...");
+		if (File.Exists (Application.persistentDataPath + "/playerInfo5.dat"))
 		{
 			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+			FileStream file = File.Open (Application.persistentDataPath + "/playerInfo5.dat", FileMode.Open);
 			NodeListAndSavedData data = (NodeListAndSavedData)bf.Deserialize (file);
 			file.Close ();
 
 			localNodeList = data.nodeList;
-			localNodeCounter = data.nodeCounter;
+			//localNodeCounter = data.nodeCounter;
 
 			LoadNodesFromSerialized ();
+			connectionCentralHub.LoadConnectionsFromFile(data.connectionList);
 		}
 		else
 		{
@@ -115,6 +129,7 @@ public class NodeCreator : MonoBehaviour {
 			Vector3 nextPosition = FloatsToVector3(nextNode);
 			DragNode newNode = Instantiate (blankNodeTemplate, nextPosition, Quaternion.identity) as DragNode;
 			newNode.GetComponent<DragNode> ().InitializeNode (nextNode, this, false);
+			allNodes.Add(newNode);
 		}
 	}
 
