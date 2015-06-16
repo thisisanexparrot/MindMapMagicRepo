@@ -45,7 +45,6 @@ public class DragNode : MonoBehaviour
 	}
 
 	public void DestroyThisNode () {
-		print ("Got to the broadcaster...");
 		DragNode n = this;
 		if (NodeDestroyedUpdate != null) {
 			NodeDestroyedUpdate (n);
@@ -95,7 +94,6 @@ public class DragNode : MonoBehaviour
 		isBeingMoved = false;
 		theCreator.Vector3ToFloats (mySerialization, transform.position);
 		mySerialization.isSelected = false;
-		print ("***SAVE***** (stopmoving)");
 
 		theCreator.Save ();
 		NodeSelectionUpdate (false, this);

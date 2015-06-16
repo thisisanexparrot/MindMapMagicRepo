@@ -11,15 +11,12 @@ public class ConnectionHub : MonoBehaviour {
 	public DragConnection template;
 
 	void OnEnable () {
-		print ("enabled!");
 		theCreator = GetComponent<NodeCreator> ();
 		if (connectionTemplate == null) {
 			connectionTemplate = template;
-			print("Filling template.");
 		}
 		if (allConnections == null) {
 			allConnections = new List<DragConnection>();
-			print("Creating initial connection list...");
 		}
 	}
 
@@ -36,10 +33,7 @@ public class ConnectionHub : MonoBehaviour {
 	/***** Save and Load *****/
 	public List<ConnectionSerialized> CreateSaveList () {
 		List<ConnectionSerialized> returnList = new List<ConnectionSerialized> ();
-		print ("Creating save list...");
-		print (allConnections.Count + " total connections.");
 		foreach (DragConnection connection in allConnections) {
-			print ("Saving connection!");
 			ConnectionSerialized c = connection.mySerialization;
 			returnList.Add(c);
 		}
@@ -47,37 +41,25 @@ public class ConnectionHub : MonoBehaviour {
 	}
 
 	public void LoadConnectionsFromFile (List<ConnectionSerialized> serializedList) {
-		print ("- BEGIN - Loading Connections.");
-		print (serializedList.Count);
-
 		foreach (ConnectionSerialized cs in serializedList) {
-			print ("Loading connection... ");
-			/* Need to find the node with the correct id */
 			NodeSerialized n1 = cs.nodes[0];
 			NodeSerialized n2 = cs.nodes[1];
-
-			print ("N1 id number: " + n1.idNumber);
-			print ("N1 id number: " + n2.idNumber);
 
 			DragNode origin = null;
 			DragNode endpoint = null;
 
 			foreach (NodeSerialized n in cs.nodes) {
 				for(int i = 0; i < theCreator.allNodes.Count; i++) {
-					/* This will break: the id numbers are still reset to 0. */
 					DragNode nextNode = theCreator.allNodes[i];
 					if(nextNode.mySerialization.idNumber == n1.idNumber) {
-						print ("Got it 1!");
 						origin = nextNode;
 					}
 					if(nextNode.mySerialization.idNumber == n2.idNumber) {
-						print ("Got it 2!");
 						endpoint = nextNode;
 					}
 				}
 
 			}
-
 
 			Vector3 newPosition = new Vector3 (0, 0, 0);
 			DragConnection newConnection = Instantiate (connectionTemplate, newPosition, Quaternion.identity) as DragConnection;
@@ -85,10 +67,7 @@ public class ConnectionHub : MonoBehaviour {
 			newConnection.InitializeConnection (origin, endpoint); /* NEED THIS SOON TO SPAWN THE LINE IN SPACE */
 			allConnections.Add(newConnection);
 		}
-		print ("***SAVE***** (loadconnectionsfromfile)");
-
 		theCreator.Save ();
-		print (allConnections.Count + " Total loaded!");
 	}
 }
 
