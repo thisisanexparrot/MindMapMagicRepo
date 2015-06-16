@@ -50,15 +50,15 @@
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\MoveCamera.cs" />
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\RotateCamera.cs" />
      <Compile Include="Assets\Scripts\Global Controllers\TestURL.cs" />
-     <Compile Include="Assets\Scripts\Nodes\ConnectionHub.cs" />
-     <Compile Include="Assets\Scripts\Nodes\ConnectionSerialized.cs" />
-     <Compile Include="Assets\Scripts\Nodes\DragConnection.cs" />
-     <Compile Include="Assets\Scripts\Nodes\DragNode.cs" />
-     <Compile Include="Assets\Scripts\Nodes\NodeCreator.cs" />
-     <Compile Include="Assets\Scripts\Nodes\NodeListAndSavedData.cs" />
-     <Compile Include="Assets\Scripts\Nodes\NodeSerialized.cs" />
-     <Compile Include="Assets\Scripts\Nodes\RingController.cs" />
-     <Compile Include="Assets\Scripts\Nodes\TitleHandler.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Creators\ConnectionHub.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Creators\NodeCreator.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\DragConnection.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\DragNode.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\RingController.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\TitleHandler.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Serialized\ConnectionSerialized.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Serialized\NodeListAndSavedData.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Serialized\NodeSerialized.cs" />
      <Compile Include="Assets\Scripts\Nodes\Utilities.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity_5.0.1/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
