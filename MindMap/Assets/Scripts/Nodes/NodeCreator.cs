@@ -21,7 +21,7 @@ public class NodeCreator : MonoBehaviour {
 
 	//public int localNodeCounter;
 	public List<NodeSerialized> localNodeList;
-	//public List<ConnectionSerialized> localConnectionList; <---- This might be useful, but hold up. Another potential fix: add a flag to hold off on saving from initialization until everything is loaded.
+	public List<ConnectionSerialized> tempConnectionList;
 	public List<DragNode> allNodes;
 
 	string playerPath = "/playerInfo12.dat";
@@ -56,16 +56,13 @@ public class NodeCreator : MonoBehaviour {
 	/********* CREATE **********/
 	/* Create & Remove individual nodes for storage */
 	public void SpawnNewNode () {
-		print ("Spawning...");
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
 		NodeSerialized newSerialized = CreateNewSerializeNode ();
 		
 		newNode.GetComponent<DragNode> ().InitializeNode (newSerialized, this, true);
-		//localNodeCounter += 1;
 		saveNodesList.nodeCounter += 1;
 
-		print ("***SAVE***** (spawning)");
 
 		Save ();
 	}
@@ -137,6 +134,7 @@ public class NodeCreator : MonoBehaviour {
 
 			saveNodesList = data;
 			localNodeList = data.nodeList;
+			tempConnectionList = data.connectionList;
 
 			print("<<<ORIGINAL LENGTH of connection list>>>>>: " + data.connectionList.Count);
 			//print ("CURRENT FUCKING NUMBER: " + saveNodesList.nodeCounter);
@@ -145,7 +143,7 @@ public class NodeCreator : MonoBehaviour {
 			LoadNodesFromSerialized ();
 			print("<<<ORIGINAL LENGTH of connection list 2>>>>>: " + data.connectionList.Count);
 
-			connectionCentralHub.LoadConnectionsFromFile(data.connectionList);
+			connectionCentralHub.LoadConnectionsFromFile(tempConnectionList);
 
 
 		}
