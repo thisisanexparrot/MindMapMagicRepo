@@ -21,7 +21,10 @@ public class NodeCreator : MonoBehaviour {
 
 	//public int localNodeCounter;
 	public List<NodeSerialized> localNodeList;
+	//public List<ConnectionSerialized> localConnectionList; <---- This might be useful, but hold up. Another potential fix: add a flag to hold off on saving from initialization until everything is loaded.
 	public List<DragNode> allNodes;
+
+	string playerPath = "/playerInfo12.dat";
 
 	/********* INIT  **********/
 	/* Wake-up load functions */
@@ -53,6 +56,7 @@ public class NodeCreator : MonoBehaviour {
 	/********* CREATE **********/
 	/* Create & Remove individual nodes for storage */
 	public void SpawnNewNode () {
+		print ("Spawning...");
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
 		NodeSerialized newSerialized = CreateNewSerializeNode ();
@@ -60,6 +64,8 @@ public class NodeCreator : MonoBehaviour {
 		newNode.GetComponent<DragNode> ().InitializeNode (newSerialized, this, true);
 		//localNodeCounter += 1;
 		saveNodesList.nodeCounter += 1;
+
+		print ("***SAVE***** (spawning)");
 
 		Save ();
 	}
@@ -81,41 +87,67 @@ public class NodeCreator : MonoBehaviour {
 		destroyThis.DestroyThisNode ();
 		localNodeList.Remove (destroyID);
 		Destroy (destroyThis.gameObject);
+		print ("***SAVE***** (removenode)");
 		Save ();
 	}
 
 	/********* SAVE **********/
 	/* Save and Load Methods */
 	public void Save () {
+		print ("INITIALIZE SAVE!");
 		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.persistentDataPath + "/playerInfo5.dat");
+		FileStream file = File.Create (Application.persistentDataPath + playerPath);
 
-		NodeListAndSavedData data = new NodeListAndSavedData ();
-		data.nodeList = localNodeList;
-		data.connectionList = connectionCentralHub.CreateSaveList();
+		if (saveNodesList == null) {
+			print ("SAVED LIST WAS NULL ALL ALONG");
+			saveNodesList = new NodeListAndSavedData ();
+			saveNodesList.nodeCounter = 0;
+			saveNodesList.connectionList = new List<ConnectionSerialized> ();
+		} else {
+			print ("~~~~~~ NAH, it's cool.");
+			saveNodesList.connectionList = connectionCentralHub.CreateSaveList (); // <---- Here's the problem: the list is getting saved over before it can be loaded because "save" is called before load can finish.
+
+		}
+		saveNodesList.nodeList = localNodeList;
+		//NodeListAndSavedData data = new NodeListAndSavedData ();
+		//data.nodeCounter = 0;
+		//if(
+		//data.nodeList = localNodeList;
+		//data.connectionList = connectionCentralHub.CreateSaveList();
+		//print ("Saved with " + data.connectionList.Count + " total connections.");
+		print ("Saved with " + saveNodesList.connectionList.Count + " total Connections");
 		//data.nodeCounter = localNodeCounter;
 
 
-		bf.Serialize (file, data);
+		//bf.Serialize (file, data);
+		bf.Serialize (file, saveNodesList);
 		file.Close ();
 		//print ("Saved!");
 		/* Reminder: This probably happens a lot more than it needs to; come fix it later. */
 	}
 
 	public void Load () {
-		print ("Loading...");
-		if (File.Exists (Application.persistentDataPath + "/playerInfo5.dat"))
+		print (" ### BEING ### MASTER Loading...");
+		if (File.Exists (Application.persistentDataPath + playerPath))
 		{
 			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + "/playerInfo5.dat", FileMode.Open);
+			FileStream file = File.Open (Application.persistentDataPath + playerPath, FileMode.Open);
 			NodeListAndSavedData data = (NodeListAndSavedData)bf.Deserialize (file);
 			file.Close ();
 
+			saveNodesList = data;
 			localNodeList = data.nodeList;
+
+			print("<<<ORIGINAL LENGTH of connection list>>>>>: " + data.connectionList.Count);
+			//print ("CURRENT FUCKING NUMBER: " + saveNodesList.nodeCounter);
 			//localNodeCounter = data.nodeCounter;
 
 			LoadNodesFromSerialized ();
+			print("<<<ORIGINAL LENGTH of connection list 2>>>>>: " + data.connectionList.Count);
+
 			connectionCentralHub.LoadConnectionsFromFile(data.connectionList);
+
+
 		}
 		else
 		{
@@ -125,11 +157,16 @@ public class NodeCreator : MonoBehaviour {
 	}
 	
 	void LoadNodesFromSerialized () {
+		print ("<<<<<1.1 CHECK: " + saveNodesList.connectionList.Count);
+
 		foreach (NodeSerialized nextNode in localNodeList) {
 			Vector3 nextPosition = FloatsToVector3(nextNode);
 			DragNode newNode = Instantiate (blankNodeTemplate, nextPosition, Quaternion.identity) as DragNode;
+			print ("<<<<<1.2 CHECK: " + saveNodesList.connectionList.Count);
 			newNode.GetComponent<DragNode> ().InitializeNode (nextNode, this, false);
 			allNodes.Add(newNode);
+			print ("<<<<<1.3 CHECK: " + saveNodesList.connectionList.Count);
+
 		}
 	}
 

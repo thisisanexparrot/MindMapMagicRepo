@@ -56,6 +56,7 @@ public class DragConnection : MonoBehaviour {
 	public void DestroyConnection (DragNode n) {
 		print ("Time to destroy the connection!");
 		if ((n.GetInstanceID () == node1.GetInstanceID ()) || (n.GetInstanceID () == node2.GetInstanceID ())) {
+			ConnectionHub.allConnections.Remove(this);
 			Destroy(this.gameObject);
 		}
 	}

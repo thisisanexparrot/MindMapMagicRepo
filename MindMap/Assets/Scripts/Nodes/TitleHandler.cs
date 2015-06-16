@@ -31,6 +31,7 @@ public class TitleHandler : MonoBehaviour {
 	}
 
 	public void SetParentNode(DragNode pNode) {
+		print ("***SAVE***** (setparentnode)");
 		parentNode = pNode;
 		if (parentNode.theCreator != null) {
 			parentNode.theCreator.Save ();
@@ -38,6 +39,7 @@ public class TitleHandler : MonoBehaviour {
 	}
 
 	public void UpdateTitle(string newTitle) {
+		print ("***SAVE***** (updatetitle)");
 		title = newTitle;
 		parentNode.mySerialization.titleName = title;
 		parentNode.theCreator.Save ();

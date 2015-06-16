@@ -95,6 +95,8 @@ public class DragNode : MonoBehaviour
 		isBeingMoved = false;
 		theCreator.Vector3ToFloats (mySerialization, transform.position);
 		mySerialization.isSelected = false;
+		print ("***SAVE***** (stopmoving)");
+
 		theCreator.Save ();
 		NodeSelectionUpdate (false, this);
 	}

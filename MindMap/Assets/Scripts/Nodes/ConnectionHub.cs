@@ -11,12 +11,15 @@ public class ConnectionHub : MonoBehaviour {
 	public DragConnection template;
 
 	void OnEnable () {
+		print ("enabled!");
 		theCreator = GetComponent<NodeCreator> ();
 		if (connectionTemplate == null) {
 			connectionTemplate = template;
+			print("Filling template.");
 		}
 		if (allConnections == null) {
 			allConnections = new List<DragConnection>();
+			print("Creating initial connection list...");
 		}
 	}
 
@@ -33,6 +36,8 @@ public class ConnectionHub : MonoBehaviour {
 	/***** Save and Load *****/
 	public List<ConnectionSerialized> CreateSaveList () {
 		List<ConnectionSerialized> returnList = new List<ConnectionSerialized> ();
+		print ("Creating save list...");
+		print (allConnections.Count + " total connections.");
 		foreach (DragConnection connection in allConnections) {
 			print ("Saving connection!");
 			ConnectionSerialized c = connection.mySerialization;
@@ -42,7 +47,7 @@ public class ConnectionHub : MonoBehaviour {
 	}
 
 	public void LoadConnectionsFromFile (List<ConnectionSerialized> serializedList) {
-		print ("Loaded connections.");
+		print ("- BEGIN - Loading Connections.");
 		print (serializedList.Count);
 
 		foreach (ConnectionSerialized cs in serializedList) {
@@ -70,6 +75,7 @@ public class ConnectionHub : MonoBehaviour {
 						endpoint = nextNode;
 					}
 				}
+
 			}
 
 
@@ -77,9 +83,34 @@ public class ConnectionHub : MonoBehaviour {
 			DragConnection newConnection = Instantiate (connectionTemplate, newPosition, Quaternion.identity) as DragConnection;
 			newConnection.SetMySerialization(cs);
 			newConnection.InitializeConnection (origin, endpoint); /* NEED THIS SOON TO SPAWN THE LINE IN SPACE */
+			allConnections.Add(newConnection);
 		}
+		print ("***SAVE***** (loadconnectionsfromfile)");
+
+		theCreator.Save ();
+		print (allConnections.Count + " Total loaded!");
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
