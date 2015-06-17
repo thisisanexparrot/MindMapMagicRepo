@@ -48,18 +48,18 @@ public class ConnectionHub : MonoBehaviour {
 			DragNode origin = null;
 			DragNode endpoint = null;
 
-			foreach (NodeSerialized n in cs.nodes) {
-				for(int i = 0; i < theCreator.allNodes.Count; i++) {
-					DragNode nextNode = theCreator.allNodes[i];
-					if(nextNode.mySerialization.idNumber == n1.idNumber) {
-						origin = nextNode;
-					}
-					if(nextNode.mySerialization.idNumber == n2.idNumber) {
-						endpoint = nextNode;
-					}
+			//foreach (NodeSerialized n in cs.nodes) {
+			for(int i = 0; i < theCreator.allNodes.Count; i++) {
+				DragNode nextNode = theCreator.allNodes[i];
+				if(nextNode.mySerialization.idNumber == n1.idNumber) {
+					origin = nextNode;
 				}
-
+				if(nextNode.mySerialization.idNumber == n2.idNumber) {
+					endpoint = nextNode;
+				}
 			}
+
+			//}
 
 			Vector3 newPosition = new Vector3 (0, 0, 0);
 			DragConnection newConnection = Instantiate (connectionTemplate, newPosition, Quaternion.identity) as DragConnection;

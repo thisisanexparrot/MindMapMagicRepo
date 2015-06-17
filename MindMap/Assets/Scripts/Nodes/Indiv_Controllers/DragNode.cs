@@ -39,7 +39,7 @@ public class DragNode : MonoBehaviour
 			DragNodeInSpace();
 			CheckMoveZSpace ();
 		}
-		if (Input.GetMouseButtonUp (0)) {
+		if (Input.GetMouseButtonUp (0) && mySerialization.isSelected) {
 			StopMoving();
 		}
 	}
