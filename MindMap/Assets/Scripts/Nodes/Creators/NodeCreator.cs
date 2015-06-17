@@ -24,7 +24,7 @@ public class NodeCreator : MonoBehaviour {
 	public List<ConnectionSerialized> tempConnectionList;
 	public List<DragNode> allNodes;
 
-	string playerPath = "/playerInfo12.dat";
+	string playerPath = "/playerInfo21.dat";
 
 	/********* INIT  **********/
 	/* Wake-up load functions */
@@ -46,6 +46,7 @@ public class NodeCreator : MonoBehaviour {
 
 	/* Broadcasts event of initial load */
 	void OnEnable () {
+		connectionCentralHub.InitializeConnectionHub ();
 		Load ();
 		if (LoadCompleted != null) {
 			LoadCompleted ();
