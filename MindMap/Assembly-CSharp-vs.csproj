@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\MoveCamera.cs" />
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\RotateCamera.cs" />
      <Compile Include="Assets\Scripts\Global Controllers\TestURL.cs" />
+     <Compile Include="Assets\Scripts\NodeEditor\DragPanel.cs" />
      <Compile Include="Assets\Scripts\NodeEditor\EditorDisplay.cs" />
      <Compile Include="Assets\Scripts\Nodes\Creators\ConnectionHub.cs" />
      <Compile Include="Assets\Scripts\Nodes\Creators\NodeCreator.cs" />
