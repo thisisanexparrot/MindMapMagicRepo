@@ -29,7 +29,7 @@ public class DragConnection : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		myColliderObject.transform.position = (n1.gameObject.transform.position + n2.gameObject.transform.position) / 2;
 
 		CapsuleCollider col = myColliderObject.GetComponent<CapsuleCollider> ();
-		col.radius = 1.0f;
+		col.radius = 0.2f;
 		col.height = Vector3.Magnitude (n1.gameObject.transform.position - n2.gameObject.transform.position);
 
 		Vector3 relativePos = n1.gameObject.transform.position - n2.gameObject.transform.position;
