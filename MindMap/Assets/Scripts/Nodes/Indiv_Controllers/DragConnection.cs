@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
-public class DragConnection : MonoBehaviour {
+public class DragConnection : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+	public GameObject connectionCollider;
+	public GameObject myColliderObject;
+
 	public DragNode node1;
 	public DragNode node2;
 
 	public ConnectionSerialized mySerialization;
 	public LineRenderer myLine;
+
 
 	public void InitializeConnection (DragNode n1, DragNode n2) {
 		node1 = n1;
@@ -18,6 +23,27 @@ public class DragConnection : MonoBehaviour {
 		myLine.SetPosition(0, node1.gameObject.transform.position);
 		myLine.SetPosition(1, node2.gameObject.transform.position);
 		myLine.SetWidth (0.05f, 0.05f);
+
+		myColliderObject = Instantiate (connectionCollider);
+		myColliderObject.transform.parent = gameObject.transform;
+		myColliderObject.transform.position = (n1.gameObject.transform.position + n2.gameObject.transform.position) / 2;
+
+		CapsuleCollider col = myColliderObject.GetComponent<CapsuleCollider> ();
+		col.radius = 1.0f;
+		col.height = Vector3.Magnitude (n1.gameObject.transform.position - n2.gameObject.transform.position);
+
+		Vector3 relativePos = n1.gameObject.transform.position - n2.gameObject.transform.position;
+		Quaternion rotation = Quaternion.LookRotation(relativePos);
+		myColliderObject.transform.rotation = rotation;
+
+	}
+
+	public void OnPointerEnter (PointerEventData data) {
+		print ("Entered new pointer!");
+	}
+
+	public void OnPointerExit (PointerEventData data) {
+		print ("Exited new pointer!");
 	}
 
 	public void SetMySerialization (ConnectionSerialized cs) {
