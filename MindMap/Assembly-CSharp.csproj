@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\Global Controllers\TestURL.cs" />
      <Compile Include="Assets\Scripts\NodeEditor\DragPanel.cs" />
      <Compile Include="Assets\Scripts\NodeEditor\EditorDisplay.cs" />
+     <Compile Include="Assets\Scripts\NodeEditor\ResizePanel.cs" />
      <Compile Include="Assets\Scripts\Nodes\Creators\ConnectionHub.cs" />
      <Compile Include="Assets\Scripts\Nodes\Creators\NodeCreator.cs" />
      <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\DragConnection.cs" />
