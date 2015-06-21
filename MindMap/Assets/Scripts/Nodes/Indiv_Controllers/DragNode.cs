@@ -29,6 +29,7 @@ public class DragNode : MonoBehaviour
 
 	/***** Double click variables *****/
 	private bool oneClick;
+	private bool doubleClicked;
 	private float clickTimer;
 	private float doubleClickLimit = 0.5f;
 
@@ -91,14 +92,15 @@ public class DragNode : MonoBehaviour
 
 	/***** Mouse change states *****/
 	void OnMouseDown () {
-		ResetOffset ();
-		StartMoving ();
-
 		if ((Time.time - clickTimer) < doubleClickLimit) {
-			print ("Double clicked");
-			Camera.main.GetComponent<MouseOrbitImproved>().SetTarget(gameObject.transform);
+			print ("*** DOUBLE clicked");
+			doubleClicked = true;
+			Camera.main.GetComponent<MouseOrbitImproved>().SetTarget(gameObject);
+			doubleClicked = false;
 		} else {
 			print ("Single click");
+			ResetOffset ();
+			StartMoving ();
 		}
 		clickTimer = Time.time;
 	}
@@ -113,6 +115,7 @@ public class DragNode : MonoBehaviour
 
 	/***** Reset movement information *****/
 	void StopMoving () {
+		print ("Stop moving");
 		isBeingMoved = false;
 		theCreator.Vector3ToFloats (mySerialization, transform.position);
 		mySerialization.isSelected = false;
@@ -122,9 +125,12 @@ public class DragNode : MonoBehaviour
 	}
 
 	void StartMoving() {
-		isBeingMoved = true;
-		mySerialization.isSelected = true;
-		NodeSelectionUpdate (true, this);
+		if (!doubleClicked) {
+			print ("Start moving");
+			isBeingMoved = true;
+			mySerialization.isSelected = true;
+			NodeSelectionUpdate (true, this);
+		}
 	}
 
 	/***** Scroll events *****/

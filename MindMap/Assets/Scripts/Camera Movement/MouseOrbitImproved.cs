@@ -24,6 +24,7 @@ public class MouseOrbitImproved : MonoBehaviour
 	float velocityY = 0.0f;
 
 	public GameObject CameraCenter;
+	public Vector3 nextCenter;
 	public float minDistance;
 	public float maxDistance;
 	public float scrollMultiplier;
@@ -34,10 +35,22 @@ public class MouseOrbitImproved : MonoBehaviour
 		Vector3 angles = transform.eulerAngles;
 		rotationYAxis = angles.y;
 		rotationXAxis = angles.x;
+
+		target = CameraCenter.transform;
+		nextCenter = CameraCenter.transform.position;
 	}
 
-	public void SetTarget (Transform newTarget) {
-		target = newTarget;
+	public void SetTarget (GameObject newTarget) {
+		//CameraCenter.transform.position = newTarget.position;
+		nextCenter = newTarget.transform.position;
+	}
+
+	void SmoothPan () {
+		CameraCenter.transform.position = Vector3.Lerp (CameraCenter.transform.position, nextCenter, 1.5f * Time.deltaTime);
+	}
+
+	void FixedUpdate () {
+		SmoothPan ();
 	}
 	
 	void LateUpdate()
