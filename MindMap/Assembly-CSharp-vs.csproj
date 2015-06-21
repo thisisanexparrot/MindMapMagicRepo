@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\NodeEditor\ResizePanel.cs" />
      <Compile Include="Assets\Scripts\Nodes\Creators\ConnectionHub.cs" />
      <Compile Include="Assets\Scripts\Nodes\Creators\NodeCreator.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\ConnectionCollide.cs" />
      <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\DragConnection.cs" />
      <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\DragNode.cs" />
      <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\RingController.cs" />

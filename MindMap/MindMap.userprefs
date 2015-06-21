@@ -1,8 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/NodeEditor/DragPanel.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Nodes/Indiv_Controllers/DragConnection.cs">
     <Files>
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragConnection.cs" Line="57" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragConnection.cs" Line="36" Column="60" />
       <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/TitleHandler.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/NodeEditor/EditorDisplay.cs" Line="37" Column="4" />
@@ -10,6 +10,7 @@
       <File FileName="Assets/Scripts/Nodes/Creators/ConnectionHub.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/RingController.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/NodeEditor/DragPanel.cs" Line="54" Column="29" />
+      <File FileName="Assets/Scripts/NodeEditor/ResizePanel.cs" Line="23" Column="43" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
