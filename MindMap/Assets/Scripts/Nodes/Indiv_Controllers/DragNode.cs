@@ -5,20 +5,37 @@ using System.Collections;
 
 public class DragNode : MonoBehaviour 
 {
+	/********************/
+	/* Global Variables */
+	/********************/
+
+	/***** Delegates: if node is selected or destroyed *****/
 	public delegate void NodeSelected (bool isOn, DragNode node);
 	public static event NodeSelected NodeSelectionUpdate;
 
 	public delegate void NodeDestroyed (DragNode node);
 	public static event NodeDestroyed NodeDestroyedUpdate;
 
-	public float scrollMultiplier;
+	/***** Pointers to controllers and save information *****/
 	public NodeSerialized mySerialization;
 	public NodeCreator theCreator;
 
+	/***** Dragging variables *****/
+	public float scrollMultiplier;
 	private bool initIsClick;
 	private Vector3 screenPoint;
 	private Vector3 offset;
 	private bool isBeingMoved;
+
+	/***** Double click variables *****/
+	private bool oneClick;
+	private float clickTimer;
+	private float doubleClickLimit = 0.5f;
+
+
+	/*****************/
+	/*   FUNCTIONS   */
+	/*****************/
 
 	/***** Initialization based on whether the button was clicked or dragged *****/
 	public void InitializeNode (NodeSerialized newSerialize, NodeCreator creator, bool isNew) {
@@ -76,6 +93,13 @@ public class DragNode : MonoBehaviour
 	void OnMouseDown () {
 		ResetOffset ();
 		StartMoving ();
+
+		if ((Time.time - clickTimer) < doubleClickLimit) {
+			print ("Double clicked");
+		} else {
+			print ("Single click");
+		}
+		clickTimer = Time.time;
 	}
 
 	void OnMouseUp () {
@@ -84,10 +108,6 @@ public class DragNode : MonoBehaviour
 
 	void OnMouseDrag () {
 		StartMoving ();
-	}
-
-	void OnClick () {
-		StopMoving ();
 	}
 
 	/***** Reset movement information *****/
