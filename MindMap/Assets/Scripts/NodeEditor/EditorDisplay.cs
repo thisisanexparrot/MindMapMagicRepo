@@ -53,15 +53,16 @@ public class EditorDisplay : MonoBehaviour {
 			currentlyEditedNode.mySerialization.description = description.text;
 			currentlyEditedNode.theCreator.Save ();
 		} else if (currentlyEditedConnection != null) {
-
+			// To Do
 		}
 	}
 
+	/***** Delete node/connection from the editor *****/
 	public void DeletePressed () {
 		if (currentlyEditedNode != null) {
 			currentlyEditedNode.RemoveNode();
 		} else if (currentlyEditedConnection != null) {
-			print ("Delete connection");
+			currentlyEditedConnection.RemoveThisConnection();
 		} else {
 			print ("No delete");
 		}

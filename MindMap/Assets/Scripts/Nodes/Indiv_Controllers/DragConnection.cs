@@ -70,11 +70,16 @@ public class DragConnection : MonoBehaviour {
 		}
 	}
 
+	/***** Destroy connection *****/
 	public void DestroyConnection (DragNode n) {
 		if ((n.GetInstanceID () == node1.GetInstanceID ()) || (n.GetInstanceID () == node2.GetInstanceID ())) {
-			ConnectionHub.allConnections.Remove(this);
-			Destroy(this.gameObject);
+			RemoveThisConnection();
 		}
+	}
+
+	public void RemoveThisConnection () {
+		ConnectionHub.allConnections.Remove(this);
+		Destroy(this.gameObject);
 	}
 
 }

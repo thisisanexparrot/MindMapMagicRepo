@@ -20,7 +20,7 @@ public class DragNode : MonoBehaviour
 	private Vector3 offset;
 	private bool isBeingMoved;
 
-	/* Initialization based on whether the button was clicked or dragged */
+	/***** Initialization based on whether the button was clicked or dragged *****/
 	public void InitializeNode (NodeSerialized newSerialize, NodeCreator creator, bool isNew) {
 		theCreator = creator;
 		mySerialization = newSerialize;
@@ -33,7 +33,7 @@ public class DragNode : MonoBehaviour
 		ResetOffset ();
 	}
 
-	/* Update functions */
+	/***** Update based on whether or not node is moving/clicked *****/
 	void Update () {
 		if (isBeingMoved) {
 			DragNodeInSpace();
@@ -44,6 +44,11 @@ public class DragNode : MonoBehaviour
 		}
 	}
 
+	/***** Delete node functions *****/
+	public void RemoveNode(){
+		theCreator.RemoveNode (gameObject.GetComponent<DragNode> ());
+	}
+
 	public void DestroyThisNode () {
 		DragNode n = this;
 		if (NodeDestroyedUpdate != null) {
@@ -51,11 +56,7 @@ public class DragNode : MonoBehaviour
 		}
 	}
 
-	/* Movement functions */
-	public void RemoveNode(){
-		theCreator.RemoveNode (gameObject.GetComponent<DragNode> ());
-	}
-	
+	/***** Movement functions *****/
 	void ResetOffset () {
 		screenPoint = Camera.main.WorldToScreenPoint (gameObject.transform.position);
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 
@@ -71,7 +72,7 @@ public class DragNode : MonoBehaviour
 		transform.position = curPosition;
 	}
 
-	/* Mouse change states */
+	/***** Mouse change states *****/
 	void OnMouseDown () {
 		ResetOffset ();
 		StartMoving ();
@@ -89,7 +90,7 @@ public class DragNode : MonoBehaviour
 		StopMoving ();
 	}
 
-	/* Reset movement information*/
+	/***** Reset movement information *****/
 	void StopMoving () {
 		isBeingMoved = false;
 		theCreator.Vector3ToFloats (mySerialization, transform.position);
@@ -105,7 +106,7 @@ public class DragNode : MonoBehaviour
 		NodeSelectionUpdate (true, this);
 	}
 
-	/* Scroll events */
+	/***** Scroll events *****/
 	void CheckMoveZSpace () {
 		if(Input.GetAxis("Mouse ScrollWheel") != 0) {
 			ResetOffset();
