@@ -23,7 +23,6 @@ public class EditorDisplay : MonoBehaviour {
 
 	/***** Update which node/connection is currently being edited *****/
 	void DisplayConnectionInfoEditor (DragConnection thisConnection) {
-		print ("Display update to connection!");
 		title.text = thisConnection.mySerialization.label;
 		description.text = "No Description";
 
@@ -55,6 +54,16 @@ public class EditorDisplay : MonoBehaviour {
 			currentlyEditedNode.theCreator.Save ();
 		} else if (currentlyEditedConnection != null) {
 
+		}
+	}
+
+	public void DeletePressed () {
+		if (currentlyEditedNode != null) {
+			currentlyEditedNode.RemoveNode();
+		} else if (currentlyEditedConnection != null) {
+			print ("Delete connection");
+		} else {
+			print ("No delete");
 		}
 	}
 

@@ -25,6 +25,7 @@ public class ConnectionHub : MonoBehaviour {
 		}
 	}
 
+	/***** Add and remove new connections *****/
 	public static void AddNewConnection (DragNode origin, DragNode endpoint) {
 		Vector3 newPosition = new Vector3 (0, 0, 0);
 		DragConnection newConnection = Instantiate (connectionTemplate, newPosition, Quaternion.identity) as DragConnection;
@@ -32,6 +33,10 @@ public class ConnectionHub : MonoBehaviour {
 		newConnection.CreateMySerialization (origin, endpoint);
 
 		allConnections.Add (newConnection);
+	}
+
+	public static void RemoveConnection () {
+		//TO-DO
 	}
 
 
