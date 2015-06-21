@@ -45,8 +45,8 @@ public class MouseOrbitImproved : MonoBehaviour
 		nextCenter = CameraCenter.transform.position;
 	}
 
+	/***** Update the center of the camera rotation *****/
 	public void SetTarget (GameObject newTarget) {
-		//CameraCenter.transform.position = newTarget.position;
 		nextCenter = newTarget.transform.position;
 	}
 
@@ -57,18 +57,18 @@ public class MouseOrbitImproved : MonoBehaviour
 		                                                nextCenter, 
 		                                                1.5f * distance_modifier * Time.deltaTime);
 		if(mag < panThreshold) {
-			print ("NOW unlocked");
 			completeMove (false);
 		}
 	}
-
+	
 	void FixedUpdate () {
 		float mag = Vector3.Magnitude (CameraCenter.transform.position - nextCenter);
-		if (mag > 0.1f) {
+		if (mag > 0.9f) {
 			SmoothPan ();
 		}
 	}
-	
+
+	/***** Update the rotation of the camera *****/
 	void LateUpdate()
 	{
 		if (target)
