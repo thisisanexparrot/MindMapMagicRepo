@@ -96,6 +96,7 @@ public class DragNode : MonoBehaviour
 
 		if ((Time.time - clickTimer) < doubleClickLimit) {
 			print ("Double clicked");
+			Camera.main.GetComponent<MouseOrbitImproved>().SetTarget(gameObject.transform);
 		} else {
 			print ("Single click");
 		}

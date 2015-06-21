@@ -35,6 +35,10 @@ public class MouseOrbitImproved : MonoBehaviour
 		rotationYAxis = angles.y;
 		rotationXAxis = angles.x;
 	}
+
+	public void SetTarget (Transform newTarget) {
+		target = newTarget;
+	}
 	
 	void LateUpdate()
 	{
@@ -78,9 +82,7 @@ public class MouseOrbitImproved : MonoBehaviour
 			angle -= 360F;
 		return Mathf.Clamp(angle, min, max);
 	}
-
-
-
+	
 	void CheckZoom () {
 		if ((Input.GetAxis ("Mouse ScrollWheel") != 0) && !Input.GetMouseButton(0)) {
 			Vector3 vectorToCenter = new Vector3(0, 0, 0);
