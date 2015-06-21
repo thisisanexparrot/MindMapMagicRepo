@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 public class DragConnection : MonoBehaviour {
+	public delegate void ConnectionSelected (DragConnection con);
+	public static event ConnectionSelected ConnectionSelectedUpdate;
+
 	public ConnectionCollide connectionColliderTemplate;
 	public ConnectionCollide myColliderObject;
 
@@ -26,6 +29,10 @@ public class DragConnection : MonoBehaviour {
 
 		myColliderObject = Instantiate (connectionColliderTemplate);
 		myColliderObject.InitializeCollider (node1, node2, this);
+	}
+
+	public void TriggerConnectionEdit () {
+		ConnectionSelectedUpdate (this);
 	}
 
 	public void SetMySerialization (ConnectionSerialized cs) {

@@ -36,5 +36,8 @@ public class ConnectionCollide : MonoBehaviour {
 		myParent.myLine.SetWidth (0.05f, 0.05f);
 	}
 
-
+	public void OnMouseUpAsButton () {
+		print ("Clicked");
+		myParent.TriggerConnectionEdit ();
+	}
 }
