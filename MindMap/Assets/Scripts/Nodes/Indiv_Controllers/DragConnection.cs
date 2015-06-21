@@ -56,8 +56,10 @@ public class DragConnection : MonoBehaviour {
 	public void UpdatePosition (bool isSelected, DragNode n) {
 		if ((n.GetInstanceID () == node1.GetInstanceID ())) {
 			myLine.SetPosition (0, n.gameObject.transform.position);
+			myColliderObject.UpdateColliderTransform(node1, node2);
 		} else if ((n.GetInstanceID () == node2.GetInstanceID ())) {
 			myLine.SetPosition (1, n.gameObject.transform.position);
+			myColliderObject.UpdateColliderTransform(node1, node2);
 		}
 	}
 
