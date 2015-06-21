@@ -48,6 +48,7 @@ public class DragConnection : MonoBehaviour {
 		mySerialization.isVisible = true;
 		mySerialization.isBold = false;
 		mySerialization.label = "New Connection";
+		endpoint.theCreator.Save ();
 	}
 
 	void OnEnable () {
