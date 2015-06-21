@@ -4,6 +4,9 @@ using System.Collections;
 //[AddComponentMenu("Camera-Control/Mouse drag Orbit with zoom")]
 public class MouseOrbitImproved : MonoBehaviour
 {
+	public delegate void RepositionComplete (bool isLocked);
+	public static event RepositionComplete completeMove;
+
 	public Transform target;
 	public float distance = 5.0f;
 	public float xSpeed = 120.0f;
@@ -29,6 +32,8 @@ public class MouseOrbitImproved : MonoBehaviour
 	public float maxDistance;
 	public float scrollMultiplier;
 
+	public float panThreshold = 1.0f;
+
 	
 	void Start()
 	{
@@ -46,11 +51,22 @@ public class MouseOrbitImproved : MonoBehaviour
 	}
 
 	void SmoothPan () {
-		CameraCenter.transform.position = Vector3.Lerp (CameraCenter.transform.position, nextCenter, 1.5f * Time.deltaTime);
+		float mag = Vector3.Magnitude (CameraCenter.transform.position - nextCenter);
+		float distance_modifier = mag * 0.5f;
+		CameraCenter.transform.position = Vector3.Lerp (CameraCenter.transform.position, 
+		                                                nextCenter, 
+		                                                1.5f * distance_modifier * Time.deltaTime);
+		if(mag < panThreshold) {
+			print ("NOW unlocked");
+			completeMove (false);
+		}
 	}
 
 	void FixedUpdate () {
-		SmoothPan ();
+		float mag = Vector3.Magnitude (CameraCenter.transform.position - nextCenter);
+		if (mag > 0.1f) {
+			SmoothPan ();
+		}
 	}
 	
 	void LateUpdate()
