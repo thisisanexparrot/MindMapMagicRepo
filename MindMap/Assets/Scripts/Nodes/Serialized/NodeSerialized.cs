@@ -19,4 +19,6 @@ public class NodeSerialized {
 	public float locationY;
 	public float locationZ;
 
+	public List<Ingredient> ingredients;
+
 }

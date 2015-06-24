@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DragNode : MonoBehaviour 
 {
@@ -43,6 +44,7 @@ public class DragNode : MonoBehaviour
 	public float originalScale = 1.0f;
 	public float hoverScale = 1.2f;
 	public bool movementIsLocked = false;
+	Camera mainCamera;
 
 	/*****************/
 	/*   FUNCTIONS   */
@@ -60,16 +62,44 @@ public class DragNode : MonoBehaviour
 			StopMoving();
 		}
 		ResetOffset ();
+		mainCamera = Camera.main;
+		CreateIngredientsList ();
+	}
+
+	void CreateIngredientsList () {
+		if (mySerialization.ingredients == null) {
+			print ("No list yet");
+			mySerialization.ingredients = new List<Ingredient>();
+			//Ingr_Priority newP = new Ingr_Priority();
+			//newP.myPriority = 3;
+			//mySerialization.ingredients.Add(newP);
+		}
+		print ("Ingredients list added successfully");
 	}
 
 	/***** Update based on whether or not node is moving/clicked *****/
 	void Update () {
+		/*if(mySerialization.ingredients != null) {
+			if (mySerialization.ingredients.Count > 0) {
+				Ingr_Priority nextP = (Ingr_Priority)mySerialization.ingredients [0];
+				print (nextP.myPriority + " is my priority");
+			}
+
+			if (mySerialization.ingredients.Count > 1) {
+				Ingr_IsCompleted nextC = (Ingr_IsCompleted)mySerialization.ingredients [1];
+				print (nextC.isComplete + " status");
+			}
+		}*/
 		if (isBeingMoved) {
 			DragNodeInSpace();
 			CheckMoveZSpace ();
 		}
 		if (Input.GetMouseButtonUp (0) && mySerialization.isSelected) {
 			StopMoving();
+		}
+		if (mainCamera) {
+			transform.LookAt (transform.position + mainCamera.transform.rotation * Vector3.forward,
+			                 mainCamera.transform.rotation * Vector3.up);
 		}
 	}
 
@@ -116,13 +146,13 @@ public class DragNode : MonoBehaviour
 	/***** Mouse change states *****/
 	void OnMouseDown () {
 		if ((Time.time - clickTimer) < doubleClickLimit) {
-			print ("*** DOUBLE clicked");
+			//print ("*** DOUBLE clicked");
 			doubleClicked = true;
 			SetMovementLock (true);
 			Camera.main.GetComponent<MouseOrbitImproved>().SetTarget(gameObject);
 			doubleClicked = false;
 		} else {
-			print ("Single click");
+			//print ("Single click");
 			ResetOffset ();
 			StartMoving ();
 		}
@@ -168,11 +198,19 @@ public class DragNode : MonoBehaviour
 
 	void StartMoving() {
 		if (!movementIsLocked && !doubleClicked) {
-			print ("Start moving");
+			//print ("Start moving");
 			isBeingMoved = true;
 			mySerialization.isSelected = true;
 			NodeSelectionUpdate (true, this);
 			SetMaterial (selectedMaterial);
+
+			/*print ("TEMP: ADDING");
+			Ingr_IsCompleted newI = new Ingr_IsCompleted();
+			newI.isComplete = true;
+			if(mySerialization.ingredients != null) {
+				mySerialization.ingredients.Add(newI);
+				print ("ADDED COMPLETE");
+			}*/
 		}
 	}
 
@@ -187,6 +225,40 @@ public class DragNode : MonoBehaviour
 			transform.position = curPosition;
 			ResetOffset();
 		}
+	}
+
+	/*****  Add an ingredient *****/
+	public void AddNewIngredientOfType (Ingr_Type newIngrType) {
+		if(!IngredientExists(newIngrType)) {
+			if (newIngrType == Ingr_Type.IsComplete) {
+				print ("New type of IsComplete");
+				Ingr_IsCompleted my_IC = new Ingr_IsCompleted();
+				my_IC.myType = Ingr_Type.IsComplete;
+				mySerialization.ingredients.Add(my_IC);
+			} 
+
+			else if (newIngrType == Ingr_Type.Priority) {
+				print ("New type of Priority");
+				Ingr_Priority my_Prio = new Ingr_Priority();
+				my_Prio.myType = Ingr_Type.Priority;
+				mySerialization.ingredients.Add(my_Prio);
+			}
+		}
+
+	}
+
+	bool IngredientExists (Ingr_Type thisIngrType) {
+		foreach (Ingredient ingNext in mySerialization.ingredients) {
+			if(ingNext.myType == thisIngrType) {
+				print ("Nope, already exists for this node.");
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void DisplayIngredientsOnSelect () {
+
 	}
 
 

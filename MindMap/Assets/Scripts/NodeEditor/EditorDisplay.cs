@@ -10,6 +10,9 @@ public class EditorDisplay : MonoBehaviour {
 	public DragNode currentlyEditedNode;
 	public DragConnection currentlyEditedConnection;
 
+	public string s_priority = "priority";
+	public string s_isComplete = "isComplete";
+
 	/***** Enable/Disable event listeners *****/
 	void OnEnable () {
 		DragNode.NodeSelectionUpdate += DisplayNodeInfoInEditor;
@@ -36,6 +39,7 @@ public class EditorDisplay : MonoBehaviour {
 
 		currentlyEditedConnection = null;
 		currentlyEditedNode = thisNode;
+		currentlyEditedNode.DisplayIngredientsOnSelect ();
 	}
 
 	/***** Edit text in Editor window *****/
@@ -70,6 +74,20 @@ public class EditorDisplay : MonoBehaviour {
 			currentlyEditedConnection.RemoveThisConnection();
 		} else {
 			print ("No delete");
+		}
+	}
+
+	/***** Add new ingredients to selected *****/
+	public void AddIngredientOfTypeToSelectedNode (string newType) {
+		if (currentlyEditedNode) {
+			if(string.Equals(newType, s_priority)) {
+				print (">>> Prio pressed...");
+				currentlyEditedNode.AddNewIngredientOfType(Ingr_Type.Priority);
+			}
+			else if(string.Equals(newType, s_isComplete)) {
+				print (">>> Completed pressed...");
+				currentlyEditedNode.AddNewIngredientOfType(Ingr_Type.IsComplete);
+			}
 		}
 	}
 

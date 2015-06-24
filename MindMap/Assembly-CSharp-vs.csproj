@@ -60,6 +60,9 @@
      <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\DragNode.cs" />
      <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\RingController.cs" />
      <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\TitleHandler.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Ingredients\Ingr_IsCompleted.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Ingredients\Ingr_Priority.cs" />
+     <Compile Include="Assets\Scripts\Nodes\Ingredients\Ingredient.cs" />
      <Compile Include="Assets\Scripts\Nodes\Serialized\ConnectionSerialized.cs" />
      <Compile Include="Assets\Scripts\Nodes\Serialized\NodeListAndSavedData.cs" />
      <Compile Include="Assets\Scripts\Nodes\Serialized\NodeSerialized.cs" />

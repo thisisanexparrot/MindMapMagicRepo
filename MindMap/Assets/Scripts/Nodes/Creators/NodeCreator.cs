@@ -24,7 +24,7 @@ public class NodeCreator : MonoBehaviour {
 	public List<ConnectionSerialized> tempConnectionList;
 	public List<DragNode> allNodes;
 
-	string playerPath = "/playerInfo21.dat";
+	string playerPath = "/playerInfo25.dat";
 
 	/********* INIT  **********/
 	/* Wake-up load functions */
@@ -149,6 +149,10 @@ public class NodeCreator : MonoBehaviour {
 		return newVector;
 	}
 
+	/***** Add new ingredients to selected *****/
+	public void AddIngredientOfTypeToSelectedNode (Ingr_Type newType) {
+
+	}
 
 }
 
