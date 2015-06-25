@@ -64,6 +64,12 @@ public class DragNode : MonoBehaviour
 		ResetOffset ();
 		mainCamera = Camera.main;
 		CreateIngredientsList ();
+
+		foreach (Ingredient i in mySerialization.ingredients) {
+			InitializeIngredientDisplayOfType(i.myType);
+			print (i.myType);
+		}
+		//TO DO: cycle through ingredients list and initialize here
 	}
 
 	void CreateIngredientsList () {
@@ -235,6 +241,9 @@ public class DragNode : MonoBehaviour
 				Ingr_IsCompleted my_IC = new Ingr_IsCompleted();
 				my_IC.myType = Ingr_Type.IsComplete;
 				mySerialization.ingredients.Add(my_IC);
+
+				InitializeIngredientDisplayOfType(Ingr_Type.IsComplete);
+				//initialize the objct of type and display
 			} 
 
 			else if (newIngrType == Ingr_Type.Priority) {
@@ -242,9 +251,34 @@ public class DragNode : MonoBehaviour
 				Ingr_Priority my_Prio = new Ingr_Priority();
 				my_Prio.myType = Ingr_Type.Priority;
 				mySerialization.ingredients.Add(my_Prio);
+
+				InitializeIngredientDisplayOfType(Ingr_Type.Priority);
 			}
 		}
 
+	}
+
+	void InitializeIngredientDisplayOfType (Ingr_Type thisIngrType) {
+		switch (thisIngrType) {
+		case Ingr_Type.Priority: 
+			GameObject newSuper_Prio = new GameObject("d_Ingr_Prio", typeof(SupervisePriority));
+			//SupervisePriority newSuper_Prio = new SupervisePriority();
+			newSuper_Prio.transform.parent = this.transform;
+
+			newSuper_Prio.GetComponent<SupervisePriority>().SelectedNodeDisplay(this);//Delete this soon
+
+			break;
+		case Ingr_Type.IsComplete:
+			GameObject newSuper_Comp = new GameObject("d_Ingr_Comp", typeof(SuperviseCompleted));
+			//SuperviseCompleted newSuper_Comp = new SuperviseCompleted();
+			newSuper_Comp.gameObject.transform.parent = this.transform;
+
+			newSuper_Comp.GetComponent<SuperviseCompleted>().SelectedNodeDisplay(this);//Delete this soon
+
+			break;
+		default:
+			break;
+		}
 	}
 
 	bool IngredientExists (Ingr_Type thisIngrType) {
@@ -258,7 +292,13 @@ public class DragNode : MonoBehaviour
 	}
 
 	public void DisplayIngredientsOnSelect () {
-
+		if (mySerialization.ingredients != null) {
+			foreach(Ingredient i in mySerialization.ingredients) {
+				/* We should create a new instance of each type of ingredient from the new classes and parent it to the node if there isn't one there already. we should then run
+				 the display method to show some visible effect. this visible effect should be edited via that instance. These instances should perhaps be kept in a list here on this node; 
+				 a separate list, remember, from the one in the serialized object. */
+			}
+		}
 	}
 
 

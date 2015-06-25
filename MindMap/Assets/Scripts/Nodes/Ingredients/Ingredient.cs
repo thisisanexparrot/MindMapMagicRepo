@@ -10,5 +10,5 @@ public class Ingredient {
 }
 
 public interface ISuperviseIngredient {
-	void SelectedNodeDisplay (DragNode selectedNode, Ingredient i); 
+	void SelectedNodeDisplay (DragNode selectedNode);//, Ingredient i); 
 }
