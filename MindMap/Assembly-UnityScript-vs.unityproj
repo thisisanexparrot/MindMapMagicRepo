@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{725F05A7-A667-5B8A-496F-0D808C552AA7}</ProjectGuid>
+	<ProjectGuid>{B4F9DEC8-29E0-5B82-AB96-E1B3196D2AF3}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,28 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Camera Movement\MouseOrbitImproved.cs" />
-     <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\MoveCamera.cs" />
-     <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\RotateCamera.cs" />
-     <Compile Include="Assets\Scripts\Database\TestDatabaseCSHarp.cs" />
-     <Compile Include="Assets\Scripts\Global Controllers\TestURL.cs" />
-     <Compile Include="Assets\Scripts\NodeEditor\DragPanel.cs" />
-     <Compile Include="Assets\Scripts\NodeEditor\EditorDisplay.cs" />
-     <Compile Include="Assets\Scripts\NodeEditor\ResizePanel.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Creators\ConnectionHub.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Creators\NodeCreator.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\ConnectionCollide.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\DragConnection.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\DragNode.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\RingController.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Indiv_Controllers\TitleHandler.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Ingredients\Ingr_IsCompleted.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Ingredients\Ingr_Priority.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Ingredients\Ingredient.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Serialized\ConnectionSerialized.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Serialized\NodeListAndSavedData.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Serialized\NodeSerialized.cs" />
-     <Compile Include="Assets\Scripts\Nodes\Utilities.cs" />
+     <Compile Include="Assets\Scripts\Database\ScriptThatUsesTheDatabase.js" />
+ <Reference Include="Assembly-UnityScript-firstpass">
+ <HintPath>/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -86,10 +68,6 @@
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
-      <Project>{DF06E564-9EAB-5D99-301B-2939A102100E}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

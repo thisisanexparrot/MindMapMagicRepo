@@ -7,6 +7,8 @@ public class Ingr_Priority : Ingredient {
 	public int myPriority;
 }
 
+
+/* Information for DISPLAY ONLY */
 public class SupervisePriority : MonoBehaviour, ISuperviseIngredient {
 
 	public SupervisePriority () {

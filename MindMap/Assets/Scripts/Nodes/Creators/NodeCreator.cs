@@ -24,7 +24,11 @@ public class NodeCreator : MonoBehaviour {
 	public List<ConnectionSerialized> tempConnectionList;
 	public List<DragNode> allNodes;
 
-	string playerPath = "/playerInfo25.dat";
+	private dbAccess graphDatabase;
+	public string graphDatabaseName = "CentralGraphDatabase.sqdb";
+	public string nodeTableName = "NodeTable";
+
+	string playerPath = "/playerInfo26.dat";
 
 	/********* INIT  **********/
 	/* Wake-up load functions */
@@ -42,6 +46,14 @@ public class NodeCreator : MonoBehaviour {
 			connectionCentralHub = GetComponent<ConnectionHub>();
 			DontDestroyOnLoad(connectionCentralHub);
 		}
+
+		graphDatabase = new dbAccess();
+		graphDatabase.OpenDB(graphDatabaseName);
+		string[] columnNames = new string[6] {"idNumber","Name","Description","locationX","locationY","locationZ"};
+		string[] columnValues = new string[6] {"int","text","text","float","float","float"};
+		graphDatabase.CreateTable(nodeTableName,columnNames,columnValues);
+		print ("Awake!");
+
 	}
 
 	/* Broadcasts event of initial load */
@@ -149,10 +161,7 @@ public class NodeCreator : MonoBehaviour {
 		return newVector;
 	}
 
-	/***** Add new ingredients to selected *****/
-	public void AddIngredientOfTypeToSelectedNode (Ingr_Type newType) {
 
-	}
 
 }
 

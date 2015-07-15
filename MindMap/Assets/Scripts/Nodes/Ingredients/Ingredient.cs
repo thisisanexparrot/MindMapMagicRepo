@@ -9,6 +9,8 @@ public class Ingredient {
 	public Ingr_Type myType;
 }
 
+
+/* Information for DISPLAY ONLY */
 public interface ISuperviseIngredient {
 	void SelectedNodeDisplay (DragNode selectedNode);//, Ingredient i); 
 }

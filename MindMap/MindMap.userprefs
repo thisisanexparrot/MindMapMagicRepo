@@ -1,18 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Nodes/Ingredients/Ingredient.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Nodes/Creators/NodeCreator.cs">
     <Files>
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragConnection.cs" Line="64" Column="35" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Creators/ConnectionHub.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/ConnectionCollide.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/NodeEditor/EditorDisplay.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Serialized/ConnectionSerialized.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/TitleHandler.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Serialized/NodeSerialized.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Serialized/NodeListAndSavedData.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Ingredients/Ingredient.cs" Line="1" Column="1" />
+      <File FileName="Assets/Standard Assets/dbAccess.js" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Database/TestDatabaseCSHarp.cs" Line="7" Column="1" />
+      <File FileName="Assets/Scripts/Database/ScriptThatUsesTheDatabase.js" Line="26" Column="28" />
+      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="52" Column="51" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

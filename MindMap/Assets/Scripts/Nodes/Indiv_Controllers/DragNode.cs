@@ -65,9 +65,11 @@ public class DragNode : MonoBehaviour
 		mainCamera = Camera.main;
 		CreateIngredientsList ();
 
+		print (">>>> number of ingredients: "+ mySerialization.ingredients.Count);
+
 		foreach (Ingredient i in mySerialization.ingredients) {
 			InitializeIngredientDisplayOfType(i.myType);
-			print (i.myType);
+			print (">>>> " + i.myType);
 		}
 		//TO DO: cycle through ingredients list and initialize here
 	}
@@ -76,11 +78,8 @@ public class DragNode : MonoBehaviour
 		if (mySerialization.ingredients == null) {
 			print ("No list yet");
 			mySerialization.ingredients = new List<Ingredient>();
-			//Ingr_Priority newP = new Ingr_Priority();
-			//newP.myPriority = 3;
-			//mySerialization.ingredients.Add(newP);
 		}
-		print ("Ingredients list added successfully");
+		//print ("Ingredients list added successfully");
 	}
 
 	/***** Update based on whether or not node is moving/clicked *****/
@@ -96,6 +95,13 @@ public class DragNode : MonoBehaviour
 				print (nextC.isComplete + " status");
 			}
 		}*/
+
+		if (Input.GetKeyDown (KeyCode.T)) {
+			print ("HERE ARE YOUR INGREDIENTS: ");
+			foreach(Ingredient ingr in mySerialization.ingredients) {
+				print (ingr.myType);
+			}
+		}
 		if (isBeingMoved) {
 			DragNodeInSpace();
 			CheckMoveZSpace ();
@@ -152,13 +158,11 @@ public class DragNode : MonoBehaviour
 	/***** Mouse change states *****/
 	void OnMouseDown () {
 		if ((Time.time - clickTimer) < doubleClickLimit) {
-			//print ("*** DOUBLE clicked");
 			doubleClicked = true;
 			SetMovementLock (true);
 			Camera.main.GetComponent<MouseOrbitImproved>().SetTarget(gameObject);
 			doubleClicked = false;
 		} else {
-			//print ("Single click");
 			ResetOffset ();
 			StartMoving ();
 		}
@@ -190,7 +194,6 @@ public class DragNode : MonoBehaviour
 
 	/***** Reset movement information *****/
 	void StopMoving () {
-		//print ("Stop moving");
 		isBeingMoved = false;
 		theCreator.Vector3ToFloats (mySerialization, transform.position);
 		mySerialization.isSelected = false;
@@ -204,19 +207,10 @@ public class DragNode : MonoBehaviour
 
 	void StartMoving() {
 		if (!movementIsLocked && !doubleClicked) {
-			//print ("Start moving");
 			isBeingMoved = true;
 			mySerialization.isSelected = true;
 			NodeSelectionUpdate (true, this);
 			SetMaterial (selectedMaterial);
-
-			/*print ("TEMP: ADDING");
-			Ingr_IsCompleted newI = new Ingr_IsCompleted();
-			newI.isComplete = true;
-			if(mySerialization.ingredients != null) {
-				mySerialization.ingredients.Add(newI);
-				print ("ADDED COMPLETE");
-			}*/
 		}
 	}
 
@@ -240,7 +234,10 @@ public class DragNode : MonoBehaviour
 				print ("New type of IsComplete");
 				Ingr_IsCompleted my_IC = new Ingr_IsCompleted();
 				my_IC.myType = Ingr_Type.IsComplete;
+				print ("TYPE: " + my_IC.myType);
 				mySerialization.ingredients.Add(my_IC);
+				mySerialization.ingredients[0].myType = Ingr_Type.IsComplete;
+				print ("SERI TYPE: " + mySerialization.ingredients[0].myType);
 
 				InitializeIngredientDisplayOfType(Ingr_Type.IsComplete);
 				//initialize the objct of type and display
@@ -250,30 +247,34 @@ public class DragNode : MonoBehaviour
 				print ("New type of Priority");
 				Ingr_Priority my_Prio = new Ingr_Priority();
 				my_Prio.myType = Ingr_Type.Priority;
+				print ("TYPE: " + my_Prio.myType);
 				mySerialization.ingredients.Add(my_Prio);
 
 				InitializeIngredientDisplayOfType(Ingr_Type.Priority);
 			}
+			theCreator.Save();
+			print ("## SAVED ##");
+			theCreator.Load();
+			print ("## LOADED ##");
 		}
 
 	}
 
 	void InitializeIngredientDisplayOfType (Ingr_Type thisIngrType) {
+		print ("Begin display...");
 		switch (thisIngrType) {
 		case Ingr_Type.Priority: 
 			GameObject newSuper_Prio = new GameObject("d_Ingr_Prio", typeof(SupervisePriority));
-			//SupervisePriority newSuper_Prio = new SupervisePriority();
 			newSuper_Prio.transform.parent = this.transform;
 
-			newSuper_Prio.GetComponent<SupervisePriority>().SelectedNodeDisplay(this);//Delete this soon
+			newSuper_Prio.GetComponent<SupervisePriority>().SelectedNodeDisplay(this); //Delete this soon
 
 			break;
 		case Ingr_Type.IsComplete:
 			GameObject newSuper_Comp = new GameObject("d_Ingr_Comp", typeof(SuperviseCompleted));
-			//SuperviseCompleted newSuper_Comp = new SuperviseCompleted();
 			newSuper_Comp.gameObject.transform.parent = this.transform;
 
-			newSuper_Comp.GetComponent<SuperviseCompleted>().SelectedNodeDisplay(this);//Delete this soon
+			newSuper_Comp.GetComponent<SuperviseCompleted>().SelectedNodeDisplay(this); //Delete this soon
 
 			break;
 		default:
@@ -299,6 +300,17 @@ public class DragNode : MonoBehaviour
 				 a separate list, remember, from the one in the serialized object. */
 			}
 		}
+	}
+
+	public Ingredient GetIngredientFromSerialized (Ingr_Type searchType) {
+		foreach (Ingredient i in mySerialization.ingredients) {
+			if(i.myType == searchType) {
+				print ("Found the type yo'ure looking for");
+				return i;
+			}
+		}
+		print ("This is not the type you are looking for.");
+		return null;
 	}
 
 
