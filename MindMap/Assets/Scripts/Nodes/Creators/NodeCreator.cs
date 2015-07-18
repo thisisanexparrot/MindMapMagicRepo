@@ -24,7 +24,7 @@ public class NodeCreator : MonoBehaviour {
 	public List<ConnectionSerialized> tempConnectionList;
 	public List<DragNode> allNodes;
 
-	private dbAccess graphDatabase;
+	public dbAccess graphDatabase;
 	public string graphDatabaseName = "CentralGraphDatabase.sqdb";
 	public string nodeTableName = "NodeTable";
 
@@ -70,7 +70,15 @@ public class NodeCreator : MonoBehaviour {
 			int myIDNumber = nextNode.idNumber;
 			string myIDString = myIDNumber.ToString();
 			graphDatabase.UpdateColumn(nodeTableName, "Name", nextNode.titleName, "string", "idNumber", "=", myIDString);
+			graphDatabase.UpdateColumn(nodeTableName, "Description", nextNode.description, "string", "idNumber", "=", myIDString);
+			graphDatabase.UpdateColumn(nodeTableName, "locationX", nextNode.locationX.ToString(), "float", "idNumber", "=", myIDString);
+			graphDatabase.UpdateColumn(nodeTableName, "locationY", nextNode.locationY.ToString(), "float", "idNumber", "=", myIDString);
+			graphDatabase.UpdateColumn(nodeTableName, "locationZ", nextNode.locationZ.ToString(), "float", "idNumber", "=", myIDString);
 
+			
+			
+			
+			
 			//List<string> myStrings = graphDatabase.SingleSelectWhere(nodeTableName, "Name", "idNumber", "=", myIDString);
 			//if(myStrings.Count < 1) {
 				//print ("____" + nextNode.titleName + "_____ does not exist in the table yet");

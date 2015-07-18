@@ -39,6 +39,7 @@ public class TitleHandler : MonoBehaviour {
 	public void UpdateTitle(string newTitle) {
 		title = newTitle;
 		parentNode.mySerialization.titleName = title;
+		parentNode.UpdateMyTitle (title);
 		parentNode.theCreator.Save ();
 	}
 

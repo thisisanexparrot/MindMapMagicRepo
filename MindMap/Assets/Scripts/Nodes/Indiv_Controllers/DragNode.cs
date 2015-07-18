@@ -115,6 +115,10 @@ public class DragNode : MonoBehaviour
 		}
 	}
 
+	public void UpdateMyTitle (string newTitle) {
+		theCreator.graphDatabase.UpdateColumn(theCreator.nodeTableName, "Name", newTitle, "string", "idNumber", "=", mySerialization.idNumber.ToString());
+	}
+
 	void SetMovementLock (bool newIsLocked) {
 		movementIsLocked = newIsLocked;
 	}
