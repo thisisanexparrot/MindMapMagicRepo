@@ -65,7 +65,7 @@ public class DragNode : MonoBehaviour
 		mainCamera = Camera.main;
 		CreateIngredientsList ();
 
-		print (">>>> number of ingredients: "+ mySerialization.ingredients.Count);
+		//print (">>>> number of ingredients: "+ mySerialization.ingredients.Count);
 
 		foreach (Ingredient i in mySerialization.ingredients) {
 			InitializeIngredientDisplayOfType(i.myType);

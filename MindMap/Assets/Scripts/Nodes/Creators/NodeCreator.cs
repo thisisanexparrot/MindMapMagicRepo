@@ -65,6 +65,30 @@ public class NodeCreator : MonoBehaviour {
 		}
 	}
 
+	void TransferToDatabase () {
+		foreach (NodeSerialized nextNode in localNodeList) {
+			int myIDNumber = nextNode.idNumber;
+			string myIDString = myIDNumber.ToString();
+			graphDatabase.UpdateColumn(nodeTableName, "Name", nextNode.titleName, "string", "idNumber", "=", myIDString);
+
+			//List<string> myStrings = graphDatabase.SingleSelectWhere(nodeTableName, "Name", "idNumber", "=", myIDString);
+			//if(myStrings.Count < 1) {
+				//print ("____" + nextNode.titleName + "_____ does not exist in the table yet");
+				/*string[] myValues = new string[6];
+				myValues[0] = myIDString;
+				myValues[1] = nextNode.titleName;
+				myValues[2] = nextNode.description;
+				myValues[3] = nextNode.locationX;//.ToString();
+				myValues[4] = nextNode.locationY;//.ToString();
+				myValues[5] = nextNode.locationZ;//.ToString();*/
+				//graphDatabase.InsertIntoSingle(nodeTableName, "idNumber", myIDString);
+			//}
+			//else {
+			//	print ("NOPE, IT EXISTS!");
+			//}
+		}
+	}
+
 
 	/********* CREATE **********/
 	/* Create & Remove individual nodes for storage */
@@ -132,6 +156,7 @@ public class NodeCreator : MonoBehaviour {
 
 			LoadNodesFromSerialized ();
 			connectionCentralHub.LoadConnectionsFromFile(tempConnectionList);
+			TransferToDatabase();
 		}
 		else
 		{

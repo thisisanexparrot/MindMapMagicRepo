@@ -148,4 +148,41 @@ class dbAccess {
         dbcon.Close(); 
         dbcon = null; 
     }
+    
+    /****** MY FUNCTIONS ********/
+    function UpdateColumn(tableName : String, 
+    					  column : String, 
+    					  newInserted : String,
+    					  newInsertedType : String, 
+    					  wChecker : String, 
+    					  wPar : String, 
+    					  wValue : String) {
+    	var newInsertedCasted;
+    	switch(newInsertedType) {
+    		case "string": 
+    			Debug.Log("string TYPE");
+    			newInsertedCasted = newInserted;
+    			break;
+    		case "int":
+    		    Debug.Log("int TYPE");
+    			newInsertedCasted = parseInt(newInserted);
+    			break;
+    		case "float":
+    		    Debug.Log("float TYPE");
+    			newInsertedCasted = parseFloat(newInserted);
+    			break;
+    		default:
+    			Debug.Log("INVALID TYPE");
+    			break;
+    	}
+    	var query : String;
+    	query = "UPDATE " + tableName + " SET " + column + " = '" + newInsertedCasted + "' WHERE " + wChecker + wPar + wValue;
+    	Debug.Log(query);
+    	
+    	dbcmd = dbcon.CreateCommand();
+        dbcmd.CommandText = query; 
+        reader = dbcmd.ExecuteReader();
+
+    	
+    }
 }
