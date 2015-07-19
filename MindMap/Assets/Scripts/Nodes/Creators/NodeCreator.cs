@@ -12,6 +12,10 @@ public class NodeCreator : MonoBehaviour {
 
 	public static NodeCreator creator;
 	public static ConnectionHub connectionCentralHub;
+	public static string[] baseNodeTableColumnNames = new string[6] {"idNumber","Name","Description","locationX","locationY","locationZ"}; 
+	public static string[] baseNodeTableColumnTypes = new string[6] {"int","text","text","float","float","float"}; 
+	public string defaultName = "New Node";
+	public string defaultDesc = "New description";
 
 	public delegate void InitLoad ();
 	public static event InitLoad LoadCompleted;
@@ -47,11 +51,13 @@ public class NodeCreator : MonoBehaviour {
 			DontDestroyOnLoad(connectionCentralHub);
 		}
 
+
 		graphDatabase = new dbAccess();
-		graphDatabase.OpenDB(graphDatabaseName);
+		DatabaseUtils.OpenDatabase_DB (graphDatabase, graphDatabaseName);
 		string[] columnNames = new string[6] {"idNumber","Name","Description","locationX","locationY","locationZ"};
-		string[] columnValues = new string[6] {"int","text","text","float","float","float"};
-		graphDatabase.CreateTable(nodeTableName,columnNames,columnValues);
+		string[] columnTypes = new string[6] {"int","text","text","float","float","float"};
+		DatabaseUtils.CreateTable_DB (graphDatabase, graphDatabaseName, columnNames, columnTypes);
+		//graphDatabase.CreateTable(nodeTableName,columnNames,columnValues);
 		print ("Awake!");
 
 	}
@@ -74,26 +80,6 @@ public class NodeCreator : MonoBehaviour {
 			graphDatabase.UpdateColumn(nodeTableName, "locationX", nextNode.locationX.ToString(), "float", "idNumber", "=", myIDString);
 			graphDatabase.UpdateColumn(nodeTableName, "locationY", nextNode.locationY.ToString(), "float", "idNumber", "=", myIDString);
 			graphDatabase.UpdateColumn(nodeTableName, "locationZ", nextNode.locationZ.ToString(), "float", "idNumber", "=", myIDString);
-
-			
-			
-			
-			
-			//List<string> myStrings = graphDatabase.SingleSelectWhere(nodeTableName, "Name", "idNumber", "=", myIDString);
-			//if(myStrings.Count < 1) {
-				//print ("____" + nextNode.titleName + "_____ does not exist in the table yet");
-				/*string[] myValues = new string[6];
-				myValues[0] = myIDString;
-				myValues[1] = nextNode.titleName;
-				myValues[2] = nextNode.description;
-				myValues[3] = nextNode.locationX;//.ToString();
-				myValues[4] = nextNode.locationY;//.ToString();
-				myValues[5] = nextNode.locationZ;//.ToString();*/
-				//graphDatabase.InsertIntoSingle(nodeTableName, "idNumber", myIDString);
-			//}
-			//else {
-			//	print ("NOPE, IT EXISTS!");
-			//}
 		}
 	}
 
@@ -101,6 +87,16 @@ public class NodeCreator : MonoBehaviour {
 	/********* CREATE **********/
 	/* Create & Remove individual nodes for storage */
 	public void SpawnNewNode () {
+		string defaultPos = 0.0f.ToString ();
+		string[] firstValues = new string[] {saveNodesList.nodeCounter.ToString(), defaultName, defaultDesc, defaultPos, defaultPos, defaultPos};
+		print ("SPAWNING!");
+		DatabaseUtils.InsertIntoSpecific_DB(graphDatabase, 
+		                                    nodeTableName, 
+		                                    baseNodeTableColumnNames, 
+		                                    firstValues, 
+		                                    baseNodeTableColumnTypes);
+		print ("DONE SPAWNING!");
+
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
 		NodeSerialized newSerialized = CreateNewSerializeNode ();
@@ -108,9 +104,9 @@ public class NodeCreator : MonoBehaviour {
 		newNode.GetComponent<DragNode> ().InitializeNode (newSerialized, this, true);
 		saveNodesList.nodeCounter += 1;
 
-
-		Save ();
+		Save (); //*** SERI_MARK
 	}
+
 
 	NodeSerialized CreateNewSerializeNode () {
 		NodeSerialized newNode = new NodeSerialized ();
@@ -124,6 +120,7 @@ public class NodeCreator : MonoBehaviour {
 
 	public void RemoveNode (DragNode destroyThis) {
 		NodeSerialized destroyID = destroyThis.mySerialization;
+		DatabaseUtils.DeleteFromTableWhere_DB (graphDatabase, nodeTableName, "idNumber", "=", destroyThis.mySerialization.idNumber.ToString());
 		destroyThis.DestroyThisNode ();
 		localNodeList.Remove (destroyID);
 		Destroy (destroyThis.gameObject);
@@ -164,7 +161,7 @@ public class NodeCreator : MonoBehaviour {
 
 			LoadNodesFromSerialized ();
 			connectionCentralHub.LoadConnectionsFromFile(tempConnectionList);
-			TransferToDatabase();
+			//TransferToDatabase();
 		}
 		else
 		{

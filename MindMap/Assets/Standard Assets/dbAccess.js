@@ -85,6 +85,15 @@ class dbAccess {
         dbcmd.CommandText = query; // fill the command
         reader = dbcmd.ExecuteReader(); // execute command which returns a reader
     }
+    
+    function InsertIntoSpecificCaster (tableName : String, col : Array, values : Array, valueTypes : Array) {
+    	Debug.Log("CASTING!");
+    	var castedValues = new Array(values.length);
+    	for (var i = 0; i < values.length; i++) {
+    		castedValues[i] = CastFromString(values[i], valueTypes[i]);
+    	}
+    	InsertIntoSpecific(tableName, col, castedValues);
+    }
  
     function InsertIntoSpecific(tableName : String, col : Array, values : Array) { // Specific insert with col and values
         var query : String;
@@ -97,9 +106,18 @@ class dbAccess {
             query += ", " + values[i];
         }
         query += ")";
+        Debug.Log("Query: " + query);
         dbcmd = dbcon.CreateCommand();
         dbcmd.CommandText = query; 
         reader = dbcmd.ExecuteReader();
+    }
+    
+    function InsertIntoCaster (tableName : String, values : Array, valueTypes : Array) {
+    	var castedValues = new Array(values.length);
+    	for (var i = 0; i < values.length; i++) {
+    		castedValues[i] = CastFromString(values[i], valueTypes[i]);
+    	}
+    	InsertInto(tableName, castedValues);
     }
  
     function InsertInto(tableName : String, values : Array) { // basic Insert with just values
@@ -157,24 +175,8 @@ class dbAccess {
     					  wChecker : String, 
     					  wPar : String, 
     					  wValue : String) {
-    	var newInsertedCasted;
-    	switch(newInsertedType) {
-    		case "string": 
-    			Debug.Log("string TYPE");
-    			newInsertedCasted = newInserted;
-    			break;
-    		case "int":
-    		    Debug.Log("int TYPE");
-    			newInsertedCasted = parseInt(newInserted);
-    			break;
-    		case "float":
-    		    Debug.Log("float TYPE");
-    			newInsertedCasted = parseFloat(newInserted);
-    			break;
-    		default:
-    			Debug.Log("INVALID TYPE");
-    			break;
-    	}
+    	var newInsertedCasted = CastFromString(newInserted, newInsertedType);
+
     	var query : String;
     	query = "UPDATE " + tableName + " SET " + column + " = '" + newInsertedCasted + "' WHERE " + wChecker + wPar + wValue;
     	Debug.Log(query);
@@ -185,4 +187,52 @@ class dbAccess {
 
     	
     }
+    
+    function CastFromString(object : String,
+    						objectType : String) {
+    	 var newInsertedCasted;
+    	 switch(objectType) {
+    	 	case "string": 
+    			//Debug.Log("string TYPE");
+    			newInsertedCasted = object;
+    			break;
+    		case "text":
+    			newInsertedCasted = "'" + object + "'";
+    			break;
+    		case "int":
+    		    //Debug.Log("int TYPE");
+    			newInsertedCasted = parseInt(object);
+    			break;
+    		case "float":
+    		    //Debug.Log("float TYPE");
+    			newInsertedCasted = parseFloat(object);
+    			break;
+    		case "bool":
+    		   	//Debug.Log("bool TYPE");
+    			newInsertedCasted = object == "true";
+    			break;
+    		default:
+    			Debug.Log("INVALID TYPE: " + objectType);
+    			break;
+    	 }
+    	 return newInsertedCasted;
+    }
+    
+    function DeleteFromTableWhere(tableName : String,
+   							 	  wChecker : String, 
+    							  wPar : String, 
+    							  wValue : String) {
+    	var query : String;
+        query = "DELETE FROM " + tableName + " WHERE " + wChecker + wPar + wValue; 
+        dbcmd = dbcon.CreateCommand();
+        dbcmd.CommandText = query; 
+        reader = dbcmd.ExecuteReader();
+			  
+    }
+    							  
 }
+
+
+
+
+

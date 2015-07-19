@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Camera Movement\MouseOrbitImproved.cs" />
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\MoveCamera.cs" />
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\RotateCamera.cs" />
+     <Compile Include="Assets\Scripts\Database\DatabaseUtils.cs" />
      <Compile Include="Assets\Scripts\Database\TestDatabaseCSHarp.cs" />
      <Compile Include="Assets\Scripts\Global Controllers\TestURL.cs" />
      <Compile Include="Assets\Scripts\NodeEditor\DragPanel.cs" />

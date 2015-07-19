@@ -21,6 +21,11 @@ public class DragNode : MonoBehaviour
 	public NodeSerialized mySerialization;
 	public NodeCreator theCreator;
 
+	/***** Node Properties *****/
+	public string title;
+	public string description;
+	public int idNumber;
+
 	/***** Dragging variables *****/
 	public float scrollMultiplier;
 	private bool initIsClick;
@@ -116,7 +121,8 @@ public class DragNode : MonoBehaviour
 	}
 
 	public void UpdateMyTitle (string newTitle) {
-		theCreator.graphDatabase.UpdateColumn(theCreator.nodeTableName, "Name", newTitle, "string", "idNumber", "=", mySerialization.idNumber.ToString());
+		title = newTitle;
+		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
 	}
 
 	void SetMovementLock (bool newIsLocked) {
@@ -207,6 +213,10 @@ public class DragNode : MonoBehaviour
 		if (!mySerialization.isSelected) {
 			SetMaterial (previousMaterial);
 		}
+		print ("Stopped moving");
+		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationX", transform.position.x.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
+		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationY", transform.position.y.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
+		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationZ", transform.position.z.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
 	}
 
 	void StartMoving() {

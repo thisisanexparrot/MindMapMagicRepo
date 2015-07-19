@@ -1,12 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Standard Assets/dbAccess.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Nodes/Creators/NodeCreator.cs">
     <Files>
-      <File FileName="Assets/Standard Assets/dbAccess.js" Line="179" Column="88" />
-      <File FileName="Assets/Scripts/Database/TestDatabaseCSHarp.cs" Line="7" Column="1" />
-      <File FileName="Assets/Scripts/Database/ScriptThatUsesTheDatabase.js" Line="26" Column="28" />
-      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="88" Column="6" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="68" Column="5" />
+      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="51" Column="34" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="302" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/TitleHandler.cs" Line="42" Column="36" />
+      <File FileName="Assets/Standard Assets/dbAccess.js" Line="38" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
