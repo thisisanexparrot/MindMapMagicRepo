@@ -86,13 +86,8 @@ public class NodeCreator : MonoBehaviour {
 	/********* CREATE **********/
 	/* Create & Remove individual nodes for storage */
 	public void SpawnNewNode () {
-		print ("SPAWNING!");
-
-		float defaultPos = 0.0f;
 		GrandDatabase.IncrementIDCounter (DatabaseAccess.TableType.Node);
-		int newNodeID = GrandDatabase.GetCurrentIDCount (DatabaseAccess.TableType.Node);
-
-
+		int newNodeID = GrandDatabase.GetCurrentIDCount (DatabaseAccess.TableType.Node); //Increment counter, get next ID Number
 
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
@@ -104,8 +99,8 @@ public class NodeCreator : MonoBehaviour {
 		newNode.SetIDNumber (newNodeID);
 		newNode.SetName (defaultName, false);
 		newNode.SetDescription (defaultDesc, false);
-		newNode.transform.position = new Vector3 (defaultPos, defaultPos, defaultPos);
-//		newNode.theCreator = this;
+		newNode.transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
+		creator.GrandDatabase.SetNodePosition (newNodeID, transform.position.x, transform.position.y, transform.position.z);
 		newNode.mainCamera = Camera.main;
 
 		newNode.GetComponent<DragNode> ().InitializeNode (this, true);
