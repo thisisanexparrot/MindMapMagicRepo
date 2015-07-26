@@ -86,16 +86,38 @@ public class NodeCreator : MonoBehaviour {
 	/********* CREATE **********/
 	/* Create & Remove individual nodes for storage */
 	public void SpawnNewNode () {
-//		string defaultPos = 0.0f.ToString ();
-////		string[] firstValues = new string[] {saveNodesList.nodeCounter.ToString(), defaultName, defaultDesc, defaultPos, defaultPos, defaultPos};
-//		print ("SPAWNING!");
+		print ("SPAWNING!");
+
+		float defaultPos = 0.0f;
+		GrandDatabase.IncrementIDCounter (DatabaseAccess.TableType.Node);
+		int newNodeID = GrandDatabase.GetCurrentIDCount (DatabaseAccess.TableType.Node);
+
+
+
+		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
+		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
+		allNodes.Add (newNode);
+
+		//string[] firstValues = new string[] {newNodeID, defaultName, defaultDesc, defaultPos, defaultPos, defaultPos};
+		GrandDatabase.AddNewNodeToDatabase (newNodeID);
+
+		newNode.SetIDNumber (newNodeID);
+		newNode.SetName (defaultName, false);
+		newNode.SetDescription (defaultDesc, false);
+		newNode.transform.position = new Vector3 (defaultPos, defaultPos, defaultPos);
+//		newNode.theCreator = this;
+		newNode.mainCamera = Camera.main;
+
+		newNode.GetComponent<DragNode> ().InitializeNode (this, true);
+
+
 ////		DatabaseUtils.InsertIntoSpecific_DB(graphDatabase, 
 ////		                                    nodeTableName, 
 ////		                                    baseNodeTableColumnNames, 
 ////		                                    firstValues, 
 ////		                                    baseNodeTableColumnTypes);
-//		print ("DONE SPAWNING!");
-//
+		print ("DONE SPAWNING!");
+
 //		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 //		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
 //		NodeSerialized newSerialized = CreateNewSerializeNode ();
@@ -112,10 +134,10 @@ public class NodeCreator : MonoBehaviour {
 		allNodes.Add (newNode);
 
 		newNode.SetName (_name, true);
-		newNode.SetDescription (_description);
+		newNode.SetDescription (_description, true);
 		newNode.SetIDNumber (_idNumber);
 		newNode.transform.position = new Vector3 (_posX, _posY, _posZ);
-		newNode.theCreator = this;
+//		newNode.theCreator = this;
 		newNode.mainCamera = Camera.main;
 	}
 

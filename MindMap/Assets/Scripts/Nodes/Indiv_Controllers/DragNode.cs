@@ -22,7 +22,7 @@ public class DragNode : MonoBehaviour
 
 	/***** Pointers to controllers and save information *****/
 //	public NodeSerialized mySerialization;
-	public NodeCreator theCreator;
+//	public NodeCreator theCreator;
 
 	/***** Node Properties *****/
 	public string title;
@@ -59,25 +59,25 @@ public class DragNode : MonoBehaviour
 	/*****************/
 
 	/***** Initialization based on whether the button was clicked or dragged *****/
-//	public void InitializeNode (NodeSerialized newSerialize, NodeCreator creator, bool isNew) {
-//		previousMaterial = normalMaterial;
+	public void InitializeNode (NodeCreator creator, bool isNew) {
+		previousMaterial = normalMaterial;
 //		theCreator = creator;
 //		mySerialization = newSerialize;
-//		if (isNew) {
-//			StartMoving();
-//		} 
-//		else {
-//			StopMoving();
-//		}
-//		ResetOffset ();
-//		mainCamera = Camera.main;
+		if (isNew) {
+			StartMoving();
+		} 
+		else {
+			StopMoving();
+		}
+		ResetOffset ();
+		mainCamera = Camera.main;
 //		CreateIngredientsList ();
 //
 //		foreach (Ingredient i in mySerialization.ingredients) {
 //			InitializeIngredientDisplayOfType(i.myType);
 //			print (">>>> " + i.myType);
 //		}
-//	}
+	}
 
 //	void CreateIngredientsList () {
 //		if (mySerialization.ingredients == null) {
@@ -135,8 +135,13 @@ public class DragNode : MonoBehaviour
 //		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
 	}
 
-	public void SetDescription (string newDescription) {
+	public void SetDescription (string newDescription, bool firstLoad) {
 		description = newDescription;
+		if (!firstLoad) {
+			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+			db.SetStringInTable (db.tn_node, idNumber, DatabaseAccess.node_desc, newDescription);
+		}
+
 		//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
 	}
 
@@ -155,7 +160,7 @@ public class DragNode : MonoBehaviour
 
 	/***** Delete node functions *****/
 	public void RemoveNode(){
-		theCreator.RemoveNode (gameObject.GetComponent<DragNode> ());
+		NodeCreator.creator.RemoveNode (gameObject.GetComponent<DragNode> ());
 	}
 
 	public void DestroyThisNode () {
@@ -229,7 +234,7 @@ public class DragNode : MonoBehaviour
 //		if (!mySerialization.isSelected) {
 //			SetMaterial (previousMaterial);
 //		}
-		theCreator.GrandDatabase.SetNodePosition (idNumber, transform.position.x, transform.position.y, transform.position.z);
+		NodeCreator.creator.GrandDatabase.SetNodePosition (idNumber, transform.position.x, transform.position.y, transform.position.z);
 //		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationX", transform.position.x.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
 //		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationY", transform.position.y.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
 //		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationZ", transform.position.z.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());

@@ -120,9 +120,9 @@ public class DatabaseAccess {
 
 	/***** Populate nodes in NodeCreator from node table *****/
 	public void ReadNodesFromDatabase () {
-		_dbCommand=_dbConnection.CreateCommand();
+		_dbCommand = _dbConnection.CreateCommand();
 		_dbCommand.CommandText = "SELECT * FROM " + tn_node;
-		_dbReader=_dbCommand.ExecuteReader();
+		_dbReader = _dbCommand.ExecuteReader();
 
 		while(_dbReader.Read()) { 
 			int idNumber = (int)_dbReader.GetValue(0);
@@ -136,8 +136,17 @@ public class DatabaseAccess {
 	}
 
 	/***** Add newly created node to node table *****/
-	public void AddNewNodeToDatabase () {
-		//todo
+	public void AddNewNodeToDatabase (int initIDNumber) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "INSERT INTO " + tn_node + " ('" + node_idNumber + "') VALUES ('" + initIDNumber + "');";
+		_dbReader = _dbCommand.ExecuteReader ();
+
+		//        var query : String;
+		//        query = "INSERT INTO " + tableName + "(" + colName + ") " + "VALUES (" + value + ")";
+		//        dbcmd = dbcon.CreateCommand(); // create empty command
+		//        dbcmd.CommandText = query; // fill the command
+		//        reader = dbcmd.ExecuteReader(); // execute command which returns a reader
+
 	}
 
 	/***** Add newly created connection to connection table and two references to its nodes in the mid table *****/
@@ -204,31 +213,42 @@ public class DatabaseAccess {
 
 	/***** Increment ID counter for either Nodes or Connections in the Meta table *****/
 	public void IncrementIDCounter (TableType idType) {
-		string updatedColumn = "";
-		switch (idType) {
+		string updatedColumn = TableTypeToString (idType);
+		int counter = GetCurrentIDCount (idType);
+		counter++;
+		
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tn_meta + " SET " + updatedColumn + " = '" + counter + "';"; 
+		_dbReader = _dbCommand.ExecuteReader ();
+	}
+
+	public string TableTypeToString (TableType thisType) {
+		string myType = "";
+		switch (thisType) {
 		case TableType.Node:
-			updatedColumn = meta_nodeIDCounter;
+			myType = meta_nodeIDCounter;
 			break;
 		case TableType.Connection:
-			updatedColumn = meta_conIDCounter;
+			myType = meta_conIDCounter;
 			break;
 		default:
 			Debug.Log("Unknown ID Type");
 			break;
 		}
+		return myType;
+	}
 
+	/***** Get the current ID number count for the specified table type from the meta table *****/
+	public int GetCurrentIDCount (TableType idType) {
+		string whichColumn = TableTypeToString (idType);
+		
 		_dbCommand = _dbConnection.CreateCommand ();
-		_dbCommand.CommandText = "SELECT " + updatedColumn + " FROM " + tn_meta +";"; 
+		_dbCommand.CommandText = "SELECT " + whichColumn + " FROM " + tn_meta +";"; 
 		_dbReader = _dbCommand.ExecuteReader ();
 		
 		_dbReader.Read ();
 		int counter = (int)_dbReader.GetInt64 (0);
-		counter++;
-		
-		_dbCommand = _dbConnection.CreateCommand ();
-		_dbCommand.CommandText = "UPDATE " + tn_meta + " SET " + updatedColumn + " = '" + counter + "';"; 
-		
-		_dbReader = _dbCommand.ExecuteReader ();
+		return counter;
 	}
 
 

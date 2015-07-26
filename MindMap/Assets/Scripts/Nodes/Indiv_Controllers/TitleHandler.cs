@@ -31,8 +31,8 @@ public class TitleHandler : MonoBehaviour {
 	
 	public void SetParentNode(DragNode pNode) {
 		parentNode = pNode;
-		if (parentNode.theCreator != null) {
-		}
+//		if (NodeCreator.creator != null) {
+//		}
 	}
 
 	public void UpdateTitle(string newTitle) {
