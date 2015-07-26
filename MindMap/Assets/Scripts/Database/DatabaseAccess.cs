@@ -154,8 +154,10 @@ public class DatabaseAccess {
 		//todo
 	}
 
-	public void RemoveNodeFromDatabase () {
-		//todo
+	public void RemoveNodeFromDatabase (int removedIDNumber) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "DELETE FROM " + tn_node + " WHERE " + node_idNumber + " = '" + removedIDNumber + "';";
+		_dbReader = _dbCommand.ExecuteReader ();
 	}
 
 	public void RemoveConnectionFromDatabase () {

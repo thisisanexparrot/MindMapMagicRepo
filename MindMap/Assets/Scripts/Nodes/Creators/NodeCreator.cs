@@ -149,6 +149,7 @@ public class NodeCreator : MonoBehaviour {
 //		NodeSerialized destroyID = destroyThis.mySerialization;
 //		DatabaseUtils.DeleteFromTableWhere_DB (graphDatabase, nodeTableName, "idNumber", "=", destroyThis.mySerialization.idNumber.ToString());
 		destroyThis.DestroyThisNode ();
+		GrandDatabase.RemoveNodeFromDatabase (destroyThis.idNumber);
 //		localNodeList.Remove (destroyID);
 		Destroy (destroyThis.gameObject);
 //		Save ();
