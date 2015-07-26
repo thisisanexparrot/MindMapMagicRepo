@@ -17,8 +17,8 @@ public class NodeCreator : MonoBehaviour {
 	public string defaultName = "New Node";
 	public string defaultDesc = "New description";
 
-	public delegate void InitLoad ();
-	public static event InitLoad LoadCompleted;
+//	public delegate void InitLoad ();
+//	public static event InitLoad LoadCompleted;
 
 	public DragNode blankNodeTemplate;
 //	public NodeListAndSavedData saveNodesList;
@@ -30,7 +30,7 @@ public class NodeCreator : MonoBehaviour {
 
 //	public dbAccess graphDatabase;
 
-	DatabaseAccess GrandDatabase;
+	public DatabaseAccess GrandDatabase;
 
 	public string dbn_MainDatabase = "CentralGraphDatabase.sqdb";
 	public string tn_node = "NodeTable";
@@ -73,25 +73,25 @@ public class NodeCreator : MonoBehaviour {
 		string[] columnTypesMidTable = new string[2] {"int", "int"};
 
 		LoadFromDatabase ();
+//		LoadCompleted ();
 
 		
 //		DatabaseUtils.CreateTable_DB (graphDatabase, nodeTableName, columnNames, columnTypes);
 //		DatabaseUtils.CreateTable_DB (graphDatabase, connectionTableName, columnNamesConnects, columnTypesConnects);
 //		DatabaseUtils.CreateTable_DB (graphDatabase, midTableName, columnNamesMidTable, columnTypesMidTable);
 		//graphDatabase.CreateTable(nodeTableName,columnNames,columnValues);
-		print ("Awake!");
 
 	}
 
 	/* Broadcasts event of initial load */
 	void OnEnable () {
-		connectionCentralHub.InitializeConnectionHub ();
+//		connectionCentralHub.InitializeConnectionHub ();
 		//Load ();
 //		DatabaseUtils.LoadNodeTable_DB (graphDatabase, nodeTableName);
 		LoadFromDatabase ();
-		if (LoadCompleted != null) {
-			LoadCompleted ();
-		}
+//		if (LoadCompleted != null) {
+//			LoadCompleted ();
+//		}
 	}
 
 	/*void TransferToDatabase () {
@@ -139,6 +139,7 @@ public class NodeCreator : MonoBehaviour {
 		newNode.SetDescription (_description);
 		newNode.SetIDNumber (_idNumber);
 		newNode.transform.position = new Vector3 (_posX, _posY, _posZ);
+		newNode.theCreator = this;
 	}
 
 

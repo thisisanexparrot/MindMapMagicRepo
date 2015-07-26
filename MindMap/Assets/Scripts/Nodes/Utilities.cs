@@ -14,7 +14,7 @@ public class Utilities : MonoBehaviour {
 			}
 			nextParent = nextParent.transform.parent;
 		}
-	
+			
 		return parentNode;
 	}
 }

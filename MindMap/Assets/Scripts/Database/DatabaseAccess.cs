@@ -25,17 +25,13 @@ public class DatabaseAccess {
 		_dbCommand=_dbConnection.CreateCommand();
 		_dbCommand.CommandText = "SELECT * FROM NodeTable;";
 		_dbReader=_dbCommand.ExecuteReader();
-		
-		Debug.Log (_dbReader.FieldCount);
-		
+
 		//ArrayList readArray = new ArrayList();
 		while(_dbReader.Read()) { 
 			ArrayList lineArray = new ArrayList();
 			int idNumber = (int)_dbReader.GetValue(0);
 			string name = (string)_dbReader.GetValue(1);
 			string desc = (string)_dbReader.GetValue(2);
-
-			Debug.Log(_dbReader.GetValue(3) + " is of type: " + _dbReader.GetValue(3).GetType());
 			float posX = (float)((double)_dbReader.GetValue(3));
 			float posY = (float)((double)_dbReader.GetValue(4));
 			float posZ = (float)((double)_dbReader.GetValue(5));
@@ -55,6 +51,28 @@ public class DatabaseAccess {
 		//return databaseNodes;
 	}
 
+	public void SetNodePosition (string tableName, 
+	                             int idNumber, 
+	                             float newX, 
+	                             float newY, 
+	                             float newZ) {
+		_dbCommand=_dbConnection.CreateCommand();
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationX = '" + newX + "' WHERE " + "idNumber = " +idNumber;
+		_dbReader=_dbCommand.ExecuteReader();
+
+		_dbCommand=_dbConnection.CreateCommand();
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationY = '" + newY + "' WHERE " + "idNumber = " +idNumber;
+		_dbReader=_dbCommand.ExecuteReader();
+
+		_dbCommand=_dbConnection.CreateCommand();
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationZ = '" + newZ + "' WHERE " + "idNumber = " +idNumber;
+		_dbReader=_dbCommand.ExecuteReader();
+
+
+
+	}
+
+	//    	query = "UPDATE " + tableName + " SET " + column + " = '" + newInsertedCasted + "' WHERE " + wChecker + wPar + wValue;
 
 	
 }

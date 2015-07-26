@@ -8,26 +8,38 @@ public class TitleHandler : MonoBehaviour {
 
 
 	void OnEnable () {
-		NodeCreator.LoadCompleted += LoadTitleFromSave;
+		//NodeCreator.LoadCompleted += LoadTitleFromSave;
+		DragNode.NameWasUpdated += UpdateNameField;
 		if (parentNode == null) {
 			SetParentNode(Utilities.GetParentNode(gameObject));
 		}
 	}
 
 	void OnDisable () {
-		NodeCreator.LoadCompleted -= LoadTitleFromSave;
+		DragNode.NameWasUpdated -= UpdateNameField;
+		//NodeCreator.LoadCompleted -= LoadTitleFromSave;
 	}
 
-	public void LoadTitleFromSave () {
+	public void UpdateNameField (string newName) {
 		if (parentNode) {
-//			string savedText = parentNode.mySerialization.titleName;
-//			gameObject.GetComponent<InputField>().text = savedText;
+			gameObject.GetComponent<InputField>().text = parentNode.title;
 		}
 	}
+
+//	public void LoadTitleFromSave (){//string newTitle) {
+//		Debug.Log ("loading from save...");
+//		if (parentNode) {
+//			Debug.Log("Parent node exists: " + parentNode.name);
+////			string savedText = parentNode.mySerialization.titleName;
+//			gameObject.GetComponent<InputField>().text = parentNode.name;
+//		}
+//	}
 
 	public void DoneEditing () {
 		UpdateTitle (gameObject.GetComponent<InputField> ().textComponent.text);
 	}
+
+
 
 	public void SetParentNode(DragNode pNode) {
 		parentNode = pNode;
