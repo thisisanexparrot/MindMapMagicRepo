@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Camera Movement\MouseOrbitImproved.cs" />
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\MoveCamera.cs" />
      <Compile Include="Assets\Scripts\Camera Movement\[Deprecated]\RotateCamera.cs" />
+     <Compile Include="Assets\Scripts\Database\DatabaseAccess.cs" />
      <Compile Include="Assets\Scripts\Database\DatabaseUtils.cs" />
      <Compile Include="Assets\Scripts\Database\TestDatabaseCSHarp.cs" />
      <Compile Include="Assets\Scripts\Global Controllers\TestURL.cs" />
@@ -83,6 +84,12 @@
  </Reference>
  <Reference Include="SQLite4Unity3d">
  <HintPath>/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Assets/Plugins/SQLite4Unity3d.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Data">
+ <HintPath>/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Assets/Plugins/System.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="Mono.Data.SqliteClient 1">
+ <HintPath>/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Assets/Plugins/Mono.Data.SqliteClient 1.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

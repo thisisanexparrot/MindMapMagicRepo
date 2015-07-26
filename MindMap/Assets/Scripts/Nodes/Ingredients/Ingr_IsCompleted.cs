@@ -13,12 +13,12 @@ public class SuperviseCompleted : MonoBehaviour, ISuperviseIngredient {
 	public void SelectedNodeDisplay (DragNode selectedNode) {//, Ingredient i) {
 		//Ingr_IsCompleted ic_i = (Ingr_IsCompleted)i;
 		print ("Displaying isCompleted here!");
-		Ingr_IsCompleted myIngrCompleted = (Ingr_IsCompleted) selectedNode.GetIngredientFromSerialized (Ingr_Type.IsComplete);
-		if (myIngrCompleted.isComplete) {
-			print ("It's done!");
-			//selectedNode.GetComponent<Renderer>().material
-		} else {
-			print ("Task is not yet completed.");
-		}
+//		Ingr_IsCompleted myIngrCompleted = (Ingr_IsCompleted) selectedNode.GetIngredientFromSerialized (Ingr_Type.IsComplete);
+//		if (myIngrCompleted.isComplete) {
+//			print ("It's done!");
+//			//selectedNode.GetComponent<Renderer>().material
+//		} else {
+//			print ("Task is not yet completed.");
+//		}
 	}
 }

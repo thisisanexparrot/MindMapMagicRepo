@@ -13,7 +13,7 @@ public class DragConnection : MonoBehaviour {
 	public DragNode node1;
 	public DragNode node2;
 
-	public ConnectionSerialized mySerialization;
+//	public ConnectionSerialized mySerialization;
 	public LineRenderer myLine;
 
 
@@ -35,21 +35,21 @@ public class DragConnection : MonoBehaviour {
 		ConnectionSelectedUpdate (this);
 	}
 
-	public void SetMySerialization (ConnectionSerialized cs) {
-		mySerialization = cs;
-	}
-
-	public void CreateMySerialization (DragNode origin, DragNode endpoint) {
-		mySerialization = new ConnectionSerialized ();
-		mySerialization.nodes = new List<NodeSerialized> ();
-		mySerialization.nodes.Add (origin.mySerialization);
-		mySerialization.nodes.Add (endpoint.mySerialization);
-		mySerialization.thickness = 0.05f;
-		mySerialization.isVisible = true;
-		mySerialization.isBold = false;
-		mySerialization.label = "New Connection";
-		endpoint.theCreator.Save ();
-	}
+//	public void SetMySerialization (ConnectionSerialized cs) {
+//		mySerialization = cs;
+//	}
+//
+//	public void CreateMySerialization (DragNode origin, DragNode endpoint) {
+//		mySerialization = new ConnectionSerialized ();
+//		mySerialization.nodes = new List<NodeSerialized> ();
+//		mySerialization.nodes.Add (origin.mySerialization);
+//		mySerialization.nodes.Add (endpoint.mySerialization);
+//		mySerialization.thickness = 0.05f;
+//		mySerialization.isVisible = true;
+//		mySerialization.isBold = false;
+//		mySerialization.label = "New Connection";
+//		endpoint.theCreator.Save ();
+//	}
 
 	void OnEnable () {
 		DragNode.NodeSelectionUpdate += UpdatePosition;

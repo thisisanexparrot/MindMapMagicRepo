@@ -1,15 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Nodes/Creators/NodeCreator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Database/DatabaseAccess.cs">
     <Files>
-      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="51" Column="34" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="302" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/TitleHandler.cs" Line="42" Column="36" />
-      <File FileName="Assets/Standard Assets/dbAccess.js" Line="38" Column="27" />
+      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="32" Column="62" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/TitleHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets/Standard Assets/dbAccess.js" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Database/DatabaseUtils.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/ConnectionCollide.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Serialized/NodeSerialized.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Creators/ConnectionHub.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Serialized/NodeListAndSavedData.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/NodeEditor/EditorDisplay.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Serialized/ConnectionSerialized.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Database/TestDatabaseCSHarp.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Database/DatabaseAccess.cs" Line="12" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint enabled="false" file="/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Assets/Scripts/Nodes/Creators/NodeCreator.cs" line="164" />
+      <Breakpoint enabled="false" file="/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Assets/Scripts/Nodes/Creators/NodeCreator.cs" line="186" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

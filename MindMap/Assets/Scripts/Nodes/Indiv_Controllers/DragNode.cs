@@ -18,7 +18,7 @@ public class DragNode : MonoBehaviour
 	public static event NodeDestroyed NodeDestroyedUpdate;
 
 	/***** Pointers to controllers and save information *****/
-	public NodeSerialized mySerialization;
+//	public NodeSerialized mySerialization;
 	public NodeCreator theCreator;
 
 	/***** Node Properties *****/
@@ -56,36 +56,33 @@ public class DragNode : MonoBehaviour
 	/*****************/
 
 	/***** Initialization based on whether the button was clicked or dragged *****/
-	public void InitializeNode (NodeSerialized newSerialize, NodeCreator creator, bool isNew) {
-		previousMaterial = normalMaterial;
-		theCreator = creator;
-		mySerialization = newSerialize;
-		if (isNew) {
-			StartMoving();
-		} 
-		else {
-			StopMoving();
-		}
-		ResetOffset ();
-		mainCamera = Camera.main;
-		CreateIngredientsList ();
+//	public void InitializeNode (NodeSerialized newSerialize, NodeCreator creator, bool isNew) {
+//		previousMaterial = normalMaterial;
+//		theCreator = creator;
+//		mySerialization = newSerialize;
+//		if (isNew) {
+//			StartMoving();
+//		} 
+//		else {
+//			StopMoving();
+//		}
+//		ResetOffset ();
+//		mainCamera = Camera.main;
+//		CreateIngredientsList ();
+//
+//		foreach (Ingredient i in mySerialization.ingredients) {
+//			InitializeIngredientDisplayOfType(i.myType);
+//			print (">>>> " + i.myType);
+//		}
+//	}
 
-		//print (">>>> number of ingredients: "+ mySerialization.ingredients.Count);
-
-		foreach (Ingredient i in mySerialization.ingredients) {
-			InitializeIngredientDisplayOfType(i.myType);
-			print (">>>> " + i.myType);
-		}
-		//TO DO: cycle through ingredients list and initialize here
-	}
-
-	void CreateIngredientsList () {
-		if (mySerialization.ingredients == null) {
-			print ("No list yet");
-			mySerialization.ingredients = new List<Ingredient>();
-		}
-		//print ("Ingredients list added successfully");
-	}
+//	void CreateIngredientsList () {
+//		if (mySerialization.ingredients == null) {
+//			print ("No list yet");
+//			mySerialization.ingredients = new List<Ingredient>();
+//		}
+//		//print ("Ingredients list added successfully");
+//	}
 
 	/***** Update based on whether or not node is moving/clicked *****/
 	void Update () {
@@ -103,27 +100,37 @@ public class DragNode : MonoBehaviour
 
 		if (Input.GetKeyDown (KeyCode.T)) {
 			print ("HERE ARE YOUR INGREDIENTS: ");
-			foreach(Ingredient ingr in mySerialization.ingredients) {
-				print (ingr.myType);
-			}
+//			foreach(Ingredient ingr in mySerialization.ingredients) {
+//				print (ingr.myType);
+//			}
 		}
 		if (isBeingMoved) {
 			DragNodeInSpace();
 			CheckMoveZSpace ();
 		}
-		if (Input.GetMouseButtonUp (0) && mySerialization.isSelected) {
-			StopMoving();
-		}
+//		if (Input.GetMouseButtonUp (0) && mySerialization.isSelected) {
+//			StopMoving();
+//		}
 		if (mainCamera) {
 			transform.LookAt (transform.position + mainCamera.transform.rotation * Vector3.forward,
 			                 mainCamera.transform.rotation * Vector3.up);
 		}
 	}
 
-	public void UpdateMyTitle (string newTitle) {
-		title = newTitle;
-		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
+	public void SetIDNumber (int newIDNumber) {
+		idNumber = newIDNumber;
 	}
+
+	public void SetName (string newTitle) {
+		title = newTitle;
+//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
+	}
+
+	public void SetDescription (string newDescription) {
+		description = newDescription;
+		//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
+	}
+
 
 	void SetMovementLock (bool newIsLocked) {
 		movementIsLocked = newIsLocked;
@@ -192,9 +199,9 @@ public class DragNode : MonoBehaviour
 	}
 	
 	public void OnMouseExit () {
-		if (!mySerialization.isSelected) {
-			SetMaterial (normalMaterial);
-		}
+//		if (!mySerialization.isSelected) {
+//			SetMaterial (normalMaterial);
+//		}
 	}
 
 	public void SetMaterial (Material nextMaterial) {
@@ -205,24 +212,24 @@ public class DragNode : MonoBehaviour
 	/***** Reset movement information *****/
 	void StopMoving () {
 		isBeingMoved = false;
-		theCreator.Vector3ToFloats (mySerialization, transform.position);
-		mySerialization.isSelected = false;
+//		theCreator.Vector3ToFloats (mySerialization, transform.position);
+//		mySerialization.isSelected = false;
 
-		theCreator.Save ();
+//		theCreator.Save ();
 		NodeSelectionUpdate (false, this);
-		if (!mySerialization.isSelected) {
-			SetMaterial (previousMaterial);
-		}
+//		if (!mySerialization.isSelected) {
+//			SetMaterial (previousMaterial);
+//		}
 		print ("Stopped moving");
-		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationX", transform.position.x.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
-		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationY", transform.position.y.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
-		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationZ", transform.position.z.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
+//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationX", transform.position.x.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
+//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationY", transform.position.y.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
+//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationZ", transform.position.z.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
 	}
 
 	void StartMoving() {
 		if (!movementIsLocked && !doubleClicked) {
 			isBeingMoved = true;
-			mySerialization.isSelected = true;
+//			mySerialization.isSelected = true;
 			NodeSelectionUpdate (true, this);
 			SetMaterial (selectedMaterial);
 		}
@@ -242,37 +249,37 @@ public class DragNode : MonoBehaviour
 	}
 
 	/*****  Add an ingredient *****/
-	public void AddNewIngredientOfType (Ingr_Type newIngrType) {
-		if(!IngredientExists(newIngrType)) {
-			if (newIngrType == Ingr_Type.IsComplete) {
-				print ("New type of IsComplete");
-				Ingr_IsCompleted my_IC = new Ingr_IsCompleted();
-				my_IC.myType = Ingr_Type.IsComplete;
-				print ("TYPE: " + my_IC.myType);
-				mySerialization.ingredients.Add(my_IC);
-				mySerialization.ingredients[0].myType = Ingr_Type.IsComplete;
-				print ("SERI TYPE: " + mySerialization.ingredients[0].myType);
-
-				InitializeIngredientDisplayOfType(Ingr_Type.IsComplete);
-				//initialize the objct of type and display
-			} 
-
-			else if (newIngrType == Ingr_Type.Priority) {
-				print ("New type of Priority");
-				Ingr_Priority my_Prio = new Ingr_Priority();
-				my_Prio.myType = Ingr_Type.Priority;
-				print ("TYPE: " + my_Prio.myType);
-				mySerialization.ingredients.Add(my_Prio);
-
-				InitializeIngredientDisplayOfType(Ingr_Type.Priority);
-			}
-			theCreator.Save();
-			print ("## SAVED ##");
-			theCreator.Load();
-			print ("## LOADED ##");
-		}
-
-	}
+//	public void AddNewIngredientOfType (Ingr_Type newIngrType) {
+//		if(!IngredientExists(newIngrType)) {
+//			if (newIngrType == Ingr_Type.IsComplete) {
+//				print ("New type of IsComplete");
+//				Ingr_IsCompleted my_IC = new Ingr_IsCompleted();
+//				my_IC.myType = Ingr_Type.IsComplete;
+//				print ("TYPE: " + my_IC.myType);
+//				mySerialization.ingredients.Add(my_IC);
+//				mySerialization.ingredients[0].myType = Ingr_Type.IsComplete;
+//				print ("SERI TYPE: " + mySerialization.ingredients[0].myType);
+//
+//				InitializeIngredientDisplayOfType(Ingr_Type.IsComplete);
+//				//initialize the objct of type and display
+//			} 
+//
+//			else if (newIngrType == Ingr_Type.Priority) {
+//				print ("New type of Priority");
+//				Ingr_Priority my_Prio = new Ingr_Priority();
+//				my_Prio.myType = Ingr_Type.Priority;
+//				print ("TYPE: " + my_Prio.myType);
+//				mySerialization.ingredients.Add(my_Prio);
+//
+//				InitializeIngredientDisplayOfType(Ingr_Type.Priority);
+//			}
+////			theCreator.Save();
+//			print ("## SAVED ##");
+////			theCreator.Load();
+//			print ("## LOADED ##");
+//		}
+//
+//	}
 
 	void InitializeIngredientDisplayOfType (Ingr_Type thisIngrType) {
 		print ("Begin display...");
@@ -296,36 +303,36 @@ public class DragNode : MonoBehaviour
 		}
 	}
 
-	bool IngredientExists (Ingr_Type thisIngrType) {
-		foreach (Ingredient ingNext in mySerialization.ingredients) {
-			if(ingNext.myType == thisIngrType) {
-				print ("Nope, already exists for this node.");
-				return true;
-			}
-		}
-		return false;
-	}
+//	bool IngredientExists (Ingr_Type thisIngrType) {
+//		foreach (Ingredient ingNext in mySerialization.ingredients) {
+//			if(ingNext.myType == thisIngrType) {
+//				print ("Nope, already exists for this node.");
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
-	public void DisplayIngredientsOnSelect () {
-		if (mySerialization.ingredients != null) {
-			foreach(Ingredient i in mySerialization.ingredients) {
-				/* We should create a new instance of each type of ingredient from the new classes and parent it to the node if there isn't one there already. we should then run
-				 the display method to show some visible effect. this visible effect should be edited via that instance. These instances should perhaps be kept in a list here on this node; 
-				 a separate list, remember, from the one in the serialized object. */
-			}
-		}
-	}
+//	public void DisplayIngredientsOnSelect () {
+//		if (mySerialization.ingredients != null) {
+//			foreach(Ingredient i in mySerialization.ingredients) {
+//				/* We should create a new instance of each type of ingredient from the new classes and parent it to the node if there isn't one there already. we should then run
+//				 the display method to show some visible effect. this visible effect should be edited via that instance. These instances should perhaps be kept in a list here on this node; 
+//				 a separate list, remember, from the one in the serialized object. */
+//			}
+//		}
+//	}
 
-	public Ingredient GetIngredientFromSerialized (Ingr_Type searchType) {
-		foreach (Ingredient i in mySerialization.ingredients) {
-			if(i.myType == searchType) {
-				print ("Found the type yo'ure looking for");
-				return i;
-			}
-		}
-		print ("This is not the type you are looking for.");
-		return null;
-	}
+//	public Ingredient GetIngredientFromSerialized (Ingr_Type searchType) {
+//		foreach (Ingredient i in mySerialization.ingredients) {
+//			if(i.myType == searchType) {
+//				print ("Found the type yo'ure looking for");
+//				return i;
+//			}
+//		}
+//		print ("This is not the type you are looking for.");
+//		return null;
+//	}
 
 
 

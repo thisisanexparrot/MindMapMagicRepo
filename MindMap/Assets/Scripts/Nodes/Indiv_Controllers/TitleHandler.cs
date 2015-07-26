@@ -20,8 +20,8 @@ public class TitleHandler : MonoBehaviour {
 
 	public void LoadTitleFromSave () {
 		if (parentNode) {
-			string savedText = parentNode.mySerialization.titleName;
-			gameObject.GetComponent<InputField>().text = savedText;
+//			string savedText = parentNode.mySerialization.titleName;
+//			gameObject.GetComponent<InputField>().text = savedText;
 		}
 	}
 
@@ -32,15 +32,15 @@ public class TitleHandler : MonoBehaviour {
 	public void SetParentNode(DragNode pNode) {
 		parentNode = pNode;
 		if (parentNode.theCreator != null) {
-			parentNode.theCreator.Save ();
+//			parentNode.theCreator.Save ();
 		}
 	}
 
 	public void UpdateTitle(string newTitle) {
 		title = newTitle;
-		parentNode.mySerialization.titleName = title;
-		parentNode.UpdateMyTitle (title);
-		parentNode.theCreator.Save ();
+//		parentNode.mySerialization.titleName = title;
+		parentNode.SetName (title);
+//		parentNode.theCreator.Save ();
 	}
 
 }

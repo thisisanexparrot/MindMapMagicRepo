@@ -26,7 +26,7 @@ public class EditorDisplay : MonoBehaviour {
 
 	/***** Update which node/connection is currently being edited *****/
 	void DisplayConnectionInfoEditor (DragConnection thisConnection) {
-		title.text = thisConnection.mySerialization.label;
+//		title.text = thisConnection.mySerialization.label;
 		description.text = "Description editing is not available for connections at this time";
 
 		currentlyEditedNode = null;
@@ -34,33 +34,33 @@ public class EditorDisplay : MonoBehaviour {
 	}
 
 	void DisplayNodeInfoInEditor (bool isOn, DragNode thisNode) {
-		title.text = thisNode.mySerialization.titleName;
-		description.text = thisNode.mySerialization.description;
+//		title.text = thisNode.mySerialization.titleName;
+//		description.text = thisNode.mySerialization.description;
 
 		currentlyEditedConnection = null;
 		currentlyEditedNode = thisNode;
-		currentlyEditedNode.DisplayIngredientsOnSelect ();
+//		currentlyEditedNode.DisplayIngredientsOnSelect ();
 	}
 
 	/***** Edit text in Editor window *****/
 	public void EditorCompleteTitleEdit () {
 		if (currentlyEditedNode != null) {
-			currentlyEditedNode.mySerialization.titleName = title.text;
+//			currentlyEditedNode.mySerialization.titleName = title.text;
 			InputField[] fields = currentlyEditedNode.GetComponentsInChildren<InputField>();
 			foreach(InputField field in fields) {
 				field.text = title.text;
 			}
-			currentlyEditedNode.theCreator.Save ();
+//			currentlyEditedNode.theCreator.Save ();
 		} else if (currentlyEditedConnection != null) {
-			currentlyEditedConnection.mySerialization.label = title.text;
-			currentlyEditedConnection.node1.theCreator.Save();
+//			currentlyEditedConnection.mySerialization.label = title.text;
+//			currentlyEditedConnection.node1.theCreator.Save();
 		}
 	}
 
 	public void EditorCompleteDescriptionEdit () {
 		if (currentlyEditedNode != null) {
-			currentlyEditedNode.mySerialization.description = description.text;
-			currentlyEditedNode.theCreator.Save ();
+//			currentlyEditedNode.mySerialization.description = description.text;
+//			currentlyEditedNode.theCreator.Save ();
 		} else if (currentlyEditedConnection != null) {
 			// To Do
 		}
@@ -82,11 +82,11 @@ public class EditorDisplay : MonoBehaviour {
 		if (currentlyEditedNode) {
 			if(string.Equals(newType, s_priority)) {
 				print (">>> Prio pressed...");
-				currentlyEditedNode.AddNewIngredientOfType(Ingr_Type.Priority);
+//				currentlyEditedNode.AddNewIngredientOfType(Ingr_Type.Priority);
 			}
 			else if(string.Equals(newType, s_isComplete)) {
 				print (">>> Completed pressed...");
-				currentlyEditedNode.AddNewIngredientOfType(Ingr_Type.IsComplete);
+//				currentlyEditedNode.AddNewIngredientOfType(Ingr_Type.IsComplete);
 			}
 		}
 	}
