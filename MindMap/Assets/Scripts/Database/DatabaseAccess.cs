@@ -3,54 +3,110 @@ using System.Collections;
 using System.Data;
 using Mono.Data.SqliteClient;
 using System.Collections.Generic;
+using System;
 
 public class DatabaseAccess {
 
-	public NodeCreator theCreator;
+	/************************/
+	/*  Database Variables  */
+	/************************/
 
+	public enum TableType {Node, Connection, NodeConIdentifier};
+
+	/***** Database operators *****/
 	private string _constr;
 	private IDbConnection _dbConnection;
 	private IDbCommand _dbCommand;
 	private IDataReader _dbReader;
 
+	/***** Database and table names *****/
+	public string dbn_MainDatabase = "CentralGraphDatabase.sqdb";
+	public string tn_node = "NodeTable";
+	public string tn_connection = "ConnectionTable";
+	public string tn_mid = "MidTable";
+
+	/***** Table column names and types *****/
+	public static string[] colNames_Nodes = new string[6] {"idNumber","Name","Description","locationX","locationY","locationZ"}; 
+	public static string[] colTypes_Nodes = new string[6] {"int","text","text","float","float","float"}; 
+
+	public string[] colNames_Connections = new string[4] {"idNumber", "Label", "Thickness", "IsVisible"};
+	public string[] colTypes_Connections = new string[4] {"int", "text", "float", "bool"};
+	
+	public string[] colNames_Mid = new string[2] {"NodeIDNumber", "ConnectionIDNumber"};
+	public string[] colTypes_Mid = new string[2] {"int", "int"};
+
+
+	/************************/
+	/*  Database Functions  */
+	/************************/
+
+	/***** Open an existing database *****/
 	public void OpenDatabase (string p, NodeCreator n) {
 		_constr = "URI=file:" + p; 
 		_dbConnection = new SqliteConnection(_constr);
 		_dbConnection.Open();
-
-		theCreator = n;
 	}
 
+	/***** Create new table *****/
+	public void CreateNewTable (TableType newTableType) {
+		_dbCommand=_dbConnection.CreateCommand();
+		string query = "";
+
+		switch (newTableType) {
+		case TableType.Node: 
+			query = "CREATE TABLE " + tn_node + "(" + colNames_Nodes[0] + " " + colTypes_Nodes[0];
+			for (int i = 1; i < colNames_Nodes.Length; i++) {
+				query += ", " + colNames_Nodes[i] + " " + colTypes_Nodes[i];
+			}
+			query += ")";
+			break;
+		case TableType.Connection:
+			query = "CREATE TABLE " + tn_connection + "(" + colNames_Connections[0] + " " + colTypes_Connections[0];
+			for (int i = 1; i < colNames_Connections.Length; i++) {
+				query += ", " + colNames_Connections[i] + " " + colTypes_Connections[i];
+			}
+			query += ")";			
+			break;
+		case TableType.NodeConIdentifier:
+			query = "CREATE TABLE " + tn_mid + "(" + colNames_Mid[0] + " " + colTypes_Mid[0];
+			for (int i = 1; i < colNames_Mid.Length; i++) {
+				query += ", " + colNames_Mid[i] + " " + colTypes_Mid[i];
+			}
+			query += ")";			
+			break;
+		default:
+			Debug.Log("Unknown table type");
+			break;
+		}
+
+		if (query.Length > 0) {
+			_dbCommand.CommandText = query;
+			try {
+				_dbReader = _dbCommand.ExecuteReader ();
+			} catch (Exception e) {
+				Debug.Log ("Don't worry; a table of type [" + newTableType + "] already exists!");
+			}
+		}
+	}
+
+	/***** Populate nodes in NodeCreator from node table *****/
 	public void ReadNodesFromDatabase () {
 		_dbCommand=_dbConnection.CreateCommand();
-		_dbCommand.CommandText = "SELECT * FROM NodeTable;";
+		_dbCommand.CommandText = "SELECT * FROM " + tn_node;
 		_dbReader=_dbCommand.ExecuteReader();
 
-		//ArrayList readArray = new ArrayList();
 		while(_dbReader.Read()) { 
-			ArrayList lineArray = new ArrayList();
 			int idNumber = (int)_dbReader.GetValue(0);
 			string name = (string)_dbReader.GetValue(1);
 			string desc = (string)_dbReader.GetValue(2);
 			float posX = (float)((double)_dbReader.GetValue(3));
 			float posY = (float)((double)_dbReader.GetValue(4));
 			float posZ = (float)((double)_dbReader.GetValue(5));
-			theCreator.LoadNewNode(idNumber, name, desc, posX, posY, posZ);
-
-			//for (int i = 0; i < _dbReader.FieldCount; i++) {
-				//Debug.Log("#####> " + _dbReader.GetValue(i));
-				//lineArray.Add(_dbReader.GetValue(i)); // This reads the entries in a row
-			//}
-			//readArray.Add(lineArray); // This makes an array of all the rows
+			NodeCreator.creator.LoadNewNode(idNumber, name, desc, posX, posY, posZ);
 		}
-		//ArrayList firstTwoAdded = (ArrayList)readArray [0];
-		//int myI = (int)firstTwoAdded [0];
-		//Debug.Log ("ADDED: " + myI);
-
-		//List<DragNode> databaseNodes = new List<DragNode> ();
-		//return databaseNodes;
 	}
 
+	/***** Set a new position for a node when it is created *****/
 	public void SetNodePosition (string tableName, 
 	                             int idNumber, 
 	                             float newX, 
@@ -67,12 +123,8 @@ public class DatabaseAccess {
 		_dbCommand=_dbConnection.CreateCommand();
 		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationZ = '" + newZ + "' WHERE " + "idNumber = " +idNumber;
 		_dbReader=_dbCommand.ExecuteReader();
-
-
-
 	}
 
-	//    	query = "UPDATE " + tableName + " SET " + column + " = '" + newInsertedCasted + "' WHERE " + wChecker + wPar + wValue;
 
 	
 }

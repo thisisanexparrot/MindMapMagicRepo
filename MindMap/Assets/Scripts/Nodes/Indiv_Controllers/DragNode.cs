@@ -224,9 +224,7 @@ public class DragNode : MonoBehaviour
 //		if (!mySerialization.isSelected) {
 //			SetMaterial (previousMaterial);
 //		}
-		print ("Stopped moving");
-		print (idNumber);
-		theCreator.GrandDatabase.SetNodePosition (theCreator.tn_node, idNumber, transform.position.x, transform.position.y, transform.position.z);
+		theCreator.GrandDatabase.SetNodePosition (theCreator.GrandDatabase.tn_node, idNumber, transform.position.x, transform.position.y, transform.position.z);
 //		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationX", transform.position.x.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
 //		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationY", transform.position.y.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
 //		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationZ", transform.position.z.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());

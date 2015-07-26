@@ -12,8 +12,7 @@ public class NodeCreator : MonoBehaviour {
 
 	public static NodeCreator creator;
 	public static ConnectionHub connectionCentralHub;
-	public static string[] baseNodeTableColumnNames = new string[6] {"idNumber","Name","Description","locationX","locationY","locationZ"}; 
-	public static string[] baseNodeTableColumnTypes = new string[6] {"int","text","text","float","float","float"}; 
+
 	public string defaultName = "New Node";
 	public string defaultDesc = "New description";
 
@@ -31,13 +30,8 @@ public class NodeCreator : MonoBehaviour {
 //	public dbAccess graphDatabase;
 
 	public DatabaseAccess GrandDatabase;
-
-	public string dbn_MainDatabase = "CentralGraphDatabase.sqdb";
-	public string tn_node = "NodeTable";
-	public string tn_connection = "ConnectionTable";
-	public string tn_mid = "MidTable";
-
-	string playerPath = "/playerInfo26.dat";
+	
+//	string playerPath = "/playerInfo26.dat";
 
 	/********* INIT  **********/
 	/* Wake-up load functions */
@@ -57,22 +51,16 @@ public class NodeCreator : MonoBehaviour {
 		}
 
 		GrandDatabase = new DatabaseAccess ();
-		GrandDatabase.OpenDatabase (dbn_MainDatabase, this);
+		GrandDatabase.OpenDatabase (GrandDatabase.dbn_MainDatabase, this);
+		CreateBaseTables ();
 		GrandDatabase.ReadNodesFromDatabase ();
 
 
 //		graphDatabase = new dbAccess();
 //		DatabaseUtils.OpenDatabase_DB (graphDatabase, graphDatabaseName);
-		string[] columnNames = new string[6] {"idNumber","Name","Description","locationX","locationY","locationZ"};
-		string[] columnTypes = new string[6] {"int","text","text","float","float","float"};
 
-		string[] columnNamesConnects = new string[4] {"idNumber", "Label", "Thickness", "IsVisible"};
-		string[] columnTypesConnects = new string[4] {"int", "text", "float", "bool"};
 
-		string[] columnNamesMidTable = new string[2] {"NodeIDNumber", "ConnectionIDNumber"};
-		string[] columnTypesMidTable = new string[2] {"int", "int"};
 
-		LoadFromDatabase ();
 //		LoadCompleted ();
 
 		
@@ -83,12 +71,17 @@ public class NodeCreator : MonoBehaviour {
 
 	}
 
+	public void CreateBaseTables () {
+		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Node);
+		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Connection);
+		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.NodeConIdentifier);
+	}
+
 	/* Broadcasts event of initial load */
 	void OnEnable () {
 //		connectionCentralHub.InitializeConnectionHub ();
 		//Load ();
 //		DatabaseUtils.LoadNodeTable_DB (graphDatabase, nodeTableName);
-		LoadFromDatabase ();
 //		if (LoadCompleted != null) {
 //			LoadCompleted ();
 //		}
@@ -204,10 +197,6 @@ public class NodeCreator : MonoBehaviour {
 //		}
 //	}
 
-	public void LoadFromDatabase () {
-//		DatabaseUtils.ReadFullTable_DB (graphDatabase, nodeTableName);
-	}
-	
 //	void LoadNodesFromSerialized () {
 //		foreach (NodeSerialized nextNode in localNodeList) {
 //			Vector3 nextPosition = FloatsToVector3(nextNode);
