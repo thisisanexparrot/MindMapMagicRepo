@@ -11,7 +11,7 @@ public class DatabaseAccess {
 	/*  Database Variables  */
 	/************************/
 
-	public enum TableType {Node, Connection, NodeConIdentifier};
+	public enum TableType {Node, Connection, NodeConIdentifier, Meta};
 
 	/***** Database operators *****/
 	private string _constr;
@@ -21,6 +21,7 @@ public class DatabaseAccess {
 
 	/***** Database and table names *****/
 	public string dbn_MainDatabase = "CentralGraphDatabase.sqdb";
+	public string tn_meta = "MetaTable";
 	public string tn_node = "NodeTable";
 	public string tn_connection = "ConnectionTable";
 	public string tn_mid = "MidTable";
@@ -32,15 +33,29 @@ public class DatabaseAccess {
 	public const string node_locY = "locationY";
 	public const string node_locZ = "locationZ";
 
+	public const string con_idNumber = "idNumber";
+	public const string con_label = "Label";
+	public const string con_thickness = "Thickness";
+	public const string con_isVisible = "IsVisible";
+
+	public const string mid_nodeID = "NodeIDNumber";
+	public const string mid_conID = "ConnectionIDNumber";
+
+	public const string meta_nodeIDCounter = "NodeIDCounter";
+	public const string meta_conIDCounter = "ConnectionIDCounter";
+
 	/***** Table column names and types *****/
 	public static string[] colNames_Nodes = new string[6] {node_idNumber,node_name,node_desc,node_locX,node_locY,node_locZ}; 
 	public static string[] colTypes_Nodes = new string[6] {"int","text","text","float","float","float"}; 
 
-	public string[] colNames_Connections = new string[4] {"idNumber", "Label", "Thickness", "IsVisible"};
+	public string[] colNames_Connections = new string[4] {con_idNumber, con_label, con_thickness, con_isVisible};
 	public string[] colTypes_Connections = new string[4] {"int", "text", "float", "bool"};
 	
-	public string[] colNames_Mid = new string[2] {"NodeIDNumber", "ConnectionIDNumber"};
+	public string[] colNames_Mid = new string[2] {mid_nodeID, mid_conID};
 	public string[] colTypes_Mid = new string[2] {"int", "int"};
+
+	public string[] colNames_Meta = new string[2] {meta_nodeIDCounter, meta_conIDCounter};
+	public string[] colTypes_Meta = new string[2] {"int", "int"};
 
 
 	/************************/
@@ -81,6 +96,13 @@ public class DatabaseAccess {
 			}
 			query += ")";			
 			break;
+		case TableType.Meta:
+			query = "CREATE TABLE " + tn_meta + "(" + colNames_Meta[0] + " " + colTypes_Meta[0];
+			for (int i = 1; i < colNames_Meta.Length; i++) {
+				query += ", " + colNames_Meta[i] + " " + colTypes_Meta[i];
+			}
+			query += ")";			
+			break;
 		default:
 			Debug.Log("Unknown table type");
 			break;
@@ -103,7 +125,6 @@ public class DatabaseAccess {
 		_dbReader=_dbCommand.ExecuteReader();
 
 		while(_dbReader.Read()) { 
-			Debug.Log("reading...");
 			int idNumber = (int)_dbReader.GetValue(0);
 			string name = (string)_dbReader.GetValue(1);
 			string desc = (string)_dbReader.GetValue(2);
@@ -114,34 +135,73 @@ public class DatabaseAccess {
 		}
 	}
 
+	/***** Add newly created node to node table *****/
+	public void AddNewNodeToDatabase () {
+		//todo
+	}
+
+	/***** Add newly created connection to connection table and two references to its nodes in the mid table *****/
+	public void AddNewConnectionToDatabase () {
+		//todo
+	}
+
+	public void RemoveNodeFromDatabase () {
+		//todo
+	}
+
+	public void RemoveConnectionFromDatabase () {
+		//todo: maybe a special method for removing all connections where id number matches nodes?
+	}
+
 	/***** Set a new position for a node when it is created *****/
-	public void SetNodePosition (string tableName, 
-	                             int idNumber, 
+	public void SetNodePosition (int idNumber, 
 	                             float newX, 
 	                             float newY, 
 	                             float newZ) {
-		_dbCommand=_dbConnection.CreateCommand();
-		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationX = '" + newX + "' WHERE " + "idNumber = " + idNumber;
-		_dbReader=_dbCommand.ExecuteReader();
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tn_node + " SET " + " locationX = '" + newX + "' WHERE " + "idNumber = " + idNumber;
+		_dbReader = _dbCommand.ExecuteReader();
 
-		_dbCommand=_dbConnection.CreateCommand();
-		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationY = '" + newY + "' WHERE " + "idNumber = " + idNumber;
-		_dbReader=_dbCommand.ExecuteReader();
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tn_node + " SET " + " locationY = '" + newY + "' WHERE " + "idNumber = " + idNumber;
+		_dbReader = _dbCommand.ExecuteReader ();
 
-		_dbCommand=_dbConnection.CreateCommand();
-		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationZ = '" + newZ + "' WHERE " + "idNumber = " + idNumber;
-		_dbReader=_dbCommand.ExecuteReader();
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tn_node + " SET " + " locationZ = '" + newZ + "' WHERE " + "idNumber = " + idNumber;
+		_dbReader = _dbCommand.ExecuteReader();
 	}
 
 	public void SetStringInTable (string tableName,
 	                          	  int idNumber,
 	                              string columnName,
 	                              string newName) {
-		_dbCommand=_dbConnection.CreateCommand();
+		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + columnName + " = '" + newName + "' WHERE " + "idNumber = " + idNumber;
-		_dbReader=_dbCommand.ExecuteReader();
+		_dbReader = _dbCommand.ExecuteReader ();
 
 		Debug.Log ("Set a new string somewhere!");
+	}
+
+	public void CreateInitialCounterRow () {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "SELECT Count(*) FROM " + tn_meta + ";";
+		_dbReader = _dbCommand.ExecuteReader ();
+
+		_dbReader.Read ();
+		int rowCount = (int)_dbReader.GetInt32 (0);
+
+		if (rowCount < 1) {
+			_dbCommand = _dbConnection.CreateCommand ();
+			_dbCommand.CommandText = "INSERT INTO " + tn_meta + " VALUES ('0', '0');";
+			_dbReader = _dbCommand.ExecuteReader ();
+		} 
+	}
+
+	public void IncrementNodeIDCounter () {
+
+	}
+
+	public void IncrementConnectionIDCounter () {
 
 	}
 

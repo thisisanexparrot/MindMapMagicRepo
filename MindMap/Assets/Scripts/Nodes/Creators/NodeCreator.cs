@@ -75,52 +75,35 @@ public class NodeCreator : MonoBehaviour {
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Node);
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Connection);
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.NodeConIdentifier);
+		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Meta);
+		GrandDatabase.CreateInitialCounterRow ();
 	}
 
-	/* Broadcasts event of initial load */
-	void OnEnable () {
-//		connectionCentralHub.InitializeConnectionHub ();
-		//Load ();
-//		DatabaseUtils.LoadNodeTable_DB (graphDatabase, nodeTableName);
-//		if (LoadCompleted != null) {
-//			LoadCompleted ();
-//		}
-	}
 
-	/*void TransferToDatabase () {
-		foreach (NodeSerialized nextNode in localNodeList) {
-			int myIDNumber = nextNode.idNumber;
-			string myIDString = myIDNumber.ToString();
-			graphDatabase.UpdateColumn(nodeTableName, "Name", nextNode.titleName, "string", "idNumber", "=", myIDString);
-			graphDatabase.UpdateColumn(nodeTableName, "Description", nextNode.description, "string", "idNumber", "=", myIDString);
-			graphDatabase.UpdateColumn(nodeTableName, "locationX", nextNode.locationX.ToString(), "float", "idNumber", "=", myIDString);
-			graphDatabase.UpdateColumn(nodeTableName, "locationY", nextNode.locationY.ToString(), "float", "idNumber", "=", myIDString);
-			graphDatabase.UpdateColumn(nodeTableName, "locationZ", nextNode.locationZ.ToString(), "float", "idNumber", "=", myIDString);
-		}
-	}*/
+
 
 
 	/********* CREATE **********/
 	/* Create & Remove individual nodes for storage */
 	public void SpawnNewNode () {
-		string defaultPos = 0.0f.ToString ();
-//		string[] firstValues = new string[] {saveNodesList.nodeCounter.ToString(), defaultName, defaultDesc, defaultPos, defaultPos, defaultPos};
-		print ("SPAWNING!");
-//		DatabaseUtils.InsertIntoSpecific_DB(graphDatabase, 
-//		                                    nodeTableName, 
-//		                                    baseNodeTableColumnNames, 
-//		                                    firstValues, 
-//		                                    baseNodeTableColumnTypes);
-		print ("DONE SPAWNING!");
-
-		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
-		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
+//		string defaultPos = 0.0f.ToString ();
+////		string[] firstValues = new string[] {saveNodesList.nodeCounter.ToString(), defaultName, defaultDesc, defaultPos, defaultPos, defaultPos};
+//		print ("SPAWNING!");
+////		DatabaseUtils.InsertIntoSpecific_DB(graphDatabase, 
+////		                                    nodeTableName, 
+////		                                    baseNodeTableColumnNames, 
+////		                                    firstValues, 
+////		                                    baseNodeTableColumnTypes);
+//		print ("DONE SPAWNING!");
+//
+//		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
+//		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
 //		NodeSerialized newSerialized = CreateNewSerializeNode ();
 		
 //		newNode.GetComponent<DragNode> ().InitializeNode (newSerialized, this, true);
 //		saveNodesList.nodeCounter += 1;
 
-//		Save (); //*** SERI_MARK
+//		Save ();
 	}
 
 	public void LoadNewNode (int _idNumber, string _name, string _description, float _posX, float _posY, float _posZ) {
@@ -133,18 +116,11 @@ public class NodeCreator : MonoBehaviour {
 		newNode.SetIDNumber (_idNumber);
 		newNode.transform.position = new Vector3 (_posX, _posY, _posZ);
 		newNode.theCreator = this;
+		newNode.mainCamera = Camera.main;
 	}
 
 
-//	NodeSerialized CreateNewSerializeNode () {
-//		NodeSerialized newNode = new NodeSerialized ();
-//		newNode.titleName = "This is a new name";
-//		newNode.isSelected = false;
-//		newNode.idNumber = saveNodesList.nodeCounter;
-//		localNodeList.Add (newNode);
-//
-//		return newNode;
-//	}
+
 
 	public void RemoveNode (DragNode destroyThis) {
 //		NodeSerialized destroyID = destroyThis.mySerialization;
@@ -154,6 +130,27 @@ public class NodeCreator : MonoBehaviour {
 		Destroy (destroyThis.gameObject);
 //		Save ();
 	}
+
+
+	/* Broadcasts event of initial load */
+	void OnEnable () {
+		//		connectionCentralHub.InitializeConnectionHub ();
+		//Load ();
+		//		DatabaseUtils.LoadNodeTable_DB (graphDatabase, nodeTableName);
+		//		if (LoadCompleted != null) {
+		//			LoadCompleted ();
+		//		}
+	}
+
+	//	NodeSerialized CreateNewSerializeNode () {
+	//		NodeSerialized newNode = new NodeSerialized ();
+	//		newNode.titleName = "This is a new name";
+	//		newNode.isSelected = false;
+	//		newNode.idNumber = saveNodesList.nodeCounter;
+	//		localNodeList.Add (newNode);
+	//
+	//		return newNode;
+	//	}
 
 	/********* SAVE **********/
 	/* Save and Load Methods */ /* By the end of the day, these two methods should become obselete */
