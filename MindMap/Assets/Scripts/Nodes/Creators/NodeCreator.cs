@@ -51,7 +51,7 @@ public class NodeCreator : MonoBehaviour {
 		}
 
 		GrandDatabase = new DatabaseAccess ();
-		GrandDatabase.OpenDatabase (GrandDatabase.dbn_MainDatabase, this);
+		GrandDatabase.OpenDatabase (DatabaseAccess.dbn_MainDatabase, this);
 		CreateBaseTables ();
 		GrandDatabase.ReadNodesFromDatabase ();
 
@@ -85,7 +85,7 @@ public class NodeCreator : MonoBehaviour {
 
 	/********* CREATE **********/
 	/* Create & Remove individual nodes for storage */
-	public void SpawnNewNode () {
+	public void SpawnNewNode (bool wasDragged) {
 		GrandDatabase.IncrementIDCounter (DatabaseAccess.TableType.Node);
 		int newNodeID = GrandDatabase.GetCurrentIDCount (DatabaseAccess.TableType.Node); //Increment counter, get next ID Number
 
@@ -104,6 +104,12 @@ public class NodeCreator : MonoBehaviour {
 		newNode.mainCamera = Camera.main;
 
 		newNode.GetComponent<DragNode> ().InitializeNode (this, true);
+
+//		if (wasDragged) {
+//			newNode.GetComponent<DragNode> ().InitializeNode (this, false);
+//		} else {
+//			newNode.GetComponent<DragNode> ().InitializeNode (this, true);
+//		}
 
 
 ////		DatabaseUtils.InsertIntoSpecific_DB(graphDatabase, 

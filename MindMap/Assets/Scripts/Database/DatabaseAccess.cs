@@ -20,11 +20,11 @@ public class DatabaseAccess {
 	private IDataReader _dbReader;
 
 	/***** Database and table names *****/
-	public string dbn_MainDatabase = "CentralGraphDatabase.sqdb";
-	public string tn_meta = "MetaTable";
-	public string tn_node = "NodeTable";
-	public string tn_connection = "ConnectionTable";
-	public string tn_mid = "MidTable";
+	public const string dbn_MainDatabase = "CentralGraphDatabase.sqdb";
+	public const string tn_meta = "MetaTable";
+	public const string tn_node = "NodeTable";
+	public const string tn_connection = "ConnectionTable";
+	public const string tn_mid = "MidTable";
 
 	public const string node_idNumber = "idNumber";
 	public const string node_name = "Name";

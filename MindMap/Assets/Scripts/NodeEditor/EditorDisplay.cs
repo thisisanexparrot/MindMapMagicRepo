@@ -34,8 +34,8 @@ public class EditorDisplay : MonoBehaviour {
 	}
 
 	void DisplayNodeInfoInEditor (bool isOn, DragNode thisNode) {
-//		title.text = thisNode.mySerialization.titleName;
-//		description.text = thisNode.mySerialization.description;
+		title.text = thisNode.title;
+		description.text = thisNode.description;
 
 		currentlyEditedConnection = null;
 		currentlyEditedNode = thisNode;
@@ -46,6 +46,9 @@ public class EditorDisplay : MonoBehaviour {
 	public void EditorCompleteTitleEdit () {
 		if (currentlyEditedNode != null) {
 //			currentlyEditedNode.mySerialization.titleName = title.text;
+			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+			db.SetStringInTable(DatabaseAccess.tn_node, currentlyEditedNode.idNumber, DatabaseAccess.node_name, title.text);
+
 			InputField[] fields = currentlyEditedNode.GetComponentsInChildren<InputField>();
 			foreach(InputField field in fields) {
 				field.text = title.text;
