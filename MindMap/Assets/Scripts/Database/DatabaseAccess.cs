@@ -182,6 +182,11 @@ public class DatabaseAccess {
 		Debug.Log ("Set a new string somewhere!");
 	}
 
+	/**************************/
+	/*  Meta Table Functions  */
+	/**************************/
+
+	/***** Populate the meta table's row on first creation *****/
 	public void CreateInitialCounterRow () {
 		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "SELECT Count(*) FROM " + tn_meta + ";";
@@ -197,12 +202,33 @@ public class DatabaseAccess {
 		} 
 	}
 
-	public void IncrementNodeIDCounter () {
+	/***** Increment ID counter for either Nodes or Connections in the Meta table *****/
+	public void IncrementIDCounter (TableType idType) {
+		string updatedColumn = "";
+		switch (idType) {
+		case TableType.Node:
+			updatedColumn = meta_nodeIDCounter;
+			break;
+		case TableType.Connection:
+			updatedColumn = meta_conIDCounter;
+			break;
+		default:
+			Debug.Log("Unknown ID Type");
+			break;
+		}
 
-	}
-
-	public void IncrementConnectionIDCounter () {
-
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "SELECT " + updatedColumn + " FROM " + tn_meta +";"; 
+		_dbReader = _dbCommand.ExecuteReader ();
+		
+		_dbReader.Read ();
+		int counter = (int)_dbReader.GetInt64 (0);
+		counter++;
+		
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tn_meta + " SET " + updatedColumn + " = '" + counter + "';"; 
+		
+		_dbReader = _dbCommand.ExecuteReader ();
 	}
 
 
