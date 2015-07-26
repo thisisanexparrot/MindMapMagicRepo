@@ -124,9 +124,14 @@ public class DragNode : MonoBehaviour
 		idNumber = newIDNumber;
 	}
 
-	public void SetName (string newTitle) {
+	public void SetName (string newTitle, bool firstLoad) {
 		title = newTitle;
 		NameWasUpdated (newTitle);
+		if (!firstLoad) {
+			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+			db.SetStringInTable (db.tn_node, idNumber, DatabaseAccess.node_name, newTitle);
+		}
+		 
 //		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
 	}
 

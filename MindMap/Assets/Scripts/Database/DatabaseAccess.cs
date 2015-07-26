@@ -25,8 +25,15 @@ public class DatabaseAccess {
 	public string tn_connection = "ConnectionTable";
 	public string tn_mid = "MidTable";
 
+	public const string node_idNumber = "idNumber";
+	public const string node_name = "Name";
+	public const string node_desc = "Description";
+	public const string node_locX = "locationX";
+	public const string node_locY = "locationY";
+	public const string node_locZ = "locationZ";
+
 	/***** Table column names and types *****/
-	public static string[] colNames_Nodes = new string[6] {"idNumber","Name","Description","locationX","locationY","locationZ"}; 
+	public static string[] colNames_Nodes = new string[6] {node_idNumber,node_name,node_desc,node_locX,node_locY,node_locZ}; 
 	public static string[] colTypes_Nodes = new string[6] {"int","text","text","float","float","float"}; 
 
 	public string[] colNames_Connections = new string[4] {"idNumber", "Label", "Thickness", "IsVisible"};
@@ -96,6 +103,7 @@ public class DatabaseAccess {
 		_dbReader=_dbCommand.ExecuteReader();
 
 		while(_dbReader.Read()) { 
+			Debug.Log("reading...");
 			int idNumber = (int)_dbReader.GetValue(0);
 			string name = (string)_dbReader.GetValue(1);
 			string desc = (string)_dbReader.GetValue(2);
@@ -113,16 +121,28 @@ public class DatabaseAccess {
 	                             float newY, 
 	                             float newZ) {
 		_dbCommand=_dbConnection.CreateCommand();
-		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationX = '" + newX + "' WHERE " + "idNumber = " +idNumber;
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationX = '" + newX + "' WHERE " + "idNumber = " + idNumber;
 		_dbReader=_dbCommand.ExecuteReader();
 
 		_dbCommand=_dbConnection.CreateCommand();
-		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationY = '" + newY + "' WHERE " + "idNumber = " +idNumber;
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationY = '" + newY + "' WHERE " + "idNumber = " + idNumber;
 		_dbReader=_dbCommand.ExecuteReader();
 
 		_dbCommand=_dbConnection.CreateCommand();
-		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationZ = '" + newZ + "' WHERE " + "idNumber = " +idNumber;
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + " locationZ = '" + newZ + "' WHERE " + "idNumber = " + idNumber;
 		_dbReader=_dbCommand.ExecuteReader();
+	}
+
+	public void SetStringInTable (string tableName,
+	                          	  int idNumber,
+	                              string columnName,
+	                              string newName) {
+		_dbCommand=_dbConnection.CreateCommand();
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + columnName + " = '" + newName + "' WHERE " + "idNumber = " + idNumber;
+		_dbReader=_dbCommand.ExecuteReader();
+
+		Debug.Log ("Set a new string somewhere!");
+
 	}
 
 

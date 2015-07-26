@@ -128,7 +128,7 @@ public class NodeCreator : MonoBehaviour {
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
 		allNodes.Add (newNode);
 
-		newNode.SetName (_name);
+		newNode.SetName (_name, true);
 		newNode.SetDescription (_description);
 		newNode.SetIDNumber (_idNumber);
 		newNode.transform.position = new Vector3 (_posX, _posY, _posZ);
