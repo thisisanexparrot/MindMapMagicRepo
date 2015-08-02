@@ -46,7 +46,7 @@ public class EditorDisplay : MonoBehaviour {
 	public void EditorCompleteTitleEdit () {
 		if (currentlyEditedNode != null) {
 			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
-			db.SetStringInTable(DatabaseAccess.tn_node, currentlyEditedNode.idNumber, DatabaseAccess.node_name, title.text);
+			db.SetObjectInTable(DatabaseAccess.tn_node, currentlyEditedNode.idNumber, DatabaseAccess.node_name, title.text);
 
 			currentlyEditedNode.title = title.text;
 
@@ -64,7 +64,7 @@ public class EditorDisplay : MonoBehaviour {
 		Debug.Log ("Just edited the description");
 		if (currentlyEditedNode != null) {
 			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
-			db.SetStringInTable(DatabaseAccess.tn_node, currentlyEditedNode.idNumber, DatabaseAccess.node_desc, description.text);
+			db.SetObjectInTable(DatabaseAccess.tn_node, currentlyEditedNode.idNumber, DatabaseAccess.node_desc, description.text);
 			currentlyEditedNode.description = description.text;
 		} else if (currentlyEditedConnection != null) {
 			// To Do

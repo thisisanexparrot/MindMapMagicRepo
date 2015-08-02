@@ -14,6 +14,9 @@ public class DragConnection : MonoBehaviour {
 	public DragNode node2;
 
 	public int idNumber;
+	public string label;
+	public float thickness;
+	public bool isVisible;
 
 //	public ConnectionSerialized mySerialization;
 	public LineRenderer myLine;
@@ -39,16 +42,28 @@ public class DragConnection : MonoBehaviour {
 		ConnectionSelectedUpdate (this);
 	}
 
-	public void SetLabel () {
-		//todo: Hook up to initialization
+	public void SetIDNumber (int newID) {
+		idNumber = newID;
 	}
 
-	public void SetThickness () {
-		//todo: Hook up to initialization
+	public void SetLabel (string newLabel) {
+		label = newLabel;
+		DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+		db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_label, newLabel);
 	}
 
-	public void SetVisibility () {
+	public void SetThickness (float newThickness) {
 		//todo: Hook up to initialization
+		thickness = newThickness;
+		DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+		db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_thickness, newThickness);
+	}
+
+	public void SetVisibility (bool newVisibility) {
+		//todo: Hook up to initialization
+		isVisible = newVisibility;
+		DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+		db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_isVisible, newVisibility);
 	}
 
 //	public void SetMySerialization (ConnectionSerialized cs) {

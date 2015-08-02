@@ -44,6 +44,11 @@ public class ConnectionHub : MonoBehaviour {
 		db.AddMidConnectionToDatabalse (origin.idNumber, newConnectionID);
 		db.AddMidConnectionToDatabalse (endpoint.idNumber, newConnectionID);
 
+		newConnection.SetIDNumber (newConnectionID);
+		newConnection.SetLabel ("This is a default label");
+		newConnection.SetThickness (0.8f);
+		newConnection.SetVisibility (true);
+
 		allConnections.Add (newConnection); //todo: is this still necessary?
 
 		/* Add two new mid table entries for the connection with each of its nodes */
@@ -55,6 +60,10 @@ public class ConnectionHub : MonoBehaviour {
 
 	public static void RemoveConnection () {
 		//TO-DO
+	}
+
+	public void LoadNewConnection () {
+		//To-do
 	}
 
 

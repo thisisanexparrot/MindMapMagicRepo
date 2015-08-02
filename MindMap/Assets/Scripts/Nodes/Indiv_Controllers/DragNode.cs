@@ -129,7 +129,7 @@ public class DragNode : MonoBehaviour
 		NameWasUpdated (newTitle);
 		if (!firstLoad) {
 			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
-			db.SetStringInTable (DatabaseAccess.tn_node, idNumber, DatabaseAccess.node_name, newTitle);
+			db.SetObjectInTable (DatabaseAccess.tn_node, idNumber, DatabaseAccess.node_name, newTitle);
 		}
 		 
 //		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
@@ -139,7 +139,7 @@ public class DragNode : MonoBehaviour
 		description = newDescription;
 		if (!firstLoad) {
 			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
-			db.SetStringInTable (DatabaseAccess.tn_node, idNumber, DatabaseAccess.node_desc, newDescription);
+			db.SetObjectInTable (DatabaseAccess.tn_node, idNumber, DatabaseAccess.node_desc, newDescription);
 		}
 
 		//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());

@@ -135,6 +135,16 @@ public class DatabaseAccess {
 		}
 	}
 
+	public void ReadConnectionsFromDatabase () {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "SELECT * FROM " + tn_connection;
+		_dbReader = _dbCommand.ExecuteReader();
+
+		while (_dbReader.Read()) { 
+
+		}
+	}
+
 	/***** Add newly created node to node table *****/
 	public void AddNewNodeToDatabase (int initIDNumber) {
 		_dbCommand = _dbConnection.CreateCommand ();
@@ -183,16 +193,15 @@ public class DatabaseAccess {
 		_dbReader = _dbCommand.ExecuteReader();
 	}
 
-	public void SetStringInTable (string tableName,
-	                          	  int idNumber,
+	public void SetObjectInTable (string tableName,
+	                              int idNumber,
 	                              string columnName,
-	                              string newName) {
+	                              object newObject) {
 		_dbCommand = _dbConnection.CreateCommand ();
-		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + columnName + " = '" + newName + "' WHERE " + "idNumber = " + idNumber;
-		_dbReader = _dbCommand.ExecuteReader ();
-
-		Debug.Log ("Set a new string somewhere!");
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + columnName + " = '" + newObject + "' WHERE " + "idNumber = " + idNumber;
+		_dbReader = _dbCommand.ExecuteReader ();		
 	}
+
 
 	/**************************/
 	/*  Meta Table Functions  */
