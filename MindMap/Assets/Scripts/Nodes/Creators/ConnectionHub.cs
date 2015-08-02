@@ -71,6 +71,16 @@ public class ConnectionHub : MonoBehaviour {
 		allConnections.Add (newConnection);
 	}
 
+	public void InitializeLoadedConnections () {
+		DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+
+		foreach (DragConnection nextConnection in allConnections) {
+			Debug.Log("Next connection!");
+			List<DragNode> connectionEndpoints = db.FindNodesForConnectionID(nextConnection.idNumber);
+			nextConnection.InitializeConnection(connectionEndpoints[0], connectionEndpoints[1]);
+		}
+	}
+
 
 	/***** Save and Load *****/
 //	public List<ConnectionSerialized> CreateSaveList () {

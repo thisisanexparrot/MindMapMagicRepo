@@ -152,6 +152,34 @@ public class DatabaseAccess {
 		}
 	}
 
+	public List<DragNode> FindNodesForConnectionID (int connectionID) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "SELECT " + mid_nodeID + " FROM " + tn_mid + " WHERE " + mid_conID + " = " + connectionID + ";";
+		_dbReader = _dbCommand.ExecuteReader ();
+
+		List<int> nodeIDNumbers = new List<int> ();
+
+		while (_dbReader.Read()) {
+			int nextID = (int)_dbReader.GetValue(0);
+			nodeIDNumbers.Add(nextID);
+			Debug.Log("ID: " + nextID);
+		}
+
+		List<DragNode> returnNodes = new List<DragNode> ();
+		foreach (int nextNodeID in nodeIDNumbers) {
+			DragNode searchNode;
+			if(NodeCreator.allNodesDictionary.TryGetValue(nextNodeID, out searchNode)) {
+				returnNodes.Add(searchNode);
+			}
+			else {
+				Debug.Log ("Error: node does not exist");
+			}
+		}
+
+		return returnNodes;
+
+	}
+
 	/***** Add newly created node to node table *****/
 	public void AddNewNodeToDatabase (int initIDNumber) {
 		_dbCommand = _dbConnection.CreateCommand ();

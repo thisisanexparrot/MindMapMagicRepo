@@ -26,6 +26,7 @@ public class NodeCreator : MonoBehaviour {
 //	public List<NodeSerialized> localNodeList;
 //	public List<ConnectionSerialized> tempConnectionList;
 	public List<DragNode> allNodes;
+	public static Dictionary<int, DragNode> allNodesDictionary;
 
 //	public dbAccess graphDatabase;
 
@@ -49,6 +50,7 @@ public class NodeCreator : MonoBehaviour {
 			connectionCentralHub = GetComponent<ConnectionHub>();
 			DontDestroyOnLoad(connectionCentralHub);
 		}
+		allNodesDictionary = new Dictionary<int, DragNode> ();
 
 		GrandDatabase = new DatabaseAccess ();
 		GrandDatabase.OpenDatabase (DatabaseAccess.dbn_MainDatabase, this);
@@ -58,6 +60,7 @@ public class NodeCreator : MonoBehaviour {
 
 		GrandDatabase.ReadNodesFromDatabase ();
 		GrandDatabase.ReadConnectionsFromDatabase ();
+		connectionCentralHub.InitializeLoadedConnections ();
 
 
 //		graphDatabase = new dbAccess();
@@ -95,6 +98,7 @@ public class NodeCreator : MonoBehaviour {
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
 		allNodes.Add (newNode);
+		allNodesDictionary.Add (newNodeID, newNode);
 
 		//string[] firstValues = new string[] {newNodeID, defaultName, defaultDesc, defaultPos, defaultPos, defaultPos};
 		GrandDatabase.AddNewNodeToDatabase (newNodeID);
@@ -136,6 +140,7 @@ public class NodeCreator : MonoBehaviour {
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
 		allNodes.Add (newNode);
+		allNodesDictionary.Add (_idNumber, newNode);
 
 		newNode.SetName (_name, true);
 		newNode.SetDescription (_description, true);
