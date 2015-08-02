@@ -45,15 +45,15 @@ public class EditorDisplay : MonoBehaviour {
 	/***** Edit text in Editor window *****/
 	public void EditorCompleteTitleEdit () {
 		if (currentlyEditedNode != null) {
-//			currentlyEditedNode.mySerialization.titleName = title.text;
 			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
 			db.SetStringInTable(DatabaseAccess.tn_node, currentlyEditedNode.idNumber, DatabaseAccess.node_name, title.text);
+
+			currentlyEditedNode.title = title.text;
 
 			InputField[] fields = currentlyEditedNode.GetComponentsInChildren<InputField>();
 			foreach(InputField field in fields) {
 				field.text = title.text;
 			}
-//			currentlyEditedNode.theCreator.Save ();
 		} else if (currentlyEditedConnection != null) {
 //			currentlyEditedConnection.mySerialization.label = title.text;
 //			currentlyEditedConnection.node1.theCreator.Save();
@@ -61,9 +61,11 @@ public class EditorDisplay : MonoBehaviour {
 	}
 
 	public void EditorCompleteDescriptionEdit () {
+		Debug.Log ("Just edited the description");
 		if (currentlyEditedNode != null) {
-//			currentlyEditedNode.mySerialization.description = description.text;
-//			currentlyEditedNode.theCreator.Save ();
+			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+			db.SetStringInTable(DatabaseAccess.tn_node, currentlyEditedNode.idNumber, DatabaseAccess.node_desc, description.text);
+			currentlyEditedNode.description = description.text;
 		} else if (currentlyEditedConnection != null) {
 			// To Do
 		}
