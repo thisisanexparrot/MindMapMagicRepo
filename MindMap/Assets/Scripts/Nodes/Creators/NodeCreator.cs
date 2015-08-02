@@ -158,7 +158,7 @@ public class NodeCreator : MonoBehaviour {
 
 	/* Broadcasts event of initial load */
 	void OnEnable () {
-		//		connectionCentralHub.InitializeConnectionHub ();
+		connectionCentralHub.InitializeConnectionHub ();
 		//Load ();
 		//		DatabaseUtils.LoadNodeTable_DB (graphDatabase, nodeTableName);
 		//		if (LoadCompleted != null) {
