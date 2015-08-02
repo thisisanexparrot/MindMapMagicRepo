@@ -53,7 +53,11 @@ public class NodeCreator : MonoBehaviour {
 		GrandDatabase = new DatabaseAccess ();
 		GrandDatabase.OpenDatabase (DatabaseAccess.dbn_MainDatabase, this);
 		CreateBaseTables ();
+
+		connectionCentralHub.InitializeConnectionHub ();
+
 		GrandDatabase.ReadNodesFromDatabase ();
+		GrandDatabase.ReadConnectionsFromDatabase ();
 
 
 //		graphDatabase = new dbAccess();
@@ -157,7 +161,6 @@ public class NodeCreator : MonoBehaviour {
 
 	/* Broadcasts event of initial load */
 	void OnEnable () {
-		connectionCentralHub.InitializeConnectionHub ();
 		//Load ();
 		//		DatabaseUtils.LoadNodeTable_DB (graphDatabase, nodeTableName);
 		//		if (LoadCompleted != null) {

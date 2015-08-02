@@ -46,24 +46,30 @@ public class DragConnection : MonoBehaviour {
 		idNumber = newID;
 	}
 
-	public void SetLabel (string newLabel) {
+	public void SetLabel (string newLabel, bool isFirstLoad) {
 		label = newLabel;
-		DatabaseAccess db = NodeCreator.creator.GrandDatabase;
-		db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_label, newLabel);
+		if (!isFirstLoad) {
+			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+			db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_label, newLabel);
+		}
 	}
 
-	public void SetThickness (float newThickness) {
+	public void SetThickness (float newThickness, bool isFirstLoad) {
 		//todo: Hook up to initialization
 		thickness = newThickness;
-		DatabaseAccess db = NodeCreator.creator.GrandDatabase;
-		db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_thickness, newThickness);
+		if (!isFirstLoad) {
+			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+			db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_thickness, newThickness);
+		}
 	}
 
-	public void SetVisibility (bool newVisibility) {
+	public void SetVisibility (bool newVisibility, bool isFirstLoad) {
 		//todo: Hook up to initialization
 		isVisible = newVisibility;
-		DatabaseAccess db = NodeCreator.creator.GrandDatabase;
-		db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_isVisible, newVisibility);
+		if (!isFirstLoad) {
+			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+			db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_isVisible, newVisibility);
+		}
 	}
 
 //	public void SetMySerialization (ConnectionSerialized cs) {

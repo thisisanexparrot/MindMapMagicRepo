@@ -28,9 +28,6 @@ public class ConnectionHub : MonoBehaviour {
 	/***** Add and remove new connections *****/
 	public static void AddNewConnection (DragNode origin, DragNode endpoint) {
 		Vector3 newPosition = new Vector3 (0, 0, 0);
-		if (connectionTemplate == null) {
-			Debug.Log("null");
-		}
 		DragConnection newConnection = Instantiate (connectionTemplate, newPosition, Quaternion.identity) as DragConnection;
 		newConnection.InitializeConnection (origin, endpoint);
 //		newConnection.CreateMySerialization (origin, endpoint);
@@ -45,11 +42,11 @@ public class ConnectionHub : MonoBehaviour {
 		db.AddMidConnectionToDatabalse (endpoint.idNumber, newConnectionID);
 
 		newConnection.SetIDNumber (newConnectionID);
-		newConnection.SetLabel ("This is a default label");
-		newConnection.SetThickness (0.8f);
-		newConnection.SetVisibility (true);
+		newConnection.SetLabel ("This is a default label", false);
+		newConnection.SetThickness (0.8f, false);
+		newConnection.SetVisibility (false, false);
 
-		allConnections.Add (newConnection); //todo: is this still necessary?
+		allConnections.Add (newConnection); 
 
 		/* Add two new mid table entries for the connection with each of its nodes */
 		//todo
@@ -62,8 +59,16 @@ public class ConnectionHub : MonoBehaviour {
 		//TO-DO
 	}
 
-	public void LoadNewConnection () {
-		//To-do
+	public void LoadNewConnection (int loadIDNumber, string loadLabel, float loadThickness, bool loadVisibility) {
+		Vector3 newPosition = new Vector3 (0, 0, 0);
+		DragConnection newConnection = Instantiate (connectionTemplate, newPosition, Quaternion.identity) as DragConnection;
+
+		newConnection.SetIDNumber (loadIDNumber);
+		newConnection.SetLabel (loadLabel, true);
+		newConnection.SetThickness (loadThickness, true);
+		newConnection.SetVisibility (loadVisibility, true);
+
+		allConnections.Add (newConnection);
 	}
 
 

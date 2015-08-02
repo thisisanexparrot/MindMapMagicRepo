@@ -141,7 +141,14 @@ public class DatabaseAccess {
 		_dbReader = _dbCommand.ExecuteReader();
 
 		while (_dbReader.Read()) { 
+			int idNumber = (int)_dbReader.GetValue(0);
+			string label = (string)_dbReader.GetValue(1);
+			float thickness = (float)((double)_dbReader.GetValue(2));
 
+			bool isVisible = Convert.ToBoolean(_dbReader.GetValue(3));
+
+			Debug.Log(isVisible);
+			NodeCreator.connectionCentralHub.LoadNewConnection(idNumber, label, thickness, isVisible);
 		}
 	}
 
