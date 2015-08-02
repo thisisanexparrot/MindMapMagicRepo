@@ -76,7 +76,6 @@ public class NodeCreator : MonoBehaviour {
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Connection);
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.NodeConIdentifier);
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Meta);
-		GrandDatabase.IncrementIDCounter (DatabaseAccess.TableType.Connection);
 	}
 
 

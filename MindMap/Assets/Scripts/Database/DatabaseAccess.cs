@@ -140,18 +140,19 @@ public class DatabaseAccess {
 		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "INSERT INTO " + tn_node + " ('" + node_idNumber + "') VALUES ('" + initIDNumber + "');";
 		_dbReader = _dbCommand.ExecuteReader ();
-
-		//        var query : String;
-		//        query = "INSERT INTO " + tableName + "(" + colName + ") " + "VALUES (" + value + ")";
-		//        dbcmd = dbcon.CreateCommand(); // create empty command
-		//        dbcmd.CommandText = query; // fill the command
-		//        reader = dbcmd.ExecuteReader(); // execute command which returns a reader
-
 	}
 
 	/***** Add newly created connection to connection table and two references to its nodes in the mid table *****/
-	public void AddNewConnectionToDatabase () {
-		//todo
+	public void AddNewConnectionToDatabase (int initIDNumber) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "INSERT INTO " + tn_connection + " ('" + con_idNumber + "') VALUES ('" + initIDNumber + "');";
+		_dbReader = _dbCommand.ExecuteReader ();
+	}
+
+	public void AddMidConnectionToDatabalse (int idNumberNode, int idNumberConnection) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "INSERT INTO " + tn_mid + " VALUES ('" + idNumberNode + "', '" + idNumberConnection + "');";
+		_dbReader = _dbCommand.ExecuteReader ();
 	}
 
 	public void RemoveNodeFromDatabase (int removedIDNumber) {

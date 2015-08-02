@@ -35,7 +35,22 @@ public class ConnectionHub : MonoBehaviour {
 		newConnection.InitializeConnection (origin, endpoint);
 //		newConnection.CreateMySerialization (origin, endpoint);
 
-		allConnections.Add (newConnection);
+		/* Add the new connection (idNumber, default values) to database */
+		DatabaseAccess db = NodeCreator.creator.GrandDatabase;
+		db.IncrementIDCounter (DatabaseAccess.TableType.Connection);
+		int newConnectionID = db.GetCurrentIDCount (DatabaseAccess.TableType.Connection); //Increment counter, get next ID Number
+		db.AddNewConnectionToDatabase (newConnectionID);
+
+		db.AddMidConnectionToDatabalse (origin.idNumber, newConnectionID);
+		db.AddMidConnectionToDatabalse (endpoint.idNumber, newConnectionID);
+
+		allConnections.Add (newConnection); //todo: is this still necessary?
+
+		/* Add two new mid table entries for the connection with each of its nodes */
+		//todo
+
+
+		/* Add new connection to database here */ 
 	}
 
 	public static void RemoveConnection () {

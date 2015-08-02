@@ -13,6 +13,8 @@ public class DragConnection : MonoBehaviour {
 	public DragNode node1;
 	public DragNode node2;
 
+	public int idNumber;
+
 //	public ConnectionSerialized mySerialization;
 	public LineRenderer myLine;
 
@@ -29,10 +31,24 @@ public class DragConnection : MonoBehaviour {
 
 		myColliderObject = Instantiate (connectionColliderTemplate);
 		myColliderObject.InitializeCollider (node1, node2, this);
+
+
 	}
 
 	public void TriggerConnectionEdit () {
 		ConnectionSelectedUpdate (this);
+	}
+
+	public void SetLabel () {
+		//todo: Hook up to initialization
+	}
+
+	public void SetThickness () {
+		//todo: Hook up to initialization
+	}
+
+	public void SetVisibility () {
+		//todo: Hook up to initialization
 	}
 
 //	public void SetMySerialization (ConnectionSerialized cs) {
