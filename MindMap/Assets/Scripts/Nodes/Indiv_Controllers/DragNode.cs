@@ -20,10 +20,6 @@ public class DragNode : MonoBehaviour
 	public delegate void UpdateName (string newName);
 	public static event UpdateName NameWasUpdated;
 
-	/***** Pointers to controllers and save information *****/
-//	public NodeSerialized mySerialization;
-//	public NodeCreator theCreator;
-
 	/***** Node Properties *****/
 	public string title;
 	public string description;
@@ -61,8 +57,6 @@ public class DragNode : MonoBehaviour
 	/***** Initialization based on whether the button was clicked or dragged *****/
 	public void InitializeNode (NodeCreator creator, bool isNew) {
 		previousMaterial = normalMaterial;
-//		theCreator = creator;
-//		mySerialization = newSerialize;
 		if (isNew) {
 			StartMoving();
 		} 
@@ -130,9 +124,7 @@ public class DragNode : MonoBehaviour
 		if (!firstLoad) {
 			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
 			db.SetObjectInTable (DatabaseAccess.tn_node, idNumber, DatabaseAccess.node_name, newTitle);
-		}
-		 
-//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
+		} 
 	}
 
 	public void SetDescription (string newDescription, bool firstLoad) {
@@ -141,8 +133,6 @@ public class DragNode : MonoBehaviour
 			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
 			db.SetObjectInTable (DatabaseAccess.tn_node, idNumber, DatabaseAccess.node_desc, newDescription);
 		}
-
-		//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "Name", title, "string", "idNumber", "=", mySerialization.idNumber.ToString());
 	}
 
 
@@ -213,9 +203,7 @@ public class DragNode : MonoBehaviour
 	}
 	
 	public void OnMouseExit () {
-//		if (!mySerialization.isSelected) {
-//			SetMaterial (normalMaterial);
-//		}
+		SetMaterial (normalMaterial);
 	}
 
 	public void SetMaterial (Material nextMaterial) {
@@ -226,24 +214,13 @@ public class DragNode : MonoBehaviour
 	/***** Reset movement information *****/
 	void StopMoving () {
 		isBeingMoved = false;
-//		theCreator.Vector3ToFloats (mySerialization, transform.position);
-//		mySerialization.isSelected = false;
-
-//		theCreator.Save ();
 		NodeSelectionUpdate (false, this);
-//		if (!mySerialization.isSelected) {
-//			SetMaterial (previousMaterial);
-//		}
 		NodeCreator.creator.GrandDatabase.SetNodePosition (idNumber, transform.position.x, transform.position.y, transform.position.z);
-//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationX", transform.position.x.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
-//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationY", transform.position.y.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
-//		DatabaseUtils.UpdateColumn_DB(theCreator.graphDatabase, theCreator.nodeTableName, "locationZ", transform.position.z.ToString(), "float", "idNumber", "=", mySerialization.idNumber.ToString());
 	}
 
 	void StartMoving() {
 		if (!movementIsLocked && !doubleClicked) {
 			isBeingMoved = true;
-//			mySerialization.isSelected = true;
 			NodeSelectionUpdate (true, this);
 			SetMaterial (selectedMaterial);
 		}

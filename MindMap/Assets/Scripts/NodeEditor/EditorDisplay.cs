@@ -26,7 +26,7 @@ public class EditorDisplay : MonoBehaviour {
 
 	/***** Update which node/connection is currently being edited *****/
 	void DisplayConnectionInfoEditor (DragConnection thisConnection) {
-//		title.text = thisConnection.mySerialization.label;
+		title.text = thisConnection.label;
 		description.text = "Description editing is not available for connections at this time";
 
 		currentlyEditedNode = null;
@@ -55,8 +55,7 @@ public class EditorDisplay : MonoBehaviour {
 				field.text = title.text;
 			}
 		} else if (currentlyEditedConnection != null) {
-//			currentlyEditedConnection.mySerialization.label = title.text;
-//			currentlyEditedConnection.node1.theCreator.Save();
+			currentlyEditedConnection.SetLabel(title.text, false);
 		}
 	}
 

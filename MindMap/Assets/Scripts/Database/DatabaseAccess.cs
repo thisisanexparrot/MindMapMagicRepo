@@ -162,7 +162,6 @@ public class DatabaseAccess {
 		while (_dbReader.Read()) {
 			int nextID = (int)_dbReader.GetValue(0);
 			nodeIDNumbers.Add(nextID);
-			Debug.Log("ID: " + nextID);
 		}
 
 		List<DragNode> returnNodes = new List<DragNode> ();

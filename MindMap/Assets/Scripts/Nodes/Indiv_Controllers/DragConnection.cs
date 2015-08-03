@@ -18,7 +18,6 @@ public class DragConnection : MonoBehaviour {
 	public float thickness;
 	public bool isVisible;
 
-//	public ConnectionSerialized mySerialization;
 	public LineRenderer myLine;
 
 
@@ -34,8 +33,6 @@ public class DragConnection : MonoBehaviour {
 
 		myColliderObject = Instantiate (connectionColliderTemplate);
 		myColliderObject.InitializeCollider (node1, node2, this);
-
-
 	}
 
 	public void TriggerConnectionEdit () {
@@ -55,7 +52,6 @@ public class DragConnection : MonoBehaviour {
 	}
 
 	public void SetThickness (float newThickness, bool isFirstLoad) {
-		//todo: Hook up to initialization
 		thickness = newThickness;
 		if (!isFirstLoad) {
 			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
@@ -64,29 +60,12 @@ public class DragConnection : MonoBehaviour {
 	}
 
 	public void SetVisibility (bool newVisibility, bool isFirstLoad) {
-		//todo: Hook up to initialization
 		isVisible = newVisibility;
 		if (!isFirstLoad) {
 			DatabaseAccess db = NodeCreator.creator.GrandDatabase;
 			db.SetObjectInTable (DatabaseAccess.tn_connection, idNumber, DatabaseAccess.con_isVisible, newVisibility);
 		}
 	}
-
-//	public void SetMySerialization (ConnectionSerialized cs) {
-//		mySerialization = cs;
-//	}
-//
-//	public void CreateMySerialization (DragNode origin, DragNode endpoint) {
-//		mySerialization = new ConnectionSerialized ();
-//		mySerialization.nodes = new List<NodeSerialized> ();
-//		mySerialization.nodes.Add (origin.mySerialization);
-//		mySerialization.nodes.Add (endpoint.mySerialization);
-//		mySerialization.thickness = 0.05f;
-//		mySerialization.isVisible = true;
-//		mySerialization.isBold = false;
-//		mySerialization.label = "New Connection";
-//		endpoint.theCreator.Save ();
-//	}
 
 	void OnEnable () {
 		DragNode.NodeSelectionUpdate += UpdatePosition;

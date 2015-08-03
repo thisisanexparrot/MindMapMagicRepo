@@ -7,7 +7,6 @@ public class TitleHandler : MonoBehaviour {
 	public DragNode parentNode;
 	
 	void OnEnable () {
-		//NodeCreator.LoadCompleted += LoadTitleFromSave;
 		DragNode.NameWasUpdated += UpdateNameField;
 		if (parentNode == null) {
 			SetParentNode(Utilities.GetParentNode(gameObject));
@@ -16,7 +15,6 @@ public class TitleHandler : MonoBehaviour {
 
 	void OnDisable () {
 		DragNode.NameWasUpdated -= UpdateNameField;
-		//NodeCreator.LoadCompleted -= LoadTitleFromSave;
 	}
 
 	public void UpdateNameField (string newName) {
@@ -31,8 +29,6 @@ public class TitleHandler : MonoBehaviour {
 	
 	public void SetParentNode(DragNode pNode) {
 		parentNode = pNode;
-//		if (NodeCreator.creator != null) {
-//		}
 	}
 
 	public void UpdateTitle(string newTitle) {
