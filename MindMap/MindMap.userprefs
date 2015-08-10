@@ -2,14 +2,17 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Nodes/Creators/NodeCreator.cs">
     <Files>
-      <File FileName="Assets/Standard Assets/dbAccess.js" Line="108" Column="41" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="232" Column="45" />
-      <File FileName="Assets/Scripts/Database/DatabaseAccess.cs" Line="121" Column="107" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragConnection.cs" Line="56" Column="12" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/TitleHandler.cs" Line="9" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="174" Column="35" />
-      <File FileName="Assets/Scripts/Nodes/Creators/ConnectionHub.cs" Line="31" Column="1" />
-      <File FileName="Assets/Scripts/Nodes/Serialized/NodeListAndSavedData.cs" Line="7" Column="16" />
+      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="19" Column="48" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="133" Column="54" />
+      <File FileName="Assets/Scripts/Database/DatabaseAccess.cs" Line="165" Column="61" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragConnection.cs" Line="85" Column="43" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/TitleHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Creators/ConnectionHub.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/NodeEditor/EditorDisplay.cs" Line="7" Column="26" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/RingController.cs" Line="20" Column="2" />
+      <File FileName="Assets/Scripts/Nodes/Utilities.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Camera Movement/MouseOrbitImproved.cs" Line="55" Column="40" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/ConnectionCollide.cs" Line="40" Column="21" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">

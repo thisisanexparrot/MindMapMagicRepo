@@ -11,7 +11,7 @@ public class DatabaseAccess {
 	/*  Database Variables  */
 	/************************/
 
-	public enum TableType {Node, Connection, NodeConIdentifier, Meta};
+	public enum TableType {Node, Connection, NodeConIdentifier, Meta, NodeParent};
 
 	/***** Database operators *****/
 	private string _constr;
@@ -25,6 +25,7 @@ public class DatabaseAccess {
 	public const string tn_node = "NodeTable";
 	public const string tn_connection = "ConnectionTable";
 	public const string tn_mid = "MidTable";
+	public const string tn_nodeparent = "NodeParentTable";
 
 	public const string node_idNumber = "idNumber";
 	public const string node_name = "Name";
@@ -32,6 +33,7 @@ public class DatabaseAccess {
 	public const string node_locX = "locationX";
 	public const string node_locY = "locationY";
 	public const string node_locZ = "locationZ";
+	public const string node_isVisible = "IsVisible";
 
 	public const string con_idNumber = "idNumber";
 	public const string con_label = "Label";
@@ -44,9 +46,16 @@ public class DatabaseAccess {
 	public const string meta_nodeIDCounter = "NodeIDCounter";
 	public const string meta_conIDCounter = "ConnectionIDCounter";
 
+	public const string nodeparent_parentID = "ParentNodeIDNumber";
+	public const string nodeparent_childID = "ChildNodeIDNumber";
+	public const string nodeparent_childLocalX = "ChildLocalX";
+	public const string nodeparent_childLocalY = "ChildLocalY";
+	public const string nodeparent_childLocalZ = "ChildLocalZ";
+
+
 	/***** Table column names and types *****/
-	public static string[] colNames_Nodes = new string[6] {node_idNumber,node_name,node_desc,node_locX,node_locY,node_locZ}; 
-	public static string[] colTypes_Nodes = new string[6] {"int","text","text","float","float","float"}; 
+	public static string[] colNames_Nodes = new string[7] {node_idNumber,node_name,node_desc,node_locX,node_locY,node_locZ, node_isVisible}; 
+	public static string[] colTypes_Nodes = new string[7] {"int","text","text","float","float","float", "bool"}; 
 
 	public string[] colNames_Connections = new string[4] {con_idNumber, con_label, con_thickness, con_isVisible};
 	public string[] colTypes_Connections = new string[4] {"int", "text", "float", "bool"};
@@ -56,6 +65,9 @@ public class DatabaseAccess {
 
 	public string[] colNames_Meta = new string[2] {meta_nodeIDCounter, meta_conIDCounter};
 	public string[] colTypes_Meta = new string[2] {"int", "int"};
+
+	public string[] colNames_NodeParent = new string[5] {nodeparent_parentID, nodeparent_childID, nodeparent_childLocalX, nodeparent_childLocalY, nodeparent_childLocalZ};
+	public string[] colTypes_NodeParent = new string[5] {"int", "int", "float", "float", "float"};
 
 
 	/************************/
@@ -103,6 +115,13 @@ public class DatabaseAccess {
 			}
 			query += ")";			
 			break;
+		case TableType.NodeParent:
+			query = "CREATE TABLE " + tn_nodeparent + "(" + colNames_NodeParent[0] + " " + colTypes_NodeParent[0];
+			for (int i = 1; i < colNames_NodeParent.Length; i++) {
+				query += ", " + colNames_NodeParent[i] + " " + colTypes_NodeParent[i];
+			}
+			query += ")";			
+			break;
 		default:
 			Debug.Log("Unknown table type");
 			break;
@@ -144,10 +163,8 @@ public class DatabaseAccess {
 			int idNumber = (int)_dbReader.GetValue(0);
 			string label = (string)_dbReader.GetValue(1);
 			float thickness = (float)((double)_dbReader.GetValue(2));
-
 			bool isVisible = Convert.ToBoolean(_dbReader.GetValue(3));
 
-			Debug.Log(isVisible);
 			NodeCreator.connectionCentralHub.LoadNewConnection(idNumber, label, thickness, isVisible);
 		}
 	}

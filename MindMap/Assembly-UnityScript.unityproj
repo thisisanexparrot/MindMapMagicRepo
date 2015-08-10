@@ -56,6 +56,9 @@
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
+ <Reference Include="Mono.Data.SqliteClient 1">
+ <HintPath>/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Assets/Plugins/Mono.Data.SqliteClient 1.dll</HintPath>
+ </Reference>
  <Reference Include="Mono.Data.SqliteClient">
  <HintPath>/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Assets/Plugins/Mono.Data.SqliteClient.dll</HintPath>
  </Reference>
@@ -64,9 +67,6 @@
  </Reference>
  <Reference Include="System.Data">
  <HintPath>/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Assets/Plugins/System.Data.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data.SqliteClient 1">
- <HintPath>/Users/eleynta/Documents/My_Documents_Jan_2015/Projects/VirtualSpace/Unity/Works_In_Progress/Graph_Experiment/MindMapMagicSourceTree/MindMap/Assets/Plugins/Mono.Data.SqliteClient 1.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

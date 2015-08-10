@@ -37,6 +37,7 @@ public class DragConnection : MonoBehaviour {
 
 	public void TriggerConnectionEdit () {
 		ConnectionSelectedUpdate (this);
+		NodeCreator.creator.UpdateCurrentlySelectedNode (null);
 	}
 
 	public void SetIDNumber (int newID) {

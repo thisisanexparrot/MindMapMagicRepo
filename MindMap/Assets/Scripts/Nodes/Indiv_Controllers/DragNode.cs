@@ -50,11 +50,15 @@ public class DragNode : MonoBehaviour
 	public bool movementIsLocked = false;
 	public Camera mainCamera;
 
+	/***** UI elements *****/
+	public Wormhole myWormhole;
+
 	/*****************/
 	/*   FUNCTIONS   */
 	/*****************/
 
-	/***** Initialization based on whether the button was clicked or dragged *****/
+	/***** INITIALIZATIONS *****/
+	/* Initialization based on whether the button was clicked or dragged */
 	public void InitializeNode (NodeCreator creator, bool isNew) {
 		previousMaterial = normalMaterial;
 		if (isNew) {
@@ -65,42 +69,24 @@ public class DragNode : MonoBehaviour
 		}
 		ResetOffset ();
 		mainCamera = Camera.main;
-//		CreateIngredientsList ();
-//
-//		foreach (Ingredient i in mySerialization.ingredients) {
-//			InitializeIngredientDisplayOfType(i.myType);
-//			print (">>>> " + i.myType);
-//		}
+	}
+	
+	void OnEnable () {
+		MouseOrbitImproved.completeMove += SetMovementLock;
+		NodeCreator.CurrentlyFocusedNodeUpdated += FocusUpdate;
+
+		myWormhole = GetComponentInChildren<Wormhole> ();
+		myWormhole.gameObject.SetActive (false);
+		Debug.Log ("enabled");
+	}
+	
+	void OnDisable () {
+		MouseOrbitImproved.completeMove -= SetMovementLock;
+		NodeCreator.CurrentlyFocusedNodeUpdated -= FocusUpdate;
 	}
 
-//	void CreateIngredientsList () {
-//		if (mySerialization.ingredients == null) {
-//			print ("No list yet");
-//			mySerialization.ingredients = new List<Ingredient>();
-//		}
-//		//print ("Ingredients list added successfully");
-//	}
-
-	/***** Update based on whether or not node is moving/clicked *****/
+	/* Update based on whether or not node is moving/clicked */
 	void Update () {
-		/*if(mySerialization.ingredients != null) {
-			if (mySerialization.ingredients.Count > 0) {
-				Ingr_Priority nextP = (Ingr_Priority)mySerialization.ingredients [0];
-				print (nextP.myPriority + " is my priority");
-			}
-
-			if (mySerialization.ingredients.Count > 1) {
-				Ingr_IsCompleted nextC = (Ingr_IsCompleted)mySerialization.ingredients [1];
-				print (nextC.isComplete + " status");
-			}
-		}*/
-
-		if (Input.GetKeyDown (KeyCode.T)) {
-			print ("HERE ARE YOUR INGREDIENTS: ");
-//			foreach(Ingredient ingr in mySerialization.ingredients) {
-//				print (ingr.myType);
-//			}
-		}
 		if (isBeingMoved) {
 			DragNodeInSpace();
 			CheckMoveZSpace ();
@@ -114,10 +100,13 @@ public class DragNode : MonoBehaviour
 		}
 	}
 
+	/***** GET & SET NODE PROPERTIES *****/
+	/* Update the node's ID Number */
 	public void SetIDNumber (int newIDNumber) {
 		idNumber = newIDNumber;
 	}
 
+	/* Update the node's title */
 	public void SetName (string newTitle, bool firstLoad) {
 		title = newTitle;
 		NameWasUpdated (newTitle);
@@ -127,6 +116,7 @@ public class DragNode : MonoBehaviour
 		} 
 	}
 
+	/* Update the node's description */
 	public void SetDescription (string newDescription, bool firstLoad) {
 		description = newDescription;
 		if (!firstLoad) {
@@ -139,13 +129,20 @@ public class DragNode : MonoBehaviour
 	void SetMovementLock (bool newIsLocked) {
 		movementIsLocked = newIsLocked;
 	}
-
-	void OnEnable () {
-		MouseOrbitImproved.completeMove += SetMovementLock;
-	}
-
-	void OnDisable () {
-		MouseOrbitImproved.completeMove -= SetMovementLock;
+	
+	/* Check if the current node is being selected, and update its status if so */	
+	void FocusUpdate (DragNode newFocusedNode) {
+		if (newFocusedNode && (newFocusedNode.idNumber == idNumber)) {
+			transform.localScale = new Vector3 (1.5f, 1.5f, 1.5f);
+			//gameObject.GetComponent<Renderer>().enabled = false;
+			//gameObject.GetComponent<BoxCollider>().enabled = false;
+			myWormhole.gameObject.SetActive (true);
+		} else {
+			transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
+			//gameObject.GetComponent<Renderer>().enabled = true;
+			//gameObject.GetComponent<BoxCollider>().enabled = true;
+			myWormhole.gameObject.SetActive (false);
+		}
 	}
 
 	/***** Delete node functions *****/
@@ -178,6 +175,7 @@ public class DragNode : MonoBehaviour
 
 	/***** Mouse change states *****/
 	void OnMouseDown () {
+		NodeCreator.creator.UpdateCurrentlySelectedNode (this);
 		if ((Time.time - clickTimer) < doubleClickLimit) {
 			doubleClicked = true;
 			SetMovementLock (true);
@@ -238,93 +236,6 @@ public class DragNode : MonoBehaviour
 			ResetOffset();
 		}
 	}
-
-	/*****  Add an ingredient *****/
-//	public void AddNewIngredientOfType (Ingr_Type newIngrType) {
-//		if(!IngredientExists(newIngrType)) {
-//			if (newIngrType == Ingr_Type.IsComplete) {
-//				print ("New type of IsComplete");
-//				Ingr_IsCompleted my_IC = new Ingr_IsCompleted();
-//				my_IC.myType = Ingr_Type.IsComplete;
-//				print ("TYPE: " + my_IC.myType);
-//				mySerialization.ingredients.Add(my_IC);
-//				mySerialization.ingredients[0].myType = Ingr_Type.IsComplete;
-//				print ("SERI TYPE: " + mySerialization.ingredients[0].myType);
-//
-//				InitializeIngredientDisplayOfType(Ingr_Type.IsComplete);
-//				//initialize the objct of type and display
-//			} 
-//
-//			else if (newIngrType == Ingr_Type.Priority) {
-//				print ("New type of Priority");
-//				Ingr_Priority my_Prio = new Ingr_Priority();
-//				my_Prio.myType = Ingr_Type.Priority;
-//				print ("TYPE: " + my_Prio.myType);
-//				mySerialization.ingredients.Add(my_Prio);
-//
-//				InitializeIngredientDisplayOfType(Ingr_Type.Priority);
-//			}
-////			theCreator.Save();
-//			print ("## SAVED ##");
-////			theCreator.Load();
-//			print ("## LOADED ##");
-//		}
-//
-//	}
-
-	void InitializeIngredientDisplayOfType (Ingr_Type thisIngrType) {
-		print ("Begin display...");
-		switch (thisIngrType) {
-		case Ingr_Type.Priority: 
-			GameObject newSuper_Prio = new GameObject("d_Ingr_Prio", typeof(SupervisePriority));
-			newSuper_Prio.transform.parent = this.transform;
-
-			newSuper_Prio.GetComponent<SupervisePriority>().SelectedNodeDisplay(this); //Delete this soon
-
-			break;
-		case Ingr_Type.IsComplete:
-			GameObject newSuper_Comp = new GameObject("d_Ingr_Comp", typeof(SuperviseCompleted));
-			newSuper_Comp.gameObject.transform.parent = this.transform;
-
-			newSuper_Comp.GetComponent<SuperviseCompleted>().SelectedNodeDisplay(this); //Delete this soon
-
-			break;
-		default:
-			break;
-		}
-	}
-
-//	bool IngredientExists (Ingr_Type thisIngrType) {
-//		foreach (Ingredient ingNext in mySerialization.ingredients) {
-//			if(ingNext.myType == thisIngrType) {
-//				print ("Nope, already exists for this node.");
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-
-//	public void DisplayIngredientsOnSelect () {
-//		if (mySerialization.ingredients != null) {
-//			foreach(Ingredient i in mySerialization.ingredients) {
-//				/* We should create a new instance of each type of ingredient from the new classes and parent it to the node if there isn't one there already. we should then run
-//				 the display method to show some visible effect. this visible effect should be edited via that instance. These instances should perhaps be kept in a list here on this node; 
-//				 a separate list, remember, from the one in the serialized object. */
-//			}
-//		}
-//	}
-
-//	public Ingredient GetIngredientFromSerialized (Ingr_Type searchType) {
-//		foreach (Ingredient i in mySerialization.ingredients) {
-//			if(i.myType == searchType) {
-//				print ("Found the type yo'ure looking for");
-//				return i;
-//			}
-//		}
-//		print ("This is not the type you are looking for.");
-//		return null;
-//	}
-
 
 
 

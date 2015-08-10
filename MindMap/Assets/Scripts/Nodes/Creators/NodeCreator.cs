@@ -20,8 +20,12 @@ public class NodeCreator : MonoBehaviour {
 
 	public List<DragNode> allNodes;
 	public static Dictionary<int, DragNode> allNodesDictionary;
+	public DragNode currentlyFocusedNode;
 
 	public DatabaseAccess GrandDatabase;
+
+	public delegate void FocusedNodeUpdate (DragNode node);
+	public static event FocusedNodeUpdate CurrentlyFocusedNodeUpdated;
 
 	/********* INIT  **********/
 	/* Wake-up load functions */
@@ -57,11 +61,12 @@ public class NodeCreator : MonoBehaviour {
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Connection);
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.NodeConIdentifier);
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Meta);
+		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.NodeParent);
 	}
 	
 
-	/********* CREATE **********/
-	/* Create & Remove individual nodes for storage */
+	/********* CREATE & DESTROY **********/
+	/* Create an individual node and add it to the database */
 	public void SpawnNewNode (bool wasDragged) {
 		GrandDatabase.IncrementIDCounter (DatabaseAccess.TableType.Node);
 		int newNodeID = GrandDatabase.GetCurrentIDCount (DatabaseAccess.TableType.Node); //Increment counter, get next ID Number
@@ -83,6 +88,7 @@ public class NodeCreator : MonoBehaviour {
 		newNode.GetComponent<DragNode> ().InitializeNode (this, true);
 	}
 
+	/* Load a node's data from the database */
 	public void LoadNewNode (int _idNumber, string _name, string _description, float _posX, float _posY, float _posZ) {
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
@@ -96,11 +102,18 @@ public class NodeCreator : MonoBehaviour {
 		newNode.mainCamera = Camera.main;
 	}
 
+	/* Destroy a node and remove it from the database */
 	public void RemoveNode (DragNode destroyThis) {
 		destroyThis.DestroyThisNode ();
 		GrandDatabase.RemoveNodeFromDatabase (destroyThis.idNumber);
 		allNodesDictionary.Remove (destroyThis.idNumber);
 		Destroy (destroyThis.gameObject);
+	}
+
+	/* Update the local pointer to the focused node and sends a global event */
+	public void UpdateCurrentlySelectedNode (DragNode newNode) {
+		currentlyFocusedNode = newNode;
+		CurrentlyFocusedNodeUpdated (newNode);
 	}
 
 }

@@ -15,20 +15,18 @@ public class RingController : MonoBehaviour {
 
 
 	void OnEnable () {
-		DragNode.NodeSelectionUpdate += UpdateMaterial;
+		NodeCreator.CurrentlyFocusedNodeUpdated += UpdateMaterial;
 	}
 
 	void OnDisable () {
-		DragNode.NodeSelectionUpdate -= UpdateMaterial;
+		NodeCreator.CurrentlyFocusedNodeUpdated -= UpdateMaterial;
 	}
 
-	void UpdateMaterial (bool isSelected, DragNode node) {
-		if (node.GetInstanceID() == Utilities.GetParentNode (gameObject).GetInstanceID()) {
-			if (isSelected) {
-				GetComponent<Renderer> ().material = selectedStateMaterial;
-			} else {
-				GetComponent<Renderer> ().material = normalStateMaterial;
-			}
+	void UpdateMaterial (DragNode node) {
+		if (node && (node.GetInstanceID() == Utilities.GetParentNode (gameObject).GetInstanceID())) {
+			GetComponent<Renderer> ().material = normalStateMaterial;
+		} else {
+			GetComponent<Renderer> ().material = selectedStateMaterial;
 		}
 	}
 
