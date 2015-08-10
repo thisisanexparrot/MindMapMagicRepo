@@ -134,13 +134,9 @@ public class DragNode : MonoBehaviour
 	void FocusUpdate (DragNode newFocusedNode) {
 		if (newFocusedNode && (newFocusedNode.idNumber == idNumber)) {
 			transform.localScale = new Vector3 (1.5f, 1.5f, 1.5f);
-			//gameObject.GetComponent<Renderer>().enabled = false;
-			//gameObject.GetComponent<BoxCollider>().enabled = false;
 			myWormhole.gameObject.SetActive (true);
 		} else {
 			transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
-			//gameObject.GetComponent<Renderer>().enabled = true;
-			//gameObject.GetComponent<BoxCollider>().enabled = true;
 			myWormhole.gameObject.SetActive (false);
 		}
 	}

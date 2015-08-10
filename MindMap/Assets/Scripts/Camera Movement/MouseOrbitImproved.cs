@@ -34,6 +34,8 @@ public class MouseOrbitImproved : MonoBehaviour
 
 	public float panThreshold = 1.0f;
 
+	public bool isRecalculatingCenter;
+
 	
 	void Start()
 	{
@@ -51,6 +53,7 @@ public class MouseOrbitImproved : MonoBehaviour
 	}
 
 	void SmoothPan () {
+		//distance = 5.0f; //Checking
 		float mag = Vector3.Magnitude (CameraCenter.transform.position - nextCenter);
 		float distance_modifier = mag * 0.5f;
 		CameraCenter.transform.position = Vector3.Lerp (CameraCenter.transform.position, 
@@ -59,12 +62,24 @@ public class MouseOrbitImproved : MonoBehaviour
 		if(mag < panThreshold) {
 			completeMove (false);
 		}
+		if (distance >= 10.0f) {
+			distance -= 0.3f;
+		}
+		if (distance < 9.5f) {
+			distance += 0.3f;
+		}
 	}
 	
 	void FixedUpdate () {
 		float mag = Vector3.Magnitude (CameraCenter.transform.position - nextCenter);
 		if (mag > 0.9f) {
+			isRecalculatingCenter = true;
+		}
+		if (isRecalculatingCenter) {
 			SmoothPan ();
+			if(distance < 10.0f) {
+				isRecalculatingCenter = false;
+			}
 		}
 	}
 
