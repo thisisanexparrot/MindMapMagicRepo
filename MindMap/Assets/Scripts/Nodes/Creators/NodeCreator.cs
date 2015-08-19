@@ -18,14 +18,16 @@ public class NodeCreator : MonoBehaviour {
 	public string defaultName = "New Node";
 	public string defaultDesc = "New description";
 
-	public List<DragNode> allNodes;
 	public static Dictionary<int, DragNode> allNodesDictionary;
 	public DragNode currentlyFocusedNode;
+	public List<DragNode> currentlyVisibleNodes;
 
 	public DatabaseAccess GrandDatabase;
 
 	public delegate void FocusedNodeUpdate (DragNode node);
 	public static event FocusedNodeUpdate CurrentlyFocusedNodeUpdated;
+
+	public DragNode visibleCoreParent;
 
 	/********* INIT  **********/
 	/* Wake-up load functions */
@@ -54,6 +56,14 @@ public class NodeCreator : MonoBehaviour {
 		GrandDatabase.ReadNodesFromDatabase ();
 		GrandDatabase.ReadConnectionsFromDatabase ();
 		connectionCentralHub.InitializeLoadedConnections ();
+
+		GetVisibleNodesWithParent (null); //todo
+	}
+
+	public void TEMPSetupParentTable () {
+		foreach (KeyValuePair<int, DragNode> kvp in allNodesDictionary) {
+			GrandDatabase.AddNodeToParentTable(kvp.Value, visibleCoreParent);
+		}
 	}
 
 	public void CreateBaseTables () {
@@ -62,6 +72,7 @@ public class NodeCreator : MonoBehaviour {
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.NodeConIdentifier);
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Meta);
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.NodeParent);
+		GrandDatabase.CreateInitialCounterRow ();
 	}
 	
 
@@ -73,7 +84,6 @@ public class NodeCreator : MonoBehaviour {
 
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
-		allNodes.Add (newNode);
 		allNodesDictionary.Add (newNodeID, newNode);
 
 		GrandDatabase.AddNewNodeToDatabase (newNodeID);
@@ -86,13 +96,14 @@ public class NodeCreator : MonoBehaviour {
 		newNode.mainCamera = Camera.main;
 
 		newNode.GetComponent<DragNode> ().InitializeNode (this, true);
+
+		GrandDatabase.AddNodeToParentTable(newNode, visibleCoreParent);
 	}
 
 	/* Load a node's data from the database */
 	public void LoadNewNode (int _idNumber, string _name, string _description, float _posX, float _posY, float _posZ) {
 		Vector3 mousePosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10);
 		DragNode newNode = Instantiate (blankNodeTemplate, Camera.main.ScreenToWorldPoint(mousePosition), Quaternion.identity) as DragNode;
-		allNodes.Add (newNode);
 		allNodesDictionary.Add (_idNumber, newNode);
 
 		newNode.SetName (_name, true);
@@ -116,6 +127,29 @@ public class NodeCreator : MonoBehaviour {
 		CurrentlyFocusedNodeUpdated (newNode);
 	}
 
+	/********* WORMHOLE HANDLERS **********/
+	/* */
+	public void EnterWormhole (DragNode wormholeNode) {
+		visibleCoreParent = wormholeNode;
+		print ("New wormhole: " + visibleCoreParent.title);
+		GetVisibleNodesWithParent (visibleCoreParent);
+	}
+
+	/* */
+	public void ExitWormhole () {
+		//Todo: connect to a button 
+		if (visibleCoreParent) {
+			//get parent of visibleCoreParent
+			//GetVisibleNodesWithParent for new visibleCoreParent
+		}
+	}
+
+	public void GetVisibleNodesWithParent (DragNode parentNode) {
+		//Populate parent table
+		//If node.parent = parentNode, it is visible
+		//Otherwise, it is disabled
+		//Set currentlyVisibleNodes to whatever this new list is
+	}
 }
 
 

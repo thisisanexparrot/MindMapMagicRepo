@@ -50,7 +50,8 @@ public class ConnectionHub : MonoBehaviour {
 	}
 
 	public static void RemoveConnection () {
-		//TO-DO
+		//TODO
+		//NodeCreator.creator.GrandDatabase.RemoveConnectionFromDatabase(
 	}
 
 	public void LoadNewConnection (int loadIDNumber, string loadLabel, float loadThickness, bool loadVisibility) {

@@ -36,6 +36,8 @@ public class MouseOrbitImproved : MonoBehaviour
 
 	public bool isRecalculatingCenter;
 
+	public bool zoomingIsWormhole;
+
 	
 	void Start()
 	{
@@ -48,10 +50,12 @@ public class MouseOrbitImproved : MonoBehaviour
 	}
 
 	/***** Update the center of the camera rotation *****/
-	public void SetTarget (GameObject newTarget) {
+	public void SetTarget (GameObject newTarget, bool isWormhole) {
 		nextCenter = newTarget.transform.position;
+		zoomingIsWormhole = isWormhole;
 	}
 
+	/* Pan camera to the new focused node */
 	void SmoothPan () {
 		//distance = 5.0f; //Checking
 		float mag = Vector3.Magnitude (CameraCenter.transform.position - nextCenter);
@@ -60,7 +64,9 @@ public class MouseOrbitImproved : MonoBehaviour
 		                                                nextCenter, 
 		                                                1.5f * distance_modifier * Time.deltaTime);
 		if(mag < panThreshold) {
-			completeMove (false);
+			if(completeMove != null) {
+				completeMove (false);
+			}
 		}
 		if (distance >= 10.0f) {
 			distance -= 0.3f;

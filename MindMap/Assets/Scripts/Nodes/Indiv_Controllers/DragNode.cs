@@ -175,7 +175,7 @@ public class DragNode : MonoBehaviour
 		if ((Time.time - clickTimer) < doubleClickLimit) {
 			doubleClicked = true;
 			SetMovementLock (true);
-			Camera.main.GetComponent<MouseOrbitImproved>().SetTarget(gameObject);
+			Camera.main.GetComponent<MouseOrbitImproved>().SetTarget(gameObject, false);
 			doubleClicked = false;
 		} else {
 			ResetOffset ();

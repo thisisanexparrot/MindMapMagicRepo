@@ -70,9 +70,11 @@ public class DatabaseAccess {
 	public string[] colTypes_NodeParent = new string[5] {"int", "int", "float", "float", "float"};
 
 
-	/************************/
-	/*  Database Functions  */
-	/************************/
+	/***************************************/
+	/*    High-Level Database Functions    */
+	/*     - [Open database]               */
+	/*     - [Create tables]               */
+	/***************************************/
 
 	/***** Open an existing database *****/
 	public void OpenDatabase (string p, NodeCreator n) {
@@ -137,7 +139,14 @@ public class DatabaseAccess {
 		}
 	}
 
-	/***** Populate nodes in NodeCreator from node table *****/
+	/***************************************/
+	/*    Large-scale database reads       */
+	/*     - [Read all nodes]              */
+	/*     - [Read all connections]        */
+	/*     - [Find nodes for connection]   */
+	/***************************************/
+
+	/***** Populate nodes in NodeCreator from node table; create new gameobjects *****/
 	public void ReadNodesFromDatabase () {
 		_dbCommand = _dbConnection.CreateCommand();
 		_dbCommand.CommandText = "SELECT * FROM " + tn_node;
@@ -154,6 +163,7 @@ public class DatabaseAccess {
 		}
 	}
 
+	/***** Read all connections from the database and create new game objects for each one *****/
 	public void ReadConnectionsFromDatabase () {
 		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "SELECT * FROM " + tn_connection;
@@ -169,6 +179,7 @@ public class DatabaseAccess {
 		}
 	}
 
+	/***** Get the two nodes that the given connection connects and return those two nodes *****/
 	public List<DragNode> FindNodesForConnectionID (int connectionID) {
 		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "SELECT " + mid_nodeID + " FROM " + tn_mid + " WHERE " + mid_conID + " = " + connectionID + ";";
@@ -196,6 +207,12 @@ public class DatabaseAccess {
 
 	}
 
+	/****************************************/
+	/*    Singular additions to database    */
+	/*     - [Add new node]                 */
+	/*     - [Add new connection]           */
+	/****************************************/
+
 	/***** Add newly created node to node table *****/
 	public void AddNewNodeToDatabase (int initIDNumber) {
 		_dbCommand = _dbConnection.CreateCommand ();
@@ -210,20 +227,81 @@ public class DatabaseAccess {
 		_dbReader = _dbCommand.ExecuteReader ();
 	}
 
+	/***** Add a new reference to a node and a connection to the mid table *****/
 	public void AddMidConnectionToDatabalse (int idNumberNode, int idNumberConnection) {
 		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "INSERT INTO " + tn_mid + " VALUES ('" + idNumberNode + "', '" + idNumberConnection + "');";
 		_dbReader = _dbCommand.ExecuteReader ();
 	}
 
+	/*****************************************/
+	/*    Singular removals from database    */
+	/*     - [Remove node]                   */
+	/*     - [Remove connection]             */
+	/*****************************************/
+
+	/***** Removes a single node from all of the relevant tables *****/
 	public void RemoveNodeFromDatabase (int removedIDNumber) {
+		/* Delete single node from Node table */
 		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "DELETE FROM " + tn_node + " WHERE " + node_idNumber + " = '" + removedIDNumber + "';";
+		_dbCommand.ExecuteReader ();
+
+		//TODO: Find all connection IDs in the mid table where the node id = removeIDNumber, then delete all of those connection ids from the connection table and the mid table
+
+		/* Select all rows in mid table with the removed node's ID number */
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "SELECT * FROM " + tn_mid + " WHERE " + mid_nodeID + " = '" + removedIDNumber + "';";
 		_dbReader = _dbCommand.ExecuteReader ();
+
+		/* Get all of the connection IDs that are associated with the node ID */
+		List<int> connectionsToRemove = new List<int> ();
+		while (_dbReader.Read()) { 
+			int deletableConnectionID = (int)_dbReader.GetValue (1);
+			connectionsToRemove.Add(deletableConnectionID);
+		}
+
+		/* Remove all associated connections from both the connections table and the mid table */
+		foreach (int i in connectionsToRemove) {
+			_dbCommand = _dbConnection.CreateCommand ();
+			_dbCommand.CommandText = "DELETE FROM " + tn_connection + " WHERE " + con_idNumber + " = '" + i + "';";
+			_dbCommand.ExecuteReader();
+
+			_dbCommand = _dbConnection.CreateCommand ();
+			_dbCommand.CommandText = "DELETE FROM " + tn_mid + " WHERE " + mid_conID + " = '" + i + "';";
+			_dbCommand.ExecuteReader();
+		}
+
+		/* Remove the node from the parent table */
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "DELETE FROM " + tn_nodeparent + " WHERE " + nodeparent_childID + " = '" + removedIDNumber + "';";
+		_dbReader = _dbCommand.ExecuteReader ();
+
+		//TODO: Figure out what to do about children when their parents are deleted: delete recursively? put them somewhere else?
 	}
 
-	public void RemoveConnectionFromDatabase () {
-		//todo: maybe a special method for removing all connections where id number matches nodes?
+	/***** Remove a single connection from the database *****/
+	public void RemoveConnectionFromDatabase (int removedIDNumber) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "SELECT * FROM " + tn_mid + " WHERE " + mid_conID + " = '" + removedIDNumber + "';";
+		_dbReader = _dbCommand.ExecuteReader ();
+		
+		/* Get all of the node IDs that are associated with the connection ID */
+		List<int> connectionsToRemove = new List<int> ();
+		while (_dbReader.Read()) { 
+			int deletableConnectionID = (int)_dbReader.GetValue (0);
+			connectionsToRemove.Add(deletableConnectionID);
+		}
+
+		foreach (int i in connectionsToRemove) {
+			_dbCommand = _dbConnection.CreateCommand ();
+			_dbCommand.CommandText = "DELETE FROM " + tn_mid + " WHERE " + mid_nodeID + " = '" + i + "';";
+			_dbCommand.ExecuteReader ();
+		}
+
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "DELETE FROM " + tn_connection + " WHERE " + con_idNumber + " = '" + removedIDNumber + "';";
+		_dbCommand.ExecuteReader ();
 	}
 
 	/***** Set a new position for a node when it is created *****/
@@ -231,6 +309,7 @@ public class DatabaseAccess {
 	                             float newX, 
 	                             float newY, 
 	                             float newZ) {
+		/* Set position in Node table */
 		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "UPDATE " + tn_node + " SET " + " locationX = '" + newX + "' WHERE " + "idNumber = " + idNumber;
 		_dbReader = _dbCommand.ExecuteReader();
@@ -242,17 +321,20 @@ public class DatabaseAccess {
 		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "UPDATE " + tn_node + " SET " + " locationZ = '" + newZ + "' WHERE " + "idNumber = " + idNumber;
 		_dbReader = _dbCommand.ExecuteReader();
-	}
 
-	public void SetObjectInTable (string tableName,
-	                              int idNumber,
-	                              string columnName,
-	                              object newObject) {
+		/* Set position in Parent table */
 		_dbCommand = _dbConnection.CreateCommand ();
-		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + columnName + " = '" + newObject + "' WHERE " + "idNumber = " + idNumber;
-		_dbReader = _dbCommand.ExecuteReader ();		
+		_dbCommand.CommandText = "UPDATE " + tn_nodeparent + " SET "+ nodeparent_childLocalX+ " = '" + newX + "' WHERE " + nodeparent_childID + " = " + idNumber;
+		_dbReader = _dbCommand.ExecuteReader();
+		
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tn_nodeparent + " SET "+ nodeparent_childLocalY+ " = '" + newY + "' WHERE " + nodeparent_childID + " = " + idNumber;
+		_dbReader = _dbCommand.ExecuteReader ();
+		
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tn_nodeparent + " SET "+ nodeparent_childLocalZ+ " = '" + newZ + "' WHERE " + nodeparent_childID + " = " + idNumber;
+		_dbReader = _dbCommand.ExecuteReader();
 	}
-
 
 	/**************************/
 	/*  Meta Table Functions  */
@@ -269,7 +351,7 @@ public class DatabaseAccess {
 
 		if (rowCount < 1) {
 			_dbCommand = _dbConnection.CreateCommand ();
-			_dbCommand.CommandText = "INSERT INTO " + tn_meta + " VALUES ('0', '0');";
+			_dbCommand.CommandText = "INSERT INTO " + tn_meta + " VALUES ('1', '1');";
 			_dbReader = _dbCommand.ExecuteReader ();
 		} 
 	}
@@ -314,6 +396,44 @@ public class DatabaseAccess {
 		return counter;
 	}
 
+	/***** Used to set things like titles, descriptions, etc. *****/
+	public void SetObjectInTable (string tableName,
+	                              int idNumber,
+	                              string columnName,
+	                              object newObject) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + columnName + " = '" + newObject + "' WHERE " + "idNumber = " + idNumber;
+		_dbReader = _dbCommand.ExecuteReader ();		
+	}
 
+	/****************************/
+	/*  Parent Table Functions  */
+	/****************************/
+
+	/***** Utility: Get parent ID number, return 0 if parent is null *****/
+	public int GetParentID (DragNode parentNode) {
+		int parentID;
+		if (parentNode) {
+			parentID = parentNode.idNumber;
+		} else {
+			parentID = 0;
+		}
+		return parentID;
+	}
+
+	/***** Add a new node to the parent/child node table *****/
+	public void AddNodeToParentTable (DragNode newNode, DragNode parentNode) {	
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "INSERT INTO " + tn_nodeparent + " VALUES ('" + GetParentID(parentNode) + "', '" + newNode.idNumber + "', '" + newNode.transform.position.x + "', '" + newNode.transform.position.y + "', '" + newNode.transform.position.z + "');";
+		_dbReader = _dbCommand.ExecuteReader ();
+	}
+
+	/***** Edit a node's parent *****/
+	public void UpdateNodeParent (DragNode updateThisNode, DragNode newParentNode) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tn_nodeparent + " SET " + nodeparent_parentID + " = '" + GetParentID (newParentNode) + "' WHERE " + nodeparent_childID + " = " + updateThisNode.idNumber + ";";
+		_dbReader = _dbCommand.ExecuteReader ();		
+	}
+	
 	
 }
