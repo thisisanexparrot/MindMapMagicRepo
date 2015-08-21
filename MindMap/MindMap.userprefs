@@ -1,19 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Database/DatabaseAccess.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Nodes/Creators/NodeCreator.cs">
     <Files>
-      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="100" Column="45" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="178" Column="1" />
-      <File FileName="Assets/Scripts/Database/DatabaseAccess.cs" Line="361" Column="43" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragConnection.cs" Line="85" Column="43" />
+      <File FileName="Assets/Scripts/Nodes/Creators/NodeCreator.cs" Line="163" Column="59" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragNode.cs" Line="230" Column="48" />
+      <File FileName="Assets/Scripts/Database/DatabaseAccess.cs" Line="150" Column="59" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/DragConnection.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/TitleHandler.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Nodes/Creators/ConnectionHub.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/NodeEditor/EditorDisplay.cs" Line="7" Column="26" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/RingController.cs" Line="20" Column="2" />
+      <File FileName="Assets/Scripts/NodeEditor/EditorDisplay.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/RingController.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Nodes/Utilities.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Camera Movement/MouseOrbitImproved.cs" Line="55" Column="34" />
-      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/ConnectionCollide.cs" Line="40" Column="21" />
-      <File FileName="Assets/Scripts/Nodes/Ingredients/Wormhole.cs" Line="20" Column="76" />
+      <File FileName="Assets/Scripts/Camera Movement/MouseOrbitImproved.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Indiv_Controllers/ConnectionCollide.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Nodes/Ingredients/Wormhole.cs" Line="20" Column="79" />
+      <File FileName="Assets/Scripts/Nodes/ParentWormholeDrag.cs" Line="9" Column="7" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">

@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\Nodes\Ingredients\Depricated\Ingr_Priority.cs" />
      <Compile Include="Assets\Scripts\Nodes\Ingredients\Depricated\Ingredient.cs" />
      <Compile Include="Assets\Scripts\Nodes\Ingredients\Wormhole.cs" />
+     <Compile Include="Assets\Scripts\Nodes\ParentWormholeDrag.cs" />
      <Compile Include="Assets\Scripts\Nodes\Serialized\ConnectionSerialized.cs" />
      <Compile Include="Assets\Scripts\Nodes\Serialized\NodeListAndSavedData.cs" />
      <Compile Include="Assets\Scripts\Nodes\Serialized\NodeSerialized.cs" />

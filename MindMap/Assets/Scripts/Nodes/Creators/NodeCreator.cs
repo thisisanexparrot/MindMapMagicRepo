@@ -53,18 +53,19 @@ public class NodeCreator : MonoBehaviour {
 
 		connectionCentralHub.InitializeConnectionHub ();
 
-		GrandDatabase.ReadNodesFromDatabase ();
+		GetVisibleNodesWithParent (visibleCoreParent); //todo
+
+//		GrandDatabase.ReadNodesFromDatabase (visibleCoreParent);
 		GrandDatabase.ReadConnectionsFromDatabase ();
 		connectionCentralHub.InitializeLoadedConnections ();
 
-		GetVisibleNodesWithParent (null); //todo
 	}
 
-	public void TEMPSetupParentTable () {
+	/*public void TEMPSetupParentTable () {
 		foreach (KeyValuePair<int, DragNode> kvp in allNodesDictionary) {
 			GrandDatabase.AddNodeToParentTable(kvp.Value, visibleCoreParent);
 		}
-	}
+	}*/
 
 	public void CreateBaseTables () {
 		GrandDatabase.CreateNewTable (DatabaseAccess.TableType.Node);
@@ -145,10 +146,22 @@ public class NodeCreator : MonoBehaviour {
 	}
 
 	public void GetVisibleNodesWithParent (DragNode parentNode) {
+		//THIS NEXT: CALL THE DATABASE THING AND DESTROY THE NODES!!!!!!!
+		//TODO: [900] 
 		//Populate parent table
 		//If node.parent = parentNode, it is visible
 		//Otherwise, it is disabled
 		//Set currentlyVisibleNodes to whatever this new list is
+		if (allNodesDictionary != null) {
+			foreach (KeyValuePair<int, DragNode> kvp in allNodesDictionary) {
+				DragNode n = kvp.Value;
+				Debug.Log(n.title);
+				Destroy(n.gameObject);
+			}
+		}
+
+		GrandDatabase.ReadNodesFromDatabase (visibleCoreParent);
+
 	}
 }
 

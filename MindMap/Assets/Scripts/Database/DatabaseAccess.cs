@@ -147,10 +147,14 @@ public class DatabaseAccess {
 	/***************************************/
 
 	/***** Populate nodes in NodeCreator from node table; create new gameobjects *****/
-	public void ReadNodesFromDatabase () {
+	public void ReadNodesFromDatabase (DragNode parentNode) {
 		_dbCommand = _dbConnection.CreateCommand();
-		_dbCommand.CommandText = "SELECT * FROM " + tn_node;
+		_dbCommand.CommandText = "SELECT * FROM " + tn_node + " WHERE " + node_idNumber + " in (SELECT " + nodeparent_childID + " FROM " + tn_nodeparent + " WHERE " + nodeparent_parentID + " = '" + GetParentID (parentNode) + "');"; //TODO: [800] WHERE PARENT = 0
 		_dbReader = _dbCommand.ExecuteReader();
+
+		/*_dbCommand = _dbConnection.CreateCommand();
+		_dbCommand.CommandText = "SELECT * FROM " + tn_node; //TODO: [800] WHERE PARENT = 0
+		_dbReader = _dbCommand.ExecuteReader();*/
 
 		while(_dbReader.Read()) { 
 			int idNumber = (int)_dbReader.GetValue(0);
@@ -304,6 +308,12 @@ public class DatabaseAccess {
 		_dbCommand.ExecuteReader ();
 	}
 
+	/*****************************************/
+	/*    Small sets from database           */
+	/*     - [Set node position]             */
+	/*     - [Remove connection]             */
+	/*****************************************/
+
 	/***** Set a new position for a node when it is created *****/
 	public void SetNodePosition (int idNumber, 
 	                             float newX, 
@@ -336,9 +346,21 @@ public class DatabaseAccess {
 		_dbReader = _dbCommand.ExecuteReader();
 	}
 
-	/**************************/
-	/*  Meta Table Functions  */
-	/**************************/
+	/***** Used to set things like titles, descriptions, etc. *****/
+	public void SetObjectInTable (string tableName,
+	                              int idNumber,
+	                              string columnName,
+	                              object newObject) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + columnName + " = '" + newObject + "' WHERE " + "idNumber = " + idNumber;
+		_dbReader = _dbCommand.ExecuteReader ();		
+	}
+
+	/*********************************/
+	/*    Meta Table Functions       */
+	/*     - [Populate meta table]   */
+	/*     - [Increment counters]    */
+	/*********************************/
 
 	/***** Populate the meta table's row on first creation *****/
 	public void CreateInitialCounterRow () {
@@ -367,6 +389,7 @@ public class DatabaseAccess {
 		_dbReader = _dbCommand.ExecuteReader ();
 	}
 
+	/***** Utility: set table type from enum to string for database access *****/
 	public string TableTypeToString (TableType thisType) {
 		string myType = "";
 		switch (thisType) {
@@ -388,7 +411,7 @@ public class DatabaseAccess {
 		string whichColumn = TableTypeToString (idType);
 		
 		_dbCommand = _dbConnection.CreateCommand ();
-		_dbCommand.CommandText = "SELECT " + whichColumn + " FROM " + tn_meta +";"; 
+		_dbCommand.CommandText = "SELECT " + whichColumn + " FROM " + tn_meta + ";"; 
 		_dbReader = _dbCommand.ExecuteReader ();
 		
 		_dbReader.Read ();
@@ -396,19 +419,11 @@ public class DatabaseAccess {
 		return counter;
 	}
 
-	/***** Used to set things like titles, descriptions, etc. *****/
-	public void SetObjectInTable (string tableName,
-	                              int idNumber,
-	                              string columnName,
-	                              object newObject) {
-		_dbCommand = _dbConnection.CreateCommand ();
-		_dbCommand.CommandText = "UPDATE " + tableName + " SET " + columnName + " = '" + newObject + "' WHERE " + "idNumber = " + idNumber;
-		_dbReader = _dbCommand.ExecuteReader ();		
-	}
 
-	/****************************/
-	/*  Parent Table Functions  */
-	/****************************/
+
+	/***************************************/
+	/*  Parent Table & Wormhole Functions  */
+	/***************************************/
 
 	/***** Utility: Get parent ID number, return 0 if parent is null *****/
 	public int GetParentID (DragNode parentNode) {
@@ -433,6 +448,14 @@ public class DatabaseAccess {
 		_dbCommand = _dbConnection.CreateCommand ();
 		_dbCommand.CommandText = "UPDATE " + tn_nodeparent + " SET " + nodeparent_parentID + " = '" + GetParentID (newParentNode) + "' WHERE " + nodeparent_childID + " = " + updateThisNode.idNumber + ";";
 		_dbReader = _dbCommand.ExecuteReader ();		
+	}
+
+	public void GetAllNodesWithParent (DragNode parentNode) {
+		_dbCommand = _dbConnection.CreateCommand ();
+		_dbCommand.CommandText = "SELECT" + nodeparent_childID + "FROM " + tn_nodeparent + " WHERE " + nodeparent_parentID + " = '" + GetParentID (parentNode) + "';";
+		_dbReader = _dbCommand.ExecuteReader ();
+
+		//TODO: [1000] get all of the nodes from these id numbers, spawn them
 	}
 	
 	

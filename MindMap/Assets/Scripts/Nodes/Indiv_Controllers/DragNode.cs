@@ -53,6 +53,9 @@ public class DragNode : MonoBehaviour
 	/***** UI elements *****/
 	public Wormhole myWormhole;
 
+	/***** Parenting *****/
+	public DragNode newPotentialParent;
+
 	/*****************/
 	/*   FUNCTIONS   */
 	/*****************/
@@ -77,7 +80,6 @@ public class DragNode : MonoBehaviour
 
 		myWormhole = GetComponentInChildren<Wormhole> ();
 		myWormhole.gameObject.SetActive (false);
-		Debug.Log ("enabled");
 	}
 	
 	void OnDisable () {
@@ -185,7 +187,11 @@ public class DragNode : MonoBehaviour
 	}
 
 	void OnMouseUp () {
+		Debug.Log ("regular click");
 		StopMoving ();
+		if (newPotentialParent) {
+			DropIntoWormhole ();
+		}
 	}
 
 	void OnMouseDrag () {
@@ -206,13 +212,13 @@ public class DragNode : MonoBehaviour
 	}
 
 	/***** Reset movement information *****/
-	void StopMoving () {
+	public void StopMoving () {
 		isBeingMoved = false;
 		NodeSelectionUpdate (false, this);
 		NodeCreator.creator.GrandDatabase.SetNodePosition (idNumber, transform.position.x, transform.position.y, transform.position.z);
 	}
 
-	void StartMoving() {
+	public void StartMoving() {
 		if (!movementIsLocked && !doubleClicked) {
 			isBeingMoved = true;
 			NodeSelectionUpdate (true, this);
@@ -233,6 +239,37 @@ public class DragNode : MonoBehaviour
 		}
 	}
 
+	/*****************************/
+	/*  PARENTING INFORMATION    */
+	/*   - Set potential parent  */
+	/*   - Set parent in db      */
+	/*****************************/
+
+	/***** If there is a drag hover over another node, save that node as a potential parent *****/
+	public void SetNewPotentialParent (DragNode parentCandidate) {
+		DragNode focusNode = NodeCreator.creator.currentlyFocusedNode;
+		if (focusNode && focusNode.idNumber == idNumber) {
+			newPotentialParent = parentCandidate;
+		}
+	}
+
+	/***** If the node is hovering over another node, visually indicate that it is about to be parented *****/
+	public void TriggerPotentialParentDropVisuals (bool isOn) {
+		DragNode focusNode = NodeCreator.creator.currentlyFocusedNode;
+		if (focusNode && focusNode.idNumber == idNumber) {
+			if (isOn) {
+				transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
+			} else {
+				transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
+			}
+		}
+	}
+
+	public void DropIntoWormhole () {
+		//set parent 
+		//destroy gameobject
+		NodeCreator.creator.GrandDatabase.UpdateNodeParent (this, newPotentialParent);
+	}
 
 
 }

@@ -15,8 +15,9 @@ public class Wormhole : MonoBehaviour {
 	}
 
 	void OnMouseUp () {
-		Debug.Log ("Clicked");
+		Debug.Log ("Clicked on globe");
 		Camera.main.GetComponent<MouseOrbitImproved>().SetTarget(gameObject, true);
 		NodeCreator.creator.EnterWormhole(Utilities.GetParentNode(this.gameObject));
 	}
+
 }
